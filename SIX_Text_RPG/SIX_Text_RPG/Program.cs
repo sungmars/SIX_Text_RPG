@@ -1,10 +1,22 @@
-﻿namespace SIX_Text_RPG
+﻿using SIX_Text_RPG.Scenes;
+
+namespace SIX_Text_RPG
 {
     internal class Program
     {
-        static void Main(string[] args)
+        public static Scene_Base CurrentScene { get; set; } = new Scene_Title();
+
+        static void Main()
         {
-            Console.WriteLine("Hello, World!");
+            while (CurrentScene != null)
+            {
+                CurrentScene.Awake();
+                CurrentScene.Start();
+                CurrentScene.LateStart();
+
+                do if (CurrentScene.Update() == 0) break;
+                while (true);
+            }
         }
     }
 }
