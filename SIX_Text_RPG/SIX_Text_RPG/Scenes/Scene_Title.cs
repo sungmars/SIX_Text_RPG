@@ -14,7 +14,7 @@
             switch (base.Update())
             {
                 case 1:
-                    Program.CurrentScene = new Scene_Title();
+                    Program.CurrentScene = new Scene_BattleResult();
                     break;
                 case 2:
                     Program.CurrentScene = new Scene_Title();
@@ -23,7 +23,7 @@
                     Program.CurrentScene = null;
                     break;
             }
-            return 1;
+            return 0;
         }
 
         protected override void Display()
