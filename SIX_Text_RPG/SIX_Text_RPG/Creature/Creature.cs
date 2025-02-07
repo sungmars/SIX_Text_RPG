@@ -49,7 +49,7 @@
             (int left, int top) = Console.GetCursorPosition();
 
             Utils.WriteColor("[][][][][][][][][][]", ConsoleColor.DarkGray);
-            Console.WriteLine($" {value}/{maxValue}", ConsoleColor.White);
+            Console.WriteLine($" {value}/{maxValue}");
 
             int unit = IsDead ? 0 : (int)MathF.Max(Stats.HP / Stats.MaxHP * 20, 1);
             while (unit > 0)
