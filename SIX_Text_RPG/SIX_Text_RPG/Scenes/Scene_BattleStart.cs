@@ -53,7 +53,7 @@ namespace SIX_Text_RPG.Scenes
             // 플레이어 정보 출력
             if (player != null)
             {
-                player.DisplayInfo();
+                player.DisplayInfo_Status();
             }
             else
             {
