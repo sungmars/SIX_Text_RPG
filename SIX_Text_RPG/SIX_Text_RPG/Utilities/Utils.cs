@@ -2,7 +2,7 @@
 {
     internal class Utils
     {
-        public static int ReadIndex()
+        public static int ReadIndex(bool hasZero = true)
         {
             while (true)
             {
@@ -18,7 +18,13 @@
                 int index = input - '0';
                 if (index > Program.CurrentScene.MenuCount)
                 {
-                    Console.Write(Define.ERROR_MESSAGE_INDEX);
+                    Console.Write(Define.ERROR_MESSAGE_INPUT);
+                    continue;
+                }
+
+                if (hasZero == false && index == 0)
+                {
+                    Console.WriteLine(Define.ERROR_MESSAGE_INPUT);
                     continue;
                 }
 
