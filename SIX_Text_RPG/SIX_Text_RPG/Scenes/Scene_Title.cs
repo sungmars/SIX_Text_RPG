@@ -4,6 +4,8 @@
     {
         public override void Awake()
         {
+            sceneTitle = "스파르타 던전에 오신 여러분 환영합니다.";
+            sceneInfo = "이제 전투를 시작할 수 있습니다.";
             base.Awake();
             Menu.Add("상태 보기");
             Menu.Add("전투 시작");
@@ -28,10 +30,10 @@
             switch (base.Update())
             {
                 case 1:
-                    Program.CurrentScene = new Scene_BattleStart();
+                    Program.CurrentScene = new Scene_PlayerInfo();
                     break;
                 case 2:
-                    Program.CurrentScene = new Scene_Title();
+                    Program.CurrentScene = new Scene_BattleStart();
                     break;
                 case 0:
                     Program.CurrentScene = null;
@@ -42,10 +44,6 @@
 
         protected override void Display()
         {
-            Console.SetCursorPosition(0, 0);
-            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
-            Console.WriteLine("이제 전투를 시작할 수 있습니다.");
-            Console.WriteLine();
             Console.WriteLine(" 원하시는 행동을 입력해주세요.");
         }
     }
