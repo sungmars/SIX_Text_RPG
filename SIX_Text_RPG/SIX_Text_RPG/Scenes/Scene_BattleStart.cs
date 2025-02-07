@@ -16,7 +16,9 @@ namespace SIX_Text_RPG.Scenes
             sceneTitle = "Battle!!";
             sceneInfo = "";
 
+            // 공격 메뉴 추가
             Menu.Add("공격");
+            // 아이템 메뉴 추가
             MakeMonster();
         }
 
@@ -25,9 +27,11 @@ namespace SIX_Text_RPG.Scenes
             switch (base.Update())
             {
                 case 1:
+                    // 플레이어 공격 씬으로 이동(변경필요)
                     Program.CurrentScene = new Scene_BattleMenu();
                     return 0;
                 default:
+                    // 존재하지 않는 메뉴(삭제필요) - 씬배이스에 나가기 메뉴 삭제필요?
                     Program.CurrentScene = new Scene_BattleMenu();
                     return 0;
             }
@@ -35,12 +39,14 @@ namespace SIX_Text_RPG.Scenes
 
         protected override void Display()
         {
+            // 모든 몬스터 정보 출력
             foreach (var monster in monsters)
             {
                 monster.DisplayMonster();
             }
         }
 
+        // 랜덤 1-4명의 몬스터 생성
         private void MakeMonster()
         {
             int monsterCount = random.Next(1, 5);
@@ -50,6 +56,7 @@ namespace SIX_Text_RPG.Scenes
             }
         }
 
+        // 3가지 종유릐 입력받은 값의 몬스터 설정
         private Monster SetMonster(int index)
         {
             switch (index)
@@ -65,6 +72,7 @@ namespace SIX_Text_RPG.Scenes
             }
         }
 
+        // 몬스터 리스트 반환
         public List<Monster> GetMonsters()
         {
             return monsters;
