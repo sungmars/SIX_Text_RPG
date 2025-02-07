@@ -6,9 +6,9 @@ internal class Scene_EnemyPhase : Scene_Base
     private List<Monster> monsters = new List<Monster>();
     private int monsterCount;
 
-    public Scene_EnemyPhase( List<Monster> monsters, int monsterCount)
+    public Scene_EnemyPhase(Player player, List<Monster> monsters, int monsterCount)
     {
-        //this.player = player;
+        this.player = player;
         this.monsters = monsters;
         this.monsterCount = monsterCount;
     }
@@ -43,7 +43,7 @@ internal class Scene_EnemyPhase : Scene_Base
                     return 0;
                 }
                 
-                Program.CurrentScene = new Scene_EnemyPhase( monsters, monsterCount);
+                Program.CurrentScene = new Scene_EnemyPhase(player, monsters, monsterCount);
                 return 0;
         }
         return 0;
