@@ -72,8 +72,7 @@ namespace SIX_Text_RPG.Scenes
             int selection = -1;
             bool validSelection = false;
 
-            do
-            {
+           
                 Console.Write("대상을 선택해주세요.");
                 selection = Utils.ReadIndex();  // 메뉴 선택
 
@@ -100,7 +99,7 @@ namespace SIX_Text_RPG.Scenes
                     Utils.WriteColorLine("잘못된 입력입니다.", ConsoleColor.Red);
                 }
 
-            } while (!validSelection);
+            
 
             // 선택된 몬스터 공격
             Monster monsterToAttack = monsters[selection - 1];
@@ -130,7 +129,7 @@ namespace SIX_Text_RPG.Scenes
             Console.WriteLine("\n");
             Utils.WriteColorLine("0. 다음", ConsoleColor.White);
 
-            while (Console.ReadLine() != "0") { }
+            
             switch (base.Update())
             {
                 case 0:  // 0을 입력했을 경우
@@ -142,7 +141,7 @@ namespace SIX_Text_RPG.Scenes
                     }
                     else
                     {
-                        Console.WriteLine("적 페이즈로");
+                        Program.CurrentScene = new Scene_EnemyPhase(0);
                     }
                     return 0;  // 씬 전환 후 종료
 
