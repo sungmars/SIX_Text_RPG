@@ -4,10 +4,17 @@ namespace SIX_Text_RPG
 {
     internal class Utils
     {
+        private static readonly Random random = new();
+
         public static void ClearBuffer()
         {
             Thread.Sleep(100);
             while (Console.KeyAvailable) Console.ReadKey(true);
+        }
+
+        public static bool LuckyMethod(int percent)
+        {
+            return random.Next(1, 101) <= percent;
         }
 
         public static int ReadIndex(bool hasZero = true)
