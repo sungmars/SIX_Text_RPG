@@ -2,24 +2,22 @@ namespace SIX_Text_RPG.Scenes;
 
 internal class Scene_EnemyPhase : Scene_Base
 {
-    private Player player = new Player();
-    private List<Monster> monsters = new List<Monster>();
+    private Player player = GameManager.Instance.Player;
+    private List<Monster> monsters = GameManager.Instance.Monsters;
     private int monsterCount;
 
-    public Scene_EnemyPhase(Player player, List<Monster> monsters, int monsterCount)
+    public Scene_EnemyPhase(int monsterCount)
     {
-        this.player = player;
-        this.monsters = monsters;
         this.monsterCount = monsterCount;
     }
     
     public override void Awake()
     {
         base.Awake();
-        hasZero = false;
+        hasZero = true;
         sceneTitle = "Battle!!";
-        sceneInfo = "???";
-        Menu.Add("다음");
+        sceneInfo = "";
+        zeroText = "다음";
 
         EnemyAttack();
     }
@@ -28,7 +26,7 @@ internal class Scene_EnemyPhase : Scene_Base
     {
         switch (base.Update())
         {
-            case 1 :
+            case 0 :
                 monsterCount++;
                 if (player.Stats.HP <= 0)
                 {
@@ -43,7 +41,7 @@ internal class Scene_EnemyPhase : Scene_Base
                     return 0;
                 }
                 
-                Program.CurrentScene = new Scene_EnemyPhase(player, monsters, monsterCount);
+                Program.CurrentScene = new Scene_EnemyPhase(monsterCount);
                 return 0;
         }
         return 0;
