@@ -7,6 +7,8 @@
             base.Awake();
             Menu.Add("상태 보기");
             Menu.Add("전투 시작");
+            
+            GameManager.Instance.Player = new Player ();
         }
 
         public override int Update()
