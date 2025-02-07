@@ -2,7 +2,6 @@
 {
     internal class Define
     {
-        public static readonly string ERROR_MESSAGE_INPUT = "";
-        public static readonly string ERROR_MESSAGE_INDEX = "";
+        public static readonly string ERROR_MESSAGE_INPUT = "잘못된 입력입니다.";
     }
 }
