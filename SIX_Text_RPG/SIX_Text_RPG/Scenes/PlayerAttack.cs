@@ -9,6 +9,7 @@ namespace SIX_Text_RPG.Scenes
         private List<Monster> monsters;
         Player? player = GameManager.Instance.Player;
         private static Random random = new Random();
+        
 
         //Monster 리스트를 전달받는 생성자
         public Scene_PlayerAttack(List<Monster> monsters)
@@ -130,7 +131,25 @@ namespace SIX_Text_RPG.Scenes
             Utils.WriteColorLine("0. 다음", ConsoleColor.White);
 
             while (Console.ReadLine() != "0") { }
+            switch (base.Update())
+            {
+                case 0:  // 0을 입력했을 경우
+                         // 모든 몬스터가 죽었는지 검사
+                    if (monsters.All(m => m.IsDead))
+                    {
+                        // 모든 몬스터가 죽으면 결과 씬으로 전환
+                        Program.CurrentScene = new Scene_BattleResult(true);
+                    }
+                    else
+                    {
+                        Console.WriteLine("적 페이즈로");
+                    }
+                    return 0;  // 씬 전환 후 종료
 
+                default:
+                    // 다른 입력값이 들어오면 현재 씬 유지
+                    return 1;
+            }
             return selection;
         }
 
