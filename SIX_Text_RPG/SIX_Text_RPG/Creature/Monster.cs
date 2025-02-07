@@ -20,11 +20,13 @@
         {
             if (IsDead)
             {
+                //몬스터가 죽었을 때 컬러 (의논 필요)
                 Console.WriteLine($"Lv.{Stats.Level} {Stats.Name} Dead");
             }
             else
             {
-                Console.WriteLine($"Lv.{Stats.Level} {Stats.Name}  HP {Stats.HP}");
+                Console.Write($"Lv.{Stats.Level} {Stats.Name}  ");
+                Display_StatusBar(Stats.HP, Stats.MaxHP, ConsoleColor.DarkRed);
             }
         }
     }
