@@ -46,6 +46,13 @@ namespace SIX_Text_RPG.Scenes
 
         protected override void Display()
         {
+            //이전 체력 계산
+            Func<float, float, float> beforeHP = (x, y) =>
+                (x + y) > GameManager.Instance.Player.Stats.MaxHP ? GameManager.Instance.Player.Stats.MaxHP : x + y;
+            
+            float oldHP = beforeHP(GameManager.Instance.Player.Stats.HP, GameManager.Instance.TotalDamage);
+            float newHP = GameManager.Instance.Player.Stats.HP;
+
             if (isVictory)
             {
                 Utils.WriteColorLine(" Victory", ConsoleColor.Green);
@@ -55,8 +62,12 @@ namespace SIX_Text_RPG.Scenes
             {
                 Utils.WriteColorLine(" You Lose...", ConsoleColor.DarkRed);
             }
+
+
             Console.WriteLine($"\n\n Lv.{GameManager.Instance.Player.Stats.Level} {GameManager.Instance.Player.Stats.Name}");
-            Console.WriteLine($" HP{GameManager.Instance.Player.Stats.HP} -> {GameManager.Instance.Player.Stats.HP}");
+            Console.WriteLine($" HP{oldHP} -> {newHP}");
+
+            GameManager.Instance.TotalDamage = 0f;
         }
     }
 }

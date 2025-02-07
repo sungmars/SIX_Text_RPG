@@ -5,5 +5,7 @@
         public static GameManager Instance { get; private set; } = new();
 
         public Player? Player { get; set; }
+
+        public float TotalDamage { get; set; }
     }
 }
