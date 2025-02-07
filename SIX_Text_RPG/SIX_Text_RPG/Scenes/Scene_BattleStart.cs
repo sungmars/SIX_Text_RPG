@@ -10,6 +10,7 @@ namespace SIX_Text_RPG.Scenes
     {
         private Random random = new Random();
         private List<Monster> monsters = new List<Monster>();
+        Player? player = GameManager.Instance.Player;
         public override void Awake()
         {
             base.Awake();
@@ -25,10 +26,10 @@ namespace SIX_Text_RPG.Scenes
 
         public override int Update()
         {
+            Console.WriteLine("원하시는 행동을 입력해주세요.");
             switch (base.Update())
             {
                 case 1:
-                    // 플레이어 공격 씬으로 이동
                     Program.CurrentScene = new Scene_PlayerAttack(monsters);
                     return 0;
                 default:
@@ -39,10 +40,24 @@ namespace SIX_Text_RPG.Scenes
 
         protected override void Display()
         {
+
             // 모든 몬스터 정보 출력
             foreach (var monster in monsters)
             {
                 monster.DisplayMonster();
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            // 플레이어 정보 출력
+            if (player != null)
+            {
+                player.DisplayInfo();
+            }
+            else
+            {
+                Console.WriteLine("플레이어 정보가 없습니다.");
             }
         }
 
