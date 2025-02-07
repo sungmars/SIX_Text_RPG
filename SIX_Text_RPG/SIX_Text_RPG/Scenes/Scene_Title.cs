@@ -17,7 +17,7 @@
                     ATK = 10,
                     DEF = 5,
                     MaxHP = 100,
-                    HP = MaxHP,
+                    HP = 100,
                     Gold = 1500
                 }
             };
@@ -31,10 +31,10 @@
                     Program.CurrentScene = new Scene_BattleStart();
                     break;
                 case 2:
-                    Program.CurrentScene = new Scene_BattleResult(true);
+                    Program.CurrentScene = new Scene_Title();
                     break;
                 case 0:
-                    Program.CurrentScene = new Scene_BattleResult(false);
+                    Program.CurrentScene = null;
                     break;
             }
             return 0;

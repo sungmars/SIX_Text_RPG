@@ -48,16 +48,15 @@ namespace SIX_Text_RPG.Scenes
         {
             if (isVictory)
             {
-                Utils.WriteColorLine("Victory", ConsoleColor.Green);
+                Utils.WriteColorLine(" Victory", ConsoleColor.Green);
                 Console.WriteLine($"\n\n던전에서 몬스터 {monsterCount} 마리를 잡았습니다.");
             }
             else
             {
-                Utils.WriteColorLine("You Lose...", ConsoleColor.DarkRed);
+                Utils.WriteColorLine(" You Lose...", ConsoleColor.DarkRed);
             }
-            Console.WriteLine($"\n\nLv. {GameManager.Instance.Player.Stats.Level} {GameManager.Instance.Player.Stats.Name}");
-            Console.WriteLine($"\n\nHP {GameManager.Instance.Player.Stats.HP} -> {GameManager.Instance.Player.Stats.HP}");
-            Console.WriteLine("\n 0. 다음");
+            Console.WriteLine($"\n\n Lv.{GameManager.Instance.Player.Stats.Level} {GameManager.Instance.Player.Stats.Name}");
+            Console.WriteLine($" HP{GameManager.Instance.Player.Stats.HP} -> {GameManager.Instance.Player.Stats.HP}");
         }
     }
 }
