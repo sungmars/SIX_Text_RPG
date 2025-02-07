@@ -21,6 +21,11 @@ namespace SIX_Text_RPG.Scenes
             base.Awake();
             sceneTitle = "Battle!!";
             sceneInfo = "";
+            // 메뉴 리스트 초기화 및 몬스터 정보 추가
+            foreach (var monster in monsters)
+            {
+                Menu.Add(string.Empty);
+            }
 
         }
        
@@ -61,37 +66,48 @@ namespace SIX_Text_RPG.Scenes
         }
         public override int Update()
         {
+            
+
             int selection = -1;
             bool validSelection = false;
 
             do
             {
                 Console.Write("대상을 선택해주세요.");
-                selection = Utils.ReadIndex(hasZero);
+                selection = Utils.ReadIndex();  // 메뉴 선택
 
                 if (selection == 0)
                 {
-                    return 0;
+                    return 0;  // 나가기
                 }
-                if (selection < 1 || selection > monsters.Count)
+
+                if (selection >= 1 && selection <= monsters.Count)
                 {
-                    Utils.WriteColorLine("잘못된 입력입니다", ConsoleColor.Red);
-                    continue;
+                    Monster target = monsters[selection - 1];
+
+                    if (!target.IsDead)
+                    {
+                        validSelection = true;  // 유효한 선택인 경우 루프 종료
+                    }
+                    else
+                    {
+                        Utils.WriteColorLine("해당 몬스터는 죽었습니다.", ConsoleColor.Red);
+                    }
                 }
-                Monster target = monsters[selection - 1];
-                if (target.IsDead)
+                else
                 {
-                    Utils.WriteColorLine("잘못된 입력입니다", ConsoleColor.Red);
-                    continue;
+                    Utils.WriteColorLine("잘못된 입력입니다.", ConsoleColor.Red);
                 }
-                validSelection = true;
+
             } while (!validSelection);
 
+            // 선택된 몬스터 공격
             Monster monsterToAttack = monsters[selection - 1];
             float previousHP = monsterToAttack.Stats.HP;
             int damage = CalculateDamage(player.Stats.ATK);
             monsterToAttack.Damaged(damage);
 
+            // 결과 출력
             Console.Clear();
             Utils.WriteColorLine("Battle!!\n", ConsoleColor.DarkYellow);
             Utils.WriteColorLine($"{player.Stats.Name} 의 공격!", ConsoleColor.White);
@@ -112,15 +128,11 @@ namespace SIX_Text_RPG.Scenes
             }
             Console.WriteLine("\n");
             Utils.WriteColorLine("0. 다음", ConsoleColor.White);
-            
+
             while (Console.ReadLine() != "0") { }
 
-            
-
-
             return selection;
-        
-
         }
+
     }
 }
