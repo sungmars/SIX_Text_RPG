@@ -20,10 +20,13 @@
 
     internal class Monster : Creature
     {
-        public Monster(MonsterType type) : base()
+        public Monster(MonsterType type)
         {
             Type = type;
-            Stats = Define.MONSTERS_STATS[(int)type];
+
+            Stats stats = Define.MONSTERS_STATS[(int)type];
+            stats.MaxHP = stats.HP;
+            Stats = stats;
         }
 
         public MonsterType Type { get; private set; }

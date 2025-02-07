@@ -33,12 +33,18 @@
 
         protected override void Display()
         {
+            Player? player = GameManager.Instance.Player;
+            if (player == null)
+            {
+                return;
+            }
+
             //이전 체력 계산
             Func<float, float, float> beforeHP = (x, y) =>
-                (x + y) > GameManager.Instance.Player.Stats.MaxHP ? GameManager.Instance.Player.Stats.MaxHP : x + y;
+                (x + y) > player.Stats.MaxHP ? player.Stats.MaxHP : x + y;
 
-            float oldHP = beforeHP(GameManager.Instance.Player.Stats.HP, GameManager.Instance.TotalDamage);
-            float newHP = GameManager.Instance.Player.Stats.HP;
+            float oldHP = beforeHP(player.Stats.HP, GameManager.Instance.TotalDamage);
+            float newHP = player.Stats.HP;
             //승리 시 
             if (isVictory)
             {
@@ -53,7 +59,7 @@
             }
 
 
-            Console.WriteLine($"\n\n Lv.{GameManager.Instance.Player.Stats.Level} {GameManager.Instance.Player.Stats.Name}");
+            Console.WriteLine($"\n\n Lv.{player.Stats.Level} {player.Stats.Name}");
             Console.WriteLine($" HP{oldHP} -> {newHP}");
 
             //데이터 초기화

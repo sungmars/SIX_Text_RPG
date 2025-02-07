@@ -26,6 +26,7 @@
             switch (base.Update())
             {
                 case 1:
+                    GameManager.Instance.DisplayGround();
                     Program.CurrentScene = new Scene_PlayerInfo();
                     break;
                 case 2:

@@ -5,9 +5,11 @@
         private Random random = new Random();
         private List<Monster> monsters = new List<Monster>();
         Player? player = GameManager.Instance.Player;
+
         public override void Awake()
         {
             base.Awake();
+
             hasZero = false;
             sceneTitle = "Battle!!";
             sceneInfo = "";
@@ -25,16 +27,14 @@
             {
                 case 1:
                     //Program.CurrentScene = new Scene_PlayerAttack(monsters);
-                    return 0;
-                default:
-                    //1이 아닌 다른 값이 들어오면 씬 이동 없이 다시 메뉴 출력
-                    return 1;
+                    break;
             }
+
+            return 0;
         }
 
         protected override void Display()
         {
-
             // 모든 몬스터 정보 출력
             foreach (var monster in monsters)
             {
@@ -68,17 +68,7 @@
         // 3가지 종유릐 입력받은 값의 몬스터 설정
         private Monster SetMonster(int index)
         {
-            switch (index)
-            {
-                case 1:
-                //return new Monster(MonsterType.None, "슬라임", 1, 10, 5, 10, 0);
-                case 2:
-                //return new Monster(MonsterType.None, "고블린", 2, 20, 10, 15, 0);
-                case 3:
-                //return new Monster(MonsterType.None, "오크", 3, 30, 15, 20, 0);
-                default:
-                    return null;
-            }
+            return new Monster((MonsterType)index);
         }
     }
 }

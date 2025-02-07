@@ -14,7 +14,6 @@
         public virtual void Awake()
         {
             Console.Clear();
-            Utils.ClearBuffer();
         }
 
         public void Start()

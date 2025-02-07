@@ -8,6 +8,8 @@ namespace SIX_Text_RPG
 
         static void Main()
         {
+            Console.CursorVisible = false;
+
             while (CurrentScene != null)
             {
                 CurrentScene.Awake();

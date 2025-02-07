@@ -11,13 +11,13 @@ namespace SIX_Text_RPG
 
     internal class Player : Creature
     {
-        public Player() { }
         public Player(PlayerType type) : base()
         {
             Type = type;
 
             Stats stats = Define.PLAYERS_STATS[(int)type];
             stats.Name = Scene_CreatePlayer.PlayerName;
+            stats.MaxHP = stats.HP;
             Stats = stats;
         }
 

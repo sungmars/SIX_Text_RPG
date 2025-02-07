@@ -8,8 +8,8 @@
         #region Players
         public static readonly Stats[] PLAYERS_STATS =
         {
-            new() { },  // 마계조단
-            new() { },  // 천계조단
+            new() { Level = 1, ATK = 12, DEF = 0, HP = 60, Gold = 1500 },  // 마계조단
+            new() { Level = 1, ATK = 4, DEF = 2, HP = 120, Gold = 1500 },  // 천계조단
         };
         #endregion
 

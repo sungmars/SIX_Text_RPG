@@ -58,6 +58,8 @@ namespace SIX_Text_RPG
                 Thread.Sleep(delay);
             }
             Console.WriteLine();
+
+            ClearBuffer();
         }
 
         public static void WriteColor(string value, ConsoleColor color)
@@ -106,7 +108,10 @@ namespace SIX_Text_RPG
         public static void Quit()
         {
             Console.WriteLine("게임이 종료되었습니다.");
+
+#pragma warning disable CS8625 // Null 리터럴을 null을 허용하지 않는 참조 형식으로 변환할 수 없습니다.
             Program.CurrentScene = null;
+#pragma warning restore CS8625 // Null 리터럴을 null을 허용하지 않는 참조 형식으로 변환할 수 없습니다.
         }
     }
 }

@@ -24,13 +24,6 @@
 
     internal abstract class Creature
     {
-        public Creature()
-        {
-            Stats stats = Stats;
-            stats.MaxHP = stats.HP;
-            Stats = stats;
-        }
-
         public Stats Stats { get; set; }
         public bool IsDead { get { return Stats.HP == 0; } }
 
