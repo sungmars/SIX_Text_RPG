@@ -1,20 +1,27 @@
-﻿namespace SIX_Text_RPG
+﻿using SIX_Text_RPG.Scenes;
+
+namespace SIX_Text_RPG
 {
     public enum PlayerType
     {
-        None
+        마계조단,
+        천계조단,
+        Count
     }
 
     internal class Player : Creature
     {
-        public PlayerType Type { get; private set; }
-
-        public void SetGold(int gold)
+        public Player() { }
+        public Player(PlayerType type) : base()
         {
-            Stats stats = Stats;
-            stats.Gold += gold;
+            Type = type;
+
+            Stats stats = Define.PLAYERS_STATS[(int)type];
+            stats.Name = Scene_CreatePlayer.PlayerName;
             Stats = stats;
         }
+
+        public PlayerType Type { get; private set; }
 
         public void DisplayInfo()
         {
@@ -28,9 +35,9 @@
 
         public void DisplayInfo_Status()
         {
-            Utils.WriteColorLine($" Lv.{Stats.Level:00}", ConsoleColor.White);
-            Utils.WriteColor($" {Stats.Name}", ConsoleColor.DarkYellow);
-            Console.WriteLine($" {Type}\n", ConsoleColor.DarkGray);
+            Console.WriteLine($" Lv.{Stats.Level:00}");
+            Utils.WriteColor($" {Type}", ConsoleColor.DarkCyan);
+            Utils.WriteColorLine($" {Stats.Name}\n", ConsoleColor.DarkYellow);
 
             Console.Write($" 경험치: ");
             Display_StatusBar(Stats.HP, Stats.MaxHP, ConsoleColor.DarkGreen);
@@ -44,7 +51,7 @@
         public void DisplayInfo_Gold()
         {
             Console.Write($" 소지금:");
-            Utils.WriteColorLine($" {Stats.Gold}G", ConsoleColor.Yellow);
+            Utils.WriteColorLine($" {Stats.Gold:N0}G", ConsoleColor.Yellow);
         }
     }
 }
