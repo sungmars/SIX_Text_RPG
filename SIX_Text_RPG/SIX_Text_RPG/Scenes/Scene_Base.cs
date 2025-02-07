@@ -1,9 +1,12 @@
-﻿namespace SIX_Text_RPG
+﻿using System;
+
+namespace SIX_Text_RPG
 {
     internal abstract class Scene_Base
     {
         public int MenuCount { get { return Menu.Count; } }
 
+        protected bool hasZero = true;
         protected string sceneTitle = string.Empty;
         protected string sceneInfo = string.Empty;
 
@@ -28,7 +31,7 @@
 
         public virtual int Update()
         {
-            return Utils.ReadIndex();
+            return Utils.ReadIndex(hasZero);
         }
 
         protected abstract void Display();
@@ -42,7 +45,10 @@
                 Console.WriteLine($" [{i + 1}] {Menu[i]}");
             }
 
-            Console.WriteLine("\n [0] 나가기\n");
+            if (hasZero)
+            {
+                Console.WriteLine("\n [0] 나가기\n");
+            }
         }
     }
 }
