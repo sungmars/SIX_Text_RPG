@@ -6,6 +6,6 @@
 
         public Player? Player { get; set; }
 
-        public float TotalDamage { get; set; }
+        public float TotalDamage { get; set; } = 0;
     }
 }

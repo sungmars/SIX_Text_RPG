@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SIX_Text_RPG
+﻿namespace SIX_Text_RPG
 {
     internal abstract class Scene_Base
     {
@@ -9,6 +7,7 @@ namespace SIX_Text_RPG
         protected bool hasZero = true;
         protected string sceneTitle = string.Empty;
         protected string sceneInfo = string.Empty;
+        protected string zeroText = "나가기";
 
         protected readonly List<string> Menu = new();
 
@@ -23,7 +22,7 @@ namespace SIX_Text_RPG
             Utils.WriteColorLine($" {sceneInfo}\n", ConsoleColor.DarkGray);
             Display();
         }
-        
+
         public void LateStart()
         {
             Display_Menu();
@@ -42,12 +41,17 @@ namespace SIX_Text_RPG
 
             for (int i = 0; i < Menu.Count; i++)
             {
+                if (Menu[i] == string.Empty)
+                {
+                    continue;
+                }
+
                 Console.WriteLine($" [{i + 1}] {Menu[i]}");
             }
 
             if (hasZero)
             {
-                Console.WriteLine("\n [0] 나가기\n");
+                Console.WriteLine($"\n [0] {zeroText}\n");
             }
         }
     }
