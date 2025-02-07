@@ -38,9 +38,10 @@
             Stats stats = Stats;
 
             float hp = stats.HP - damage;
-            stats.HP = MathF.Max(hp, 0);
-            stats.HP = MathF.Min(hp, stats.MaxHP);
-
+            hp = MathF.Max(hp, 0);
+            hp = MathF.Min(hp, stats.MaxHP);
+            stats.HP = hp;
+            
             Stats = stats;
         }
 
