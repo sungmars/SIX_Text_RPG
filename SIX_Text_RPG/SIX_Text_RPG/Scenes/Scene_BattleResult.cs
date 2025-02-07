@@ -9,16 +9,24 @@ namespace SIX_Text_RPG.Scenes
 {
     internal class Scene_BattleResult : Scene_Base
     {
-        private bool isVictory;
+        private bool isVictory = false;
+        private int monsterCount = 0;
 
         public Scene_BattleResult(bool isVictory)
         {
             this.isVictory = isVictory;
         }
+
+        public Scene_BattleResult(bool isVictory, List<Monster> monsters)
+        {
+            this.isVictory = isVictory;
+            this.monsterCount = monsters.Count;
+        }
         public override void Awake()
         {
             sceneTitle = "Battle!! - Result";
             sceneInfo = "";
+            
             base.Awake();
         }
 
@@ -38,16 +46,11 @@ namespace SIX_Text_RPG.Scenes
 
         protected override void Display()
         {
-            List<Monster> monster = new List<Monster>();
-            monster = Scene_BattleStart.GetMonsters();
-
             if (isVictory)
             {
                 Utils.WriteColorLine("Victory", ConsoleColor.Green);
-                //몬스터 처치 수 수정할 것
-                Console.WriteLine($"\n\n던전에서 몬스터 {monster.Count} 마리를 잡았습니다.");
+                Console.WriteLine($"\n\n던전에서 몬스터 {monsterCount} 마리를 잡았습니다.");
             }
-
             else
             {
                 Utils.WriteColorLine("You Lose...", ConsoleColor.DarkRed);
