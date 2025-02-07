@@ -2,7 +2,6 @@
 {
     public enum Stat
     {
-        Name,
         Level,
         ATK,
         DEF,
@@ -35,29 +34,26 @@
         public Stats Stats { get; set; }
         public bool IsDead { get { return Stats.HP == 0; } }
 
-        public void SetStat(Stat type, object value)
+        public void SetStat(Stat type, float value, bool isRelative = false)
         {
             Stats stats = Stats;
 
             switch (type)
             {
-                case Stat.Name:
-                    stats.Name = (string)value;
-                    break;
                 case Stat.Level:
-                    stats.Level = (int)value;
+                    stats.Level = isRelative ? stats.Level + (int)value : (int)value;
                     break;
                 case Stat.ATK:
-                    stats.ATK = (float)value;
+                    stats.ATK = isRelative ? stats.ATK + value : value;
                     break;
                 case Stat.DEF:
-                    stats.DEF = (float)value;
+                    stats.DEF = isRelative ? stats.DEF + value : value;
                     break;
                 case Stat.MaxHP:
-                    stats.MaxHP = (float)value;
+                    stats.MaxHP = isRelative ? stats.MaxHP + value : value;
                     break;
                 case Stat.Gold:
-                    stats.Gold = (int)value;
+                    stats.Gold = isRelative ? stats.Gold + (int)value : (int)value;
                     break;
             }
 

@@ -43,7 +43,7 @@
                 if (i == 1) PlayerName = answers[0];
 
                 Utils.WriteColorLine(" 윤수빈 매니저님", ConsoleColor.DarkCyan);
-                Utils.WriteNameLine(questions[i]);
+                Utils.WriteName(questions[i]);
 
                 answers[i] = ReadLine();
                 Console.WriteLine();
@@ -56,7 +56,7 @@
             PlayerName = answers[randomIndex];
 
             Utils.WriteColor("\n >> ", ConsoleColor.DarkYellow);
-            Utils.WriteNameLine($"축하합니다! 당신의 이름은 이제부터 name입니다.");
+            Utils.WriteName($"축하합니다! 당신의 이름은 이제부터 name입니다.");
             Console.ReadKey();
         }
 
@@ -76,7 +76,7 @@
                     continue;
                 }
 
-                input = input.Trim();
+                input = input.Replace(" ", string.Empty);
                 if (input.Length == 0)
                 {
                     Console.SetCursorPosition(4, top);

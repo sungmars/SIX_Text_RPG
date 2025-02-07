@@ -78,7 +78,7 @@ namespace SIX_Text_RPG
             }
         }
 
-        public static void WriteNameLine(string value)
+        public static void WriteName(string value)
         {
             string[] texts = value.Split("name");
 
