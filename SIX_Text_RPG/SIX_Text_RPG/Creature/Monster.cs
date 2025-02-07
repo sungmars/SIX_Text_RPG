@@ -2,19 +2,19 @@
 {
     public enum MonsterType
     {
-        YYC,    // 염예찬 튜터님
-        KSH,    // 강성훈 튜터님
-        KJK,    // 김재경 튜터님
-        LSH,    // 이승환 튜터님
-        LSE,    // 이성언 튜터님
-        KMM,    // 김명민 튜터님
-        KYH,    // 김영호 튜터님
-        KHJ,    // 김현정 튜터님
-        KI,     // 강  인 튜터님
-        OJH,    // 오정환 튜터님
-        KKW,    // 권관우 튜터님
-        SJC,    // 소재철 튜터님
-        KJA,    // 김주안 튜터님
+        염예찬,
+        강성훈,
+        김재경,
+        이승환,
+        이성언,
+        김명민,
+        김영호,
+        김현정,
+        강인,
+        오정환,
+        권관우,
+        소재철,
+        김주안,
         Count
     }
 
@@ -23,7 +23,10 @@
         public Monster(MonsterType type) : base()
         {
             Type = type;
-            Stats = Define.MONSTERS_STATS[(int)type];
+
+            Stats stats = Define.MONSTERS_STATS[(int)type];
+            stats.Name = $"{type} 튜터님";
+            Stats = stats;
         }
 
         public MonsterType Type { get; private set; }
