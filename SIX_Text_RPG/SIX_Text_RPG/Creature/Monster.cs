@@ -23,10 +23,7 @@
         public Monster(MonsterType type) : base()
         {
             Type = type;
-
-            Stats stats = Define.MONSTERS_STATS[(int)type];
-            stats.Name = $"{type} 튜터님";
-            Stats = stats;
+            Stats = Define.MONSTERS_STATS[(int)type];
         }
 
         public MonsterType Type { get; private set; }
