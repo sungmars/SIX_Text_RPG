@@ -41,27 +41,6 @@
             Console.WriteLine();
         }
 
-        private void Display_StatusBar(float value, float maxValue, ConsoleColor color)
-        {
-            (int left, int top) = Console.GetCursorPosition();
-
-            Utils.WriteColor("[][][][][][][][][][]", ConsoleColor.DarkGray);
-            Console.WriteLine($" {value}/{maxValue}", ConsoleColor.White);
-
-            int unit = IsDead ? 0 : (int)MathF.Max(Stats.HP / Stats.MaxHP * 20, 1);
-            while (unit > 0)
-            {
-                Console.SetCursorPosition(left, top);
-                if (left % 2 == 1) Utils.WriteColor("[", color);
-                else Utils.WriteColor("]", color);
-
-                left++;
-                unit--;
-            }
-
-            Console.SetCursorPosition(0, top + 1);
-        }
-
         public void DisplayInfo_Gold()
         {
             Console.Write($" 소지금:");
