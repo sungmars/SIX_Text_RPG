@@ -14,13 +14,13 @@
             switch (base.Update())
             {
                 case 1:
-                    Program.CurrentScene = new Scene_BattleResult();
+                    Program.CurrentScene = new Scene_BattleStart();
                     break;
                 case 2:
                     Program.CurrentScene = new Scene_Title();
                     break;
                 case 0:
-                    Program.CurrentScene = null;
+                    Program.CurrentScene = new Scene_Title();
                     break;
             }
             return 0;
