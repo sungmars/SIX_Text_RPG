@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SIX_Text_RPG.Scenes
+﻿namespace SIX_Text_RPG.Scenes
 {
     internal class Scene_BattleStart : Scene_Base
     {
@@ -30,7 +24,7 @@ namespace SIX_Text_RPG.Scenes
             switch (base.Update())
             {
                 case 1:
-                    Program.CurrentScene = new Scene_PlayerAttack(monsters);
+                    //Program.CurrentScene = new Scene_PlayerAttack(monsters);
                     return 0;
                 default:
                     //1이 아닌 다른 값이 들어오면 씬 이동 없이 다시 메뉴 출력
@@ -77,13 +71,13 @@ namespace SIX_Text_RPG.Scenes
             switch (index)
             {
                 case 1:
-                    return new Monster(MonsterType.None, "슬라임", 1, 10, 5, 10, 0);
+                //return new Monster(MonsterType.None, "슬라임", 1, 10, 5, 10, 0);
                 case 2:
-                    return new Monster(MonsterType.None, "고블린", 2, 20, 10, 15, 0);
+                //return new Monster(MonsterType.None, "고블린", 2, 20, 10, 15, 0);
                 case 3:
-                    return new Monster(MonsterType.None, "오크", 3, 30, 15, 20, 0);
+                //return new Monster(MonsterType.None, "오크", 3, 30, 15, 20, 0);
                 default:
-                    return new Monster(MonsterType.None, "버그", 100, 10000, 100, 100, 0);
+                    return null;
             }
         }
     }

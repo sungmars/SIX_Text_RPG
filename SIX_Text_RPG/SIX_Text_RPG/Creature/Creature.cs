@@ -1,5 +1,15 @@
 ﻿namespace SIX_Text_RPG
 {
+    public enum Stat
+    {
+        Name,
+        Level,
+        ATK,
+        DEF,
+        MaxHP,
+        Gold
+    }
+
     public struct Stats
     {
         public string Name { get; set; }
@@ -15,33 +25,57 @@
 
     internal abstract class Creature
     {
-        public Creature() { }
-        public Creature(string name, int level, float atk, float def, float hp, int gold)
+        public Creature()
         {
-            Stats = new()
-            {
-                Name = name,
-                Level = level,
-                ATK = atk,
-                DEF = def,
-                HP = hp,
-                MaxHP = hp,
-                Gold = gold
-            };
+            Stats stats = Stats;
+            stats.MaxHP = stats.HP;
+            Stats = stats;
         }
 
-        public bool IsDead { get { return Stats.HP == 0; } }
         public Stats Stats { get; set; }
+        public bool IsDead { get { return Stats.HP == 0; } }
+
+        public void SetStat(Stat type, object value)
+        {
+            Stats stats = Stats;
+
+            switch (type)
+            {
+                case Stat.Name:
+                    stats.Name = (string)value;
+                    break;
+                case Stat.Level:
+                    stats.Level = (int)value;
+                    break;
+                case Stat.ATK:
+                    stats.ATK = (float)value;
+                    break;
+                case Stat.DEF:
+                    stats.DEF = (float)value;
+                    break;
+                case Stat.MaxHP:
+                    stats.MaxHP = (float)value;
+                    break;
+                case Stat.Gold:
+                    stats.Gold = (int)value;
+                    break;
+            }
+
+            Stats = stats;
+        }
 
         public void Damaged(float damage)
         {
             Stats stats = Stats;
-
             float hp = stats.HP - damage;
+
+            // 체력이 0 미만으로 설정되지 않습니다.
             hp = MathF.Max(hp, 0);
+
+            // 체력이 최대 체력 이상으로 설정되지 않습니다.
             hp = MathF.Min(hp, stats.MaxHP);
+
             stats.HP = hp;
-            
             Stats = stats;
         }
 
@@ -49,28 +83,23 @@
         {
             (int left, int top) = Console.GetCursorPosition();
 
-            bool isLeftOdd = (left % 2) == 1;
-
+            // 전체 상태바를 그립니다.
             Utils.WriteColor("[][][][][][][][][][]", ConsoleColor.DarkGray);
             Console.WriteLine($" {value}/{maxValue}");
 
-            int unit = IsDead ? 0 : (int)MathF.Max(Stats.HP / Stats.MaxHP * 20, 1);
-            while (unit > 0)
+            bool barDirection = true;
+            int barCount = IsDead ? 0 : (int)MathF.Max(Stats.HP / Stats.MaxHP * 20, 1);
+
+            // 상태바를 순회하며 채워줍니다.
+            while (barCount > 0)
             {
                 Console.SetCursorPosition(left, top);
-                if (isLeftOdd)
-                {
-                    if (left % 2 == 1) Utils.WriteColor("[", color);
-                    else Utils.WriteColor("]", color);
-                }
-                else
-                {
-                    if (left % 2 == 1) Utils.WriteColor("]", color);
-                    else Utils.WriteColor("[", color);
-                }
+                if (barDirection) Utils.WriteColor("[", color);
+                else Utils.WriteColor("]", color);
 
                 left++;
-                unit--;
+                barDirection = !barDirection;
+                barCount--;
             }
 
             Console.SetCursorPosition(0, top + 1);

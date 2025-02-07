@@ -2,17 +2,18 @@ namespace SIX_Text_RPG.Scenes;
 
 internal class Scene_EnemyPhase : Scene_Base
 {
-    private Player player = new Player();
+    private readonly Player player = new();
     private List<Monster> monsters = new List<Monster>();
     private int monsterCount;
 
-    public Scene_EnemyPhase(Player player, List<Monster> monsters, int monsterCount)
+    public Scene_EnemyPhase(List<Monster> monsters, int monsterCount)
     {
-        this.player = player;
+        if (GameManager.Instance.Player != null) player = GameManager.Instance.Player;
+
         this.monsters = monsters;
         this.monsterCount = monsterCount;
     }
-    
+
     public override void Awake()
     {
         base.Awake();
@@ -28,24 +29,25 @@ internal class Scene_EnemyPhase : Scene_Base
     {
         switch (base.Update())
         {
-            case 1 :
+            case 1:
                 monsterCount++;
                 if (player.Stats.HP <= 0)
                 {
                     // 플레이어 사망시 결과로
                     Program.CurrentScene = new Scene_BattleResult(false);
-                    return 0;
+                    break;
                 }
-                if (monsters.Count == monsterCount) 
+                if (monsters.Count == monsterCount)
                 {
                     // 몬스터들 공격 완료후 player턴
                     Program.CurrentScene = new Scene_BattleStart();
-                    return 0;
+                    break;
                 }
-                
-                Program.CurrentScene = new Scene_EnemyPhase(player, monsters, monsterCount);
-                return 0;
+
+                Program.CurrentScene = new Scene_EnemyPhase(monsters, monsterCount);
+                break;
         }
+
         return 0;
     }
 
@@ -56,7 +58,7 @@ internal class Scene_EnemyPhase : Scene_Base
         {
             DisplayMonsterAttack();
         }
-        
+
     }
 
     private void EnemyAttack()

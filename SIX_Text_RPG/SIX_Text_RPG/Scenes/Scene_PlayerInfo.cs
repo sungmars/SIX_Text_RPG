@@ -15,7 +15,7 @@
             switch (base.Update())
             {
                 case 0:
-                    Program.CurrentScene = new Scene_Title();
+                    Program.CurrentScene = new Scene_Lobby();
                     break;
             }
 

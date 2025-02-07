@@ -4,25 +4,20 @@
     {
         public override void Awake()
         {
-            sceneTitle = "스파르타 던전에 오신 여러분 환영합니다.";
-            sceneInfo = "이제 전투를 시작할 수 있습니다.";
             base.Awake();
-            Menu.Add("상태 보기");
-            Menu.Add("전투 시작");
 
-            GameManager.Instance.Player = new Player
-            {
-                Stats = new Stats
-                {
-                    Name = "Tester",
-                    Level = 1,
-                    ATK = 10,
-                    DEF = 5,
-                    MaxHP = 100,
-                    HP = 100,
-                    Gold = 1500
-                }
-            };
+            sceneTitle = Define.GAME_TITLE;
+            sceneInfo = "" +
+                "\n   ######  ########     ###     ######   ##     ## ######## ######## ######## ####    ########  ########   ######  " +
+                "\n  ##    ## ##     ##   ## ##   ##    ##  ##     ## ##          ##       ##     ##     ##     ## ##     ## ##    ## " +
+                "\n  ##       ##     ##  ##   ##  ##        ##     ## ##          ##       ##     ##     ##     ## ##     ## ##       " +
+                "\n   ######  ########  ##     ## ##   #### ######### ######      ##       ##     ##     ########  ########  ##   ####" +
+                "\n        ## ##        ######### ##    ##  ##     ## ##          ##       ##     ##     ##   ##   ##        ##    ## " +
+                "\n  ##    ## ##        ##     ## ##    ##  ##     ## ##          ##       ##     ##     ##    ##  ##        ##    ## " +
+                "\n   ######  ##        ##     ##  ######   ##     ## ########    ##       ##    ####    ##     ## ##         ######\n";
+
+            Menu.Add("새로운 찌르기");
+            Menu.Add("저장된 찌르기");
         }
 
         public override int Update()
@@ -30,21 +25,24 @@
             switch (base.Update())
             {
                 case 1:
-                    Program.CurrentScene = new Scene_PlayerInfo();
+                    Program.CurrentScene = new Scene_CreatePlayer();
                     break;
                 case 2:
-                    Program.CurrentScene = new Scene_BattleStart();
+                    // TODO: 이어하기
+                    Scene_CreatePlayer.PlayerName = "테스트 플레이어";
+                    Program.CurrentScene = new Scene_CreateCharacter();
                     break;
                 case 0:
-                    Program.CurrentScene = null;
+                    Utils.Quit();
                     break;
             }
+
             return 0;
         }
 
         protected override void Display()
         {
-            Console.WriteLine(" 원하시는 행동을 입력해주세요.");
+            Utils.WriteColorLine(" 누구나 큰일 낼 수 있어!", ConsoleColor.DarkRed);
         }
     }
 }

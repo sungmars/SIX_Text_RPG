@@ -14,6 +14,7 @@
         public virtual void Awake()
         {
             Console.Clear();
+            Utils.ClearBuffer();
         }
 
         public void Start()
@@ -46,7 +47,7 @@
                     continue;
                 }
 
-                Console.WriteLine($" [{i + 1}] {Menu[i]}");
+                Utils.WriteMenuLine($" [{i + 1}] {Menu[i]}");
             }
 
             if (hasZero)

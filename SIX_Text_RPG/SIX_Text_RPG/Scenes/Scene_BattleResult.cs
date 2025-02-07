@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SIX_Text_RPG.Scenes
+﻿namespace SIX_Text_RPG.Scenes
 {
     internal class Scene_BattleResult : Scene_Base
     {
@@ -24,23 +17,23 @@ namespace SIX_Text_RPG.Scenes
         }
         public override void Awake()
         {
+            base.Awake();
+
             sceneTitle = "Battle!! - Result";
             sceneInfo = "";
-            
-            base.Awake();
         }
 
         public override int Update()
         {
             switch (base.Update())
-            { 
+            {
                 case 0:
                     Program.CurrentScene = new Scene_Title();
                     break;
-
                 default:
                     break;
             }
+
             return 0;
         }
 
@@ -49,7 +42,7 @@ namespace SIX_Text_RPG.Scenes
             //이전 체력 계산
             Func<float, float, float> beforeHP = (x, y) =>
                 (x + y) > GameManager.Instance.Player.Stats.MaxHP ? GameManager.Instance.Player.Stats.MaxHP : x + y;
-            
+
             float oldHP = beforeHP(GameManager.Instance.Player.Stats.HP, GameManager.Instance.TotalDamage);
             float newHP = GameManager.Instance.Player.Stats.HP;
 
