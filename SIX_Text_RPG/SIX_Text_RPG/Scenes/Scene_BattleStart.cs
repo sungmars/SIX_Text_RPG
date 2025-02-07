@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
 namespace SIX_Text_RPG.Scenes
 {
     internal class Scene_BattleStart : Scene_Base
     {
         private Random random = new Random();
-        private List<Monster> monsters = new List<Monster>();
         Player? player = GameManager.Instance.Player;
+
         public override void Awake()
         {
             base.Awake();
@@ -20,8 +22,10 @@ namespace SIX_Text_RPG.Scenes
 
             // 공격 메뉴 추가
             Menu.Add("공격");
-            // 아이템 메뉴 추가
-            MakeMonster();
+            if(GameManager.Instance.Monsters.Count == 0)
+            {
+                MakeMonster();
+            }
         }
 
         public override int Update()
@@ -30,7 +34,7 @@ namespace SIX_Text_RPG.Scenes
             switch (base.Update())
             {
                 case 1:
-                    Program.CurrentScene = new Scene_PlayerAttack(monsters);
+                    Program.CurrentScene = new Scene_PlayerAttack();
                     return 0;
                 default:
                     //1이 아닌 다른 값이 들어오면 씬 이동 없이 다시 메뉴 출력
@@ -42,7 +46,7 @@ namespace SIX_Text_RPG.Scenes
         {
 
             // 모든 몬스터 정보 출력
-            foreach (var monster in monsters)
+            foreach (var monster in GameManager.Instance.Monsters)
             {
                 monster.DisplayMonster();
             }
@@ -67,7 +71,7 @@ namespace SIX_Text_RPG.Scenes
             int monsterCount = random.Next(1, 5);
             for (int i = 0; i < monsterCount; i++)
             {
-                monsters.Add(SetMonster(random.Next(1, 4)));
+                GameManager.Instance.Monsters.Add(SetMonster(random.Next(1, 4)));
             }
         }
 
