@@ -38,15 +38,18 @@
             Stats stats = Stats;
 
             float hp = stats.HP - damage;
-            stats.HP = MathF.Max(hp, 0);
-            stats.HP = MathF.Min(hp, stats.MaxHP);
-
+            hp = MathF.Max(hp, 0);
+            hp = MathF.Min(hp, stats.MaxHP);
+            stats.HP = hp;
+            
             Stats = stats;
         }
 
         protected void Display_StatusBar(float value, float maxValue, ConsoleColor color)
         {
             (int left, int top) = Console.GetCursorPosition();
+
+            bool isLeftOdd = (left % 2) == 1;
 
             Utils.WriteColor("[][][][][][][][][][]", ConsoleColor.DarkGray);
             Console.WriteLine($" {value}/{maxValue}");
@@ -55,8 +58,16 @@
             while (unit > 0)
             {
                 Console.SetCursorPosition(left, top);
-                if (left % 2 == 1) Utils.WriteColor("[", color);
-                else Utils.WriteColor("]", color);
+                if (isLeftOdd)
+                {
+                    if (left % 2 == 1) Utils.WriteColor("[", color);
+                    else Utils.WriteColor("]", color);
+                }
+                else
+                {
+                    if (left % 2 == 1) Utils.WriteColor("]", color);
+                    else Utils.WriteColor("[", color);
+                }
 
                 left++;
                 unit--;
