@@ -48,6 +48,8 @@
         {
             (int left, int top) = Console.GetCursorPosition();
 
+            bool isLeftOdd = (left % 2) == 1;
+
             Utils.WriteColor("[][][][][][][][][][]", ConsoleColor.DarkGray);
             Console.WriteLine($" {value}/{maxValue}");
 
@@ -55,8 +57,16 @@
             while (unit > 0)
             {
                 Console.SetCursorPosition(left, top);
-                if (left % 2 == 1) Utils.WriteColor("[", color);
-                else Utils.WriteColor("]", color);
+                if (isLeftOdd)
+                {
+                    if (left % 2 == 1) Utils.WriteColor("[", color);
+                    else Utils.WriteColor("]", color);
+                }
+                else
+                {
+                    if (left % 2 == 1) Utils.WriteColor("]", color);
+                    else Utils.WriteColor("[", color);
+                }
 
                 left++;
                 unit--;
