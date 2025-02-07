@@ -11,8 +11,19 @@
 
         public override int Update()
         {
-            Console.WriteLine("원하시는 행동을 입력해주세요.");
-            return Utils.ReadIndex();
+            switch (base.Update())
+            {
+                case 1:
+                    Program.CurrentScene = new Scene_Title();
+                    break;
+                case 2:
+                    Program.CurrentScene = new Scene_Title();
+                    break;
+                case 0:
+                    Program.CurrentScene = null;
+                    break;
+            }
+            return 1;
         }
 
         protected override void Display()
@@ -21,6 +32,7 @@
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
             Console.WriteLine("이제 전투를 시작할 수 있습니다.");
             Console.WriteLine();
+            Console.WriteLine("원하시는 행동을 입력해주세요.");
         }
     }
 }
