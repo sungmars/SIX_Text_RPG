@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace SIX_Text_RPG.Scenes
 {
-    internal class Scene_BattleMenu : Scene_Base
+    internal class Scene_BattleStart : Scene_Base
     {
         private Random random = new Random();
         private List<Monster> monsters = new List<Monster>();
         public override void Awake()
         {
             base.Awake();
+            hasZero = false;
             sceneTitle = "Battle!!";
             sceneInfo = "";
 
@@ -27,13 +28,12 @@ namespace SIX_Text_RPG.Scenes
             switch (base.Update())
             {
                 case 1:
-                    // 플레이어 공격 씬으로 이동(변경필요)
-                    Program.CurrentScene = new Scene_BattleMenu();
+                    // 플레이어 공격 씬으로 이동
+                    Program.CurrentScene = new Scene_PlayerAttack();
                     return 0;
                 default:
-                    // 존재하지 않는 메뉴(삭제필요) - 씬배이스에 나가기 메뉴 삭제필요?
-                    Program.CurrentScene = new Scene_BattleMenu();
-                    return 0;
+                    //1이 아닌 다른 값이 들어오면 씬 이동 없이 다시 메뉴 출력
+                    return 1;
             }
         }
 
