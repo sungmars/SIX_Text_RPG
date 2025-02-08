@@ -23,6 +23,8 @@ namespace SIX_Text_RPG
 
         public PlayerType Type { get; private set; }
 
+        public char Graphic_Weapon { get; private set; } = 'つ';
+
         public void DisplayInfo()
         {
             DisplayInfo_Status();
@@ -40,12 +42,16 @@ namespace SIX_Text_RPG
             Utils.WriteColorLine($" {Stats.Name}\n", ConsoleColor.DarkYellow);
 
             Console.Write($" 경험치: ");
-            Display_StatusBar(Stats.HP, Stats.MaxHP, ConsoleColor.DarkGreen);
+            Display_EXPBar();
+            Console.WriteLine($" {Stats.HP}/{Stats.MaxHP}");
+
             Console.Write($" 체  력: ");
-            Display_StatusBar(Stats.HP, Stats.MaxHP, ConsoleColor.Red);
+            Display_HealthBar();
+            Console.WriteLine($" {Stats.HP}/{Stats.MaxHP}");
+
             Console.Write($" 마  력: ");
-            Display_StatusBar(Stats.HP, Stats.MaxHP, ConsoleColor.Blue);
-            Console.WriteLine();
+            Display_ManaBar();
+            Console.WriteLine($" {Stats.HP}/{Stats.MaxHP}\n");
         }
 
         public void DisplayInfo_Gold()
