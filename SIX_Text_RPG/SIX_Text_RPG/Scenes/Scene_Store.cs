@@ -17,8 +17,8 @@ namespace SIX_Text_RPG.Scenes
         {
             "안녕하세요 name님. 무슨 일 있으신가요?",
             "흠... 아이템을 환불해달라고요?",
-            "지금 저한테 buy하신거 맘에 안 든다는거에요?",
-            "이번만 입니다.. point의 80%만 돌려드릴게요."
+            "지금 저한테 buy하신거 맘에 안 드시나요?",
+            "이번만 입니다... But 포인트의 80%만 돌려드릴거에요."
         };
 
         private static readonly string[] talkgambling =
@@ -27,6 +27,11 @@ namespace SIX_Text_RPG.Scenes
             "흠... 도박을 하러 왔다고요..? 저희 그런 클럽 아닙니다.",
             "다 알고 오셨다니, 어쩔 수 없네요... 이건 다른 매니저님들에게는 secret입니다."
         };
+
+        private string[,] item =
+        {
+            {"" }
+        }
 
 
 
@@ -40,9 +45,9 @@ namespace SIX_Text_RPG.Scenes
             Menu.Add("도?박");
 
             sceneTitle = "수상한 매니저님 방";
-            sceneInfo = "수상한..? 송승환..? 매니저님의 방. 뭔가 초성라임을 맞춘 것 같습니다...";
+            sceneInfo = "수상한..? 자세히보니 수상한이 아니라 송승환 매니저님이라 적혀있습니다...";
 
-            buying += Buy();
+            
         }
 
         public override int Update()
