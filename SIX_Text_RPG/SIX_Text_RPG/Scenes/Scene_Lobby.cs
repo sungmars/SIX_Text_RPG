@@ -14,8 +14,8 @@
                 "\n #########    ##       ##     ## ##     ##  ##  ## ## ## ##   #### ##       ##       ##     ## ########     #########" +
                 "\n   ## ##      ##       ##     ## ##     ##  ##  ##  #### ##    ##  ##       ##       ##     ## ##     ##      ## ##  " +
                 "\n  ##   ##     ##    ## ##     ## ##     ##  ##  ##   ### ##    ##  ##    ## ##       ##     ## ##     ##     ##   ## " +
-                "\n               ######   #######  ########  #### ##    ##  ######    ######  ########  #######  ########\n";
-            
+                "\n               ######   #######  ########  #### ##    ##  ######    ######  ########  #######  ########            \n";
+
             Menu.Add("상태 보기");
             Menu.Add("튜터 ZONE");
             zeroText = "게임 종료";
@@ -26,10 +26,15 @@
             switch (base.Update())
             {
                 case 1:
-                    GameManager.Instance.DisplayGround();
                     Program.CurrentScene = new Scene_PlayerInfo();
                     break;
                 case 2:
+                    // TODO: 주석 해제
+                    //Utils.WriteAnim($"{Menu[1]}으로 걸어가는 중...");
+                    //Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
+                    //Utils.WriteAnim("탈것이 없어 시간이 지체되는 중...");
+                    //Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
+                    //Utils.WriteAnim("뚜벅. 뚜벅. 뚜벅. 뚜벅.");
                     Program.CurrentScene = new Scene_BattleStart();
                     break;
                 case 3:

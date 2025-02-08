@@ -16,16 +16,38 @@
             Console.Clear();
         }
 
-        public void Start()
+        public void LateAwake()
         {
             Utils.WriteColorLine($"\n {sceneTitle}", ConsoleColor.DarkYellow);
-            Utils.WriteColorLine($" {sceneInfo}\n", ConsoleColor.DarkGray);
+            if (sceneTitle == string.Empty)
+            {
+                return;
+            }
+
+            Utils.DisplayLine();
+        }
+
+        public void Start()
+        {
+            Utils.WriteColor($" {sceneInfo}", ConsoleColor.DarkGray);
+            if (sceneInfo != string.Empty)
+            {
+                Utils.DisplayLine();
+            }
+
+            Console.WriteLine();
             Display();
         }
 
         public void LateStart()
         {
+            if (Menu.Count == 0 && !hasZero)
+            {
+                return;
+            }
+
             Display_Menu();
+            Utils.DisplayLine();
         }
 
         public virtual int Update()
@@ -51,7 +73,7 @@
 
             if (hasZero)
             {
-                Console.WriteLine($"\n [0] {zeroText}\n");
+                Console.WriteLine($"\n [0] {zeroText}");
             }
         }
     }
