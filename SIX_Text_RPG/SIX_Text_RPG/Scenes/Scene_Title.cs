@@ -29,7 +29,7 @@
                     break;
                 case 2:
                     // TODO: 이어하기
-                    Scene_CreatePlayer.PlayerName = "테스트 플레이어";
+                    Scene_CreatePlayer.PlayerName = "테스트플레이어";
                     Program.CurrentScene = new Scene_CreateCharacter();
                     break;
                 case 0:
@@ -42,7 +42,7 @@
 
         protected override void Display()
         {
-            Utils.WriteColorLine(" 누구나 큰일 낼 수 있어!", ConsoleColor.DarkRed);
+            Utils.WriteColorLine(" 누구나 큰일 낼 수 있어!", ConsoleColor.Red);
         }
     }
 }

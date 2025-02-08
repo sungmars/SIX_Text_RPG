@@ -23,13 +23,21 @@
         public Monster(MonsterType type)
         {
             Type = type;
+            Position = new() { X = Define.MONSTER_SPAWN_X };
 
             Stats stats = Define.MONSTERS_STATS[(int)type];
             stats.MaxHP = stats.HP;
             Stats = stats;
+
+            Random random = new();
+            char eye = Define.EYES_MONSTER[random.Next(0, Define.EYES_MONSTER.Length)];
+            char nose = Define.FACES[random.Next(0, Define.FACES.Length)];
+            graphic = $"({eye}{nose}{eye}) ";
         }
 
         public MonsterType Type { get; private set; }
+
+        private readonly string graphic;
 
         //몬스터 정보 출력
         public void DisplayMonster()
@@ -42,8 +50,22 @@
             else
             {
                 Console.Write($" Lv.{Stats.Level} {Stats.Name}  ");
-                Display_StatusBar(Stats.HP, Stats.MaxHP, ConsoleColor.DarkRed);
             }
+        }
+
+        public void Render()
+        {
+            Console.SetCursorPosition(Position.X, Position.Y);
+            Console.Write(graphic);
+        }
+
+        public void Render_Hit()
+        {
+            Console.SetCursorPosition(Position.X, Position.Y);
+            Utils.WriteColor(graphic, ConsoleColor.Red);
+            Thread.Sleep(200);
+
+            Render();
         }
     }
 }

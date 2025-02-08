@@ -49,6 +49,10 @@ namespace SIX_Text_RPG
 
         public static void WriteAnim(string value)
         {
+            int top = Console.CursorTop;
+            Console.WriteLine();
+            Console.SetCursorPosition(0, top);
+
             char[] charArray = value.ToCharArray();
             foreach (char c in charArray)
             {
@@ -91,12 +95,7 @@ namespace SIX_Text_RPG
         {
             string[] texts = value.Split("name");
 
-            if (value.StartsWith("name"))
-            {
-                WriteColor(Scene_CreatePlayer.PlayerName, ConsoleColor.DarkYellow);
-            }
             Console.Write(texts[0]);
-
             for (int i = 1; i < texts.Length; i++)
             {
                 WriteColor(Scene_CreatePlayer.PlayerName, ConsoleColor.DarkYellow);
