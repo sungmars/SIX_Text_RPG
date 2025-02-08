@@ -32,6 +32,9 @@
                 case 2:
                     Program.CurrentScene = new Scene_BattleStart();
                     break;
+                case 3:
+                    Program.CurrentScene = new Scene_Store();
+                    break;
                 case 0:
                     Utils.Quit();
                     break;
