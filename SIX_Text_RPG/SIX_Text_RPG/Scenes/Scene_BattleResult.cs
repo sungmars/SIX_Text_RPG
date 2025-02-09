@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SIX_Text_RPG.Scenes
+﻿namespace SIX_Text_RPG.Scenes
 {
     internal class Scene_BattleResult : Scene_Base
     {
@@ -18,34 +11,40 @@ namespace SIX_Text_RPG.Scenes
 
         public override void Awake()
         {
+            base.Awake();
+
             sceneTitle = "Battle!! - Result";
             sceneInfo = "";
-            
-            base.Awake();
         }
 
         public override int Update()
         {
             switch (base.Update())
-            { 
+            {
                 case 0:
                     Program.CurrentScene = new Scene_Title();
                     break;
-
                 default:
                     break;
             }
+
             return 0;
         }
 
         protected override void Display()
         {
+            Player? player = GameManager.Instance.Player;
+            if (player == null)
+            {
+                return;
+            }
+
             //이전 체력 계산
             Func<float, float, float> beforeHP = (x, y) =>
-                (x + y) > GameManager.Instance.Player.Stats.MaxHP ? GameManager.Instance.Player.Stats.MaxHP : x + y;
-            
-            float oldHP = beforeHP(GameManager.Instance.Player.Stats.HP, GameManager.Instance.TotalDamage);
-            float newHP = GameManager.Instance.Player.Stats.HP;
+                (x + y) > player.Stats.MaxHP ? player.Stats.MaxHP : x + y;
+
+            float oldHP = beforeHP(player.Stats.HP, GameManager.Instance.TotalDamage);
+            float newHP = player.Stats.HP;
             //승리 시 
             if (isVictory)
             {
@@ -60,7 +59,7 @@ namespace SIX_Text_RPG.Scenes
             }
 
 
-            Console.WriteLine($"\n\n Lv.{GameManager.Instance.Player.Stats.Level} {GameManager.Instance.Player.Stats.Name}");
+            Console.WriteLine($"\n\n Lv.{player.Stats.Level} {player.Stats.Name}");
             Console.WriteLine($" HP{oldHP} -> {newHP}");
 
             //데이터 초기화

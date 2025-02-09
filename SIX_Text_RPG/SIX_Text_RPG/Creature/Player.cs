@@ -1,20 +1,31 @@
-﻿namespace SIX_Text_RPG
+﻿using SIX_Text_RPG.Scenes;
+
+namespace SIX_Text_RPG
 {
     public enum PlayerType
     {
-        None
+        마계조단,
+        천계조단,
+        Count
     }
 
     internal class Player : Creature
     {
-        public PlayerType Type { get; private set; }
-
-        public void SetGold(int gold)
+        public Player(PlayerType type)
         {
-            Stats stats = Stats;
-            stats.Gold += gold;
+            Type = type;
+
+            Stats stats = Define.PLAYERS_STATS[(int)type];
+            stats.Name = Scene_CreatePlayer.PlayerName;
+            stats.MaxEXP = Define.PLAYER_EXP_TABLE[stats.Level - 1];
+            stats.MaxHP = stats.HP;
+            stats.MaxMP = stats.MP;
             Stats = stats;
         }
+
+        public PlayerType Type { get; private set; }
+
+        public char Graphic_Weapon { get; private set; } = 'つ';
 
         public void DisplayInfo()
         {
@@ -28,23 +39,46 @@
 
         public void DisplayInfo_Status()
         {
-            Utils.WriteColorLine($" Lv.{Stats.Level:00}", ConsoleColor.White);
-            Utils.WriteColor($" {Stats.Name}", ConsoleColor.DarkYellow);
-            Console.WriteLine($" {Type}\n", ConsoleColor.DarkGray);
+            Console.WriteLine($" Lv.{Stats.Level:00}");
+            Utils.WriteColor($" {Type}", ConsoleColor.DarkCyan);
+            Utils.WriteColorLine($" {Stats.Name}\n", ConsoleColor.DarkYellow);
 
             Console.Write($" 경험치: ");
-            Display_StatusBar(Stats.HP, Stats.MaxHP, ConsoleColor.DarkGreen);
+            Display_EXPBar();
+            int test = Console.CursorLeft;
+            Console.WriteLine($" {Stats.EXP}/{Stats.MaxEXP}");
+
             Console.Write($" 체  력: ");
-            Display_StatusBar(Stats.HP, Stats.MaxHP, ConsoleColor.Red);
+            Display_HPBar();
+            Console.WriteLine($" {Stats.HP:F0}/{Stats.MaxHP:F0}");
+
             Console.Write($" 마  력: ");
-            Display_StatusBar(Stats.HP, Stats.MaxHP, ConsoleColor.Blue);
-            Console.WriteLine();
+            Display_MPBar();
+            Console.WriteLine($" {Stats.MP:F0}/{Stats.MaxMP:F0}\n");
+        }
+
+        public override void Display_EXPBar()
+        {
+            base.Display_EXPBar();
+            Utils.EXPBarY = Console.CursorTop;
+        }
+
+        public override void Display_HPBar()
+        {
+            base.Display_HPBar();
+            Utils.HPBarY = Console.CursorTop;
+        }
+
+        public override void Display_MPBar()
+        {
+            base.Display_MPBar();
+            Utils.MPBarY = Console.CursorTop;
         }
 
         public void DisplayInfo_Gold()
         {
             Console.Write($" 소지금:");
-            Utils.WriteColorLine($" {Stats.Gold}G", ConsoleColor.Yellow);
+            Utils.WriteColorLine($" {Stats.Gold:N0}G", ConsoleColor.Yellow);
         }
     }
 }
