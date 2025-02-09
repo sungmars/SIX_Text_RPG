@@ -10,10 +10,7 @@ namespace SIX_Text_RPG.Scenes
 {
     internal class Scene_Inventory : Scene_Base
     {
-        private readonly List<Item> Inventory = new List<Item>();
-        private readonly int LEFT = 0;
-        private int cursorIndex;
-        private int cursorTop;
+        private readonly List<Item> Inventory = new List<Item>();//이거 게임매니저로 갖고오게 해야함
 
         public override void Awake()
         {
@@ -22,75 +19,67 @@ namespace SIX_Text_RPG.Scenes
             sceneInfo = "";
             hasZero = false;
             MakeItem();
-            Display();
+            
         }
 
-        public override int Update()
-        {
-            int totalmenu = Inventory.Count + 1;
-            while (Program.CurrentScene == this)
-            {
-                int cursor = LEFT;
-                var key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.UpArrow)
-                {
-                    Console.SetCursorPosition(cursor, cursorTop + cursorIndex);
-                    Console.Write(' ');
-
-                    cursorIndex = Math.Max(cursorIndex - 1, 0);
-                    Console.SetCursorPosition(cursor, cursorTop + cursorIndex);
-                    Utils.WriteColor("▶", ConsoleColor.DarkCyan);
-                }
-
-                if (key.Key == ConsoleKey.DownArrow)
-                {
-                    Console.SetCursorPosition(cursor, cursorTop + cursorIndex);
-                    Console.Write(' ');
-                    
-                    cursorIndex = Math.Min(cursorIndex + 1, totalmenu - 1);
-                    Console.SetCursorPosition(cursor, cursorTop + cursorIndex);
-                    Utils.WriteColor("▶", ConsoleColor.DarkCyan);
-                }
-                if (key.Key == ConsoleKey.Enter)
-                {
-                    if (cursorIndex < Inventory.Count)//나가기 버튼 기능 추가
-                    {
-                        ItemSelect(Inventory[cursorIndex]);
-                    }
-                    else
-                    {
-                        Program.CurrentScene = new Scene_Lobby();
-                    }
-                }
-            }
-            return 0;
-        }
+        
         protected override void Display()
         {
-            Console.SetCursorPosition(0, 0);
-            //아이템 리스트 출력
-            cursorTop = Console.CursorTop + 1;
-            int totalmenu = Inventory.Count + 1;
-            for (int i = 0; i < totalmenu; i++)//Count+1은 나가기 버튼
+            //Console.SetCursorPosition(0, 0);
+            ////아이템 리스트 출력
+            //cursorTop = Console.CursorTop + 1;
+            //int totalmenu = Inventory.Count + 1;
+            //for (int i = 0; i < totalmenu; i++)//Count+1은 나가기 버튼
+            //{
+            //    Console.SetCursorPosition(LEFT, cursorTop + i);
+            //    if (i == cursorIndex)
+            //    {
+            //        Utils.WriteColor("▶", ConsoleColor.DarkCyan);
+            //    }
+            //    else
+            //    {
+            //        Console.Write("");
+            //    }
+            //    if (i < Inventory.Count)
+            //    {
+            //        Utils.WriteColorLine(Inventory[i].info.Name, ConsoleColor.White);
+            //    }
+            //    else
+            //    {
+            //        Utils.WriteColorLine("  나가기", ConsoleColor.Gray);
+            //    }
+            //}
+            //Utils.CursorMenu.Clear();
+            if (Inventory.Count == 0)//아이템이 없다면 아무것도 없다는 문장과 엔터키를 누르면 나가는 기능
             {
-                Console.SetCursorPosition(LEFT, cursorTop + i);
-                if (i == cursorIndex)
+                Utils.WriteColorLine("현재 가방에 있는 것: 공기", ConsoleColor.DarkGray);
+                Utils.WriteColorLine("엔터 키 누르면 이전 메뉴로 돌아갑니다.", ConsoleColor.DarkGray);
+                var key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Enter)
                 {
-                    Utils.WriteColor("▶", ConsoleColor.DarkCyan);
-                }
-                else
-                {
-                    Console.Write("");
-                }
-                if (i < Inventory.Count)
-                {
-                    Utils.WriteColorLine(Inventory[i].info.Name, ConsoleColor.White);
-                }
-                else
-                {
-                    Utils.WriteColorLine("  나가기", ConsoleColor.Gray);
+                    Program.CurrentScene = new Scene_Lobby();
+
+                    return;
                 }
             }
+            // 인벤토리의 커서메뉴 추가
+            for (int i = 0; i < Inventory.Count; i++)
+            {
+                // 루프 변수 캡처 문제를 피하기 위해 현재 아이템을 별도의 변수에 저장합니다.
+                Item currentItem = Inventory[i];
+
+                Utils.CursorMenu.Add((
+                    currentItem.info.Name, // 메뉴에 출력될 아이템 이름
+                    () =>
+                    {
+                        Console.Clear();
+                        Utils.WriteColorLine($"[[E]{currentItem.info.Name}]", ConsoleColor.DarkYellow);
+                        
+                    }
+                ));
+            }
+            Utils.DisplayCursorMenu(5, 5);
+            
         }
         private void ItemSelect(Item selectedItem)//아이템 장착 메서드
         {
@@ -101,8 +90,8 @@ namespace SIX_Text_RPG.Scenes
         private void MakeItem()
         {
             Inventory.Add(SetItem("찌르기 클로"));
-            Inventory.Add(SetItem("  롱기누스의 손가락"));
-            Inventory.Add(SetItem("  강철 손가락"));
+            Inventory.Add(SetItem("롱기누스의 손가락"));
+            Inventory.Add(SetItem("강철 손가락"));
         }
 
         private Item SetItem(string name)
