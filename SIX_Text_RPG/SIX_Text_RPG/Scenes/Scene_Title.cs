@@ -2,8 +2,7 @@
 {
     internal class Scene_Title : Scene_Base
     {
-        private readonly int CURSOR_LEFT = 98;
-        private readonly int LEFT = 101;
+        private readonly int LEFT = 103;
 
         private int cursorIndex;
         private int cursorTop;
@@ -16,26 +15,27 @@
 
         public override int Update()
         {
+            int cursor = LEFT - 3;
             while (Program.CurrentScene == this)
             {
                 var key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.UpArrow)
                 {
-                    Console.SetCursorPosition(CURSOR_LEFT, cursorTop + cursorIndex);
+                    Console.SetCursorPosition(cursor, cursorTop + cursorIndex);
                     Console.Write(' ');
 
                     cursorIndex = Math.Max(cursorIndex - 1, 0);
-                    Console.SetCursorPosition(CURSOR_LEFT, cursorTop + cursorIndex);
+                    Console.SetCursorPosition(cursor, cursorTop + cursorIndex);
                     Utils.WriteColor("▶", ConsoleColor.DarkCyan);
                 }
 
                 if (key.Key == ConsoleKey.DownArrow)
                 {
-                    Console.SetCursorPosition(CURSOR_LEFT, cursorTop + cursorIndex);
+                    Console.SetCursorPosition(cursor, cursorTop + cursorIndex);
                     Console.Write(' ');
 
                     cursorIndex = Math.Min(cursorIndex + 1, 2);
-                    Console.SetCursorPosition(CURSOR_LEFT, cursorTop + cursorIndex);
+                    Console.SetCursorPosition(cursor, cursorTop + cursorIndex);
                     Utils.WriteColor("▶", ConsoleColor.DarkCyan);
                 }
 
@@ -106,7 +106,7 @@
             Console.SetCursorPosition(LEFT, Console.CursorTop);
             Utils.WriteColorLine("찌르고 나가기", ConsoleColor.DarkGray);
 
-            Console.SetCursorPosition(CURSOR_LEFT, cursorTop);
+            Console.SetCursorPosition(LEFT - 3, cursorTop);
             Utils.WriteColor("▶", ConsoleColor.DarkCyan);
         }
     }

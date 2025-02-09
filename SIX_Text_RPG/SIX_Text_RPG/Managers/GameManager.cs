@@ -11,7 +11,10 @@
         public static GameManager Instance { get; private set; } = new();
 
         public Player? Player { get; set; }
+
+        public List<Item> Inventory { get; private set; } = new();
         public List<Monster> Monsters { get; private set; } = new();
+
         public float TotalDamage { get; set; } = 0;
 
         private readonly Random random = new();

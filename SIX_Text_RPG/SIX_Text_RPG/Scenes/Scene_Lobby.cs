@@ -29,15 +29,7 @@
                     Program.CurrentScene = new Scene_PlayerInfo();
                     break;
                 case 2:
-                    //Program.CurrentScene = new Scene_DungeonLobby();
-
-                    // TODO: 주석 해제
-                    Utils.WriteAnim($"{Menu[1]}으로 걸어가는 중...");
-                    Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
-                    Utils.WriteAnim("탈것이 없어 시간이 지체되는 중...");
-                    Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
-                    Utils.WriteAnim("뚜벅. 뚜벅. 뚜벅. 뚜벅.");
-                    Program.CurrentScene = new Scene_BattleStart();
+                    Program.CurrentScene = new Scene_DungeonLobby();
                     break;
                 case 3:
                     Program.CurrentScene = new Scene_Store();
