@@ -8,8 +8,10 @@ namespace SIX_Text_RPG.Item
 {
     internal class Weapon : Item, IEquipable
     {
-        public Weapon(string name, string desciption, float hp, int price, int atk, int def) : base(name, desciption, hp, price, atk, def)
+        public char Graphic { get; set; }
+        public Weapon(string name, string desciption, float hp, int price, int atk, int def, char graphic ) : base(name, desciption, hp, price, atk, def)
         {
+            Graphic = graphic;
         }
 
         void IEquipable.Equip()
