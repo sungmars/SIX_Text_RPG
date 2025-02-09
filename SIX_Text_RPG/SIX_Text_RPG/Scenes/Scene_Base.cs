@@ -42,7 +42,7 @@
             }
 
             Display_Menu();
-            Utils.DisplayLineAnim();
+            Utils.DisplayLine(true);
         }
 
         public virtual int Update()

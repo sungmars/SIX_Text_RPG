@@ -1,6 +1,6 @@
 ﻿namespace SIX_Text_RPG.Scenes
 {
-    internal class Scene_BattleStart : Scene_Base
+    internal class Scene_BattleLobby : Scene_Base
     {
         private readonly int LEFT = 99;
         private readonly int TOP = 16;
@@ -25,14 +25,6 @@
 
             hasZero = false;
             sceneTitle = "튜터 ZONE";
-            //sceneInfo =
-            //    "\n                 ####    ########        ###       ########    ########    ##          ########    ####  " +
-            //    "\n                 ####    ##     ##      ## ##         ##          ##       ##          ##          ####  " +
-            //    "\n                 ####    ##     ##     ##   ##        ##          ##       ##          ##          ####  " +
-            //    "\n                  ##     ########     ##     ##       ##          ##       ##          ######       ##   " +
-            //    "\n                         ##     ##    #########       ##          ##       ##          ##                " +
-            //    "\n                 ####    ##     ##    ##     ##       ##          ##       ##          ##          ####  " +
-            //    "\n                 ####    ########     ##     ##       ##          ##       ########    ########    ####\n";
 
             // 공격 메뉴 추가
             Menu.Add("공격");
