@@ -4,10 +4,6 @@ namespace SIX_Text_RPG
 {
     internal class Utils
     {
-        public static int EXPBarY { get; set; } = 0;
-        public static int HPBarY { get; set; } = 0;
-        public static int MPBarY { get; set; } = 0;
-
         private static readonly int statusBarX = 29;
         private static readonly Random random = new();
 
@@ -61,9 +57,9 @@ namespace SIX_Text_RPG
 
             // StatusBar type를 지정합니다.
             int type = 0;
-            if (statusBarY == EXPBarY) type = 1;
-            else if (statusBarY == HPBarY) type = 2;
-            else if (statusBarY == MPBarY) type = 3;
+            if (statusBarY == player.EXPBarY) type = 1;
+            else if (statusBarY == player.HPBarY) type = 2;
+            else if (statusBarY == player.MPBarY) type = 3;
 
             // type에 따라 현재값과 최대값을 설정합니다.
             float currentValue = 0;
@@ -142,7 +138,7 @@ namespace SIX_Text_RPG
                 // 인덱스 0을 허용하는지 검사
                 if (hasZero == false && index == 0)
                 {
-                    Console.WriteLine(Define.ERROR_MESSAGE_INPUT);
+                    Console.Write(Define.ERROR_MESSAGE_INPUT);
                     continue;
                 }
 

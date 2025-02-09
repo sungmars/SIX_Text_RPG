@@ -16,22 +16,17 @@
             Console.Clear();
         }
 
-        public void LateAwake()
-        {
-            Utils.WriteColorLine($"\n {sceneTitle}", ConsoleColor.DarkYellow);
-            if (sceneTitle == string.Empty)
-            {
-                return;
-            }
-
-            Utils.DisplayLine();
-        }
-
         public void Start()
         {
-            Utils.WriteColor($" {sceneInfo}", ConsoleColor.DarkGray);
+            if (sceneTitle != string.Empty)
+            {
+                Utils.WriteColorLine($"\n {sceneTitle}", ConsoleColor.DarkYellow);
+                Utils.DisplayLine();
+            }
+
             if (sceneInfo != string.Empty)
             {
+                Utils.WriteColor($" {sceneInfo}", ConsoleColor.DarkGray);
                 Utils.DisplayLine();
             }
 

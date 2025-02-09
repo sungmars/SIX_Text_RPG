@@ -13,7 +13,6 @@ namespace SIX_Text_RPG
             while (CurrentScene != null)
             {
                 CurrentScene.Awake();
-                CurrentScene.LateAwake();
                 CurrentScene.Start();
                 CurrentScene.LateStart();
 
