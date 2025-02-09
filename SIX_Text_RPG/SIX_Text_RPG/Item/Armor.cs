@@ -2,7 +2,7 @@
 {
     internal class Armor : Item, IEquipable
     {
-        public Armor(string name, string desciption, float hp, int price, int atk, int def) : base(name, desciption, hp, price, atk, def)
+        public Armor(string name, string desciption, float hp, float maxhp, float mp, float maxmp, int atk, int def, int price) : base(name, desciption, hp, maxhp, mp, maxmp, atk, def, price)
         {
         }
 

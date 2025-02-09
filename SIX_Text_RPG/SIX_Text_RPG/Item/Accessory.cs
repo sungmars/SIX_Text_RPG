@@ -2,10 +2,10 @@
 {
     internal class Accessory : Item, IEquipable
     {
-        public string Form {  get; set; }
-        public Accessory(string name, string desciption, float hp, int price, int atk, int def, string form) : base(name, desciption, hp, price, atk, def)
+        public Char Graphic { get; set; }
+        public Accessory(string name, string desciption, float hp, float maxhp, float mp, float maxmp, int atk, int def, int price, char graphic) : base(name, desciption, hp, maxhp, mp, maxmp, atk, def, price)
         {
-            this.Form = form;
+            this.Graphic = graphic;
         }
 
         void IEquipable.Equip()
@@ -13,7 +13,7 @@
             if (GameManager.Instance.Player == null) return;
 
             Player player = GameManager.Instance.Player;
-            //장착하는곳에서 장착 구현
+            //장착 매서드 나오게 되면 사용하기
         }
     }
 }
