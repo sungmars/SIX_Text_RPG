@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace SIX_Text_RPG.Scenes
 
         public override int Update()
         {
-            
+            int totalmenu = Inventory.Count + 1;
             while (Program.CurrentScene == this)
             {
                 int cursor = LEFT;
@@ -46,14 +47,20 @@ namespace SIX_Text_RPG.Scenes
                     Console.SetCursorPosition(cursor, cursorTop + cursorIndex);
                     Console.Write(' ');
                     
-                    cursorIndex = Math.Min(cursorIndex + 1, Inventory.Count - 1);
+                    cursorIndex = Math.Min(cursorIndex + 1, totalmenu - 1);
                     Console.SetCursorPosition(cursor, cursorTop + cursorIndex);
                     Utils.WriteColor("▶", ConsoleColor.DarkCyan);
                 }
                 if (key.Key == ConsoleKey.Enter)
                 {
-                    ItemSelect(Inventory[cursorIndex]);
-
+                    if (cursorIndex < Inventory.Count)//나가기 버튼 기능 추가
+                    {
+                        ItemSelect(Inventory[cursorIndex]);
+                    }
+                    else
+                    {
+                        Program.CurrentScene = new Scene_Lobby();
+                    }
                 }
             }
             return 0;
@@ -63,8 +70,8 @@ namespace SIX_Text_RPG.Scenes
             Console.SetCursorPosition(0, 0);
             //아이템 리스트 출력
             cursorTop = Console.CursorTop + 1;
-            
-            for (int i = 0; i < Inventory.Count; i++)
+            int totalmenu = Inventory.Count + 1;
+            for (int i = 0; i < totalmenu; i++)//Count+1은 나가기 버튼
             {
                 Console.SetCursorPosition(LEFT, cursorTop + i);
                 if (i == cursorIndex)
@@ -73,13 +80,19 @@ namespace SIX_Text_RPG.Scenes
                 }
                 else
                 {
-                    Console.Write(" ");
+                    Console.Write("");
                 }
-                Utils.WriteColorLine(Inventory[i].info.Name, ConsoleColor.White);
-                
+                if (i < Inventory.Count)
+                {
+                    Utils.WriteColorLine(Inventory[i].info.Name, ConsoleColor.White);
+                }
+                else
+                {
+                    Utils.WriteColorLine("  나가기", ConsoleColor.Gray);
+                }
             }
         }
-        private void ItemSelect(Item selectedItem)
+        private void ItemSelect(Item selectedItem)//아이템 장착 메서드
         {
             Utils.WriteColorLine($"\n {selectedItem.info.Name}가 선택되었습니다.", ConsoleColor.DarkYellow);
         }
@@ -88,8 +101,8 @@ namespace SIX_Text_RPG.Scenes
         private void MakeItem()
         {
             Inventory.Add(SetItem("찌르기 클로"));
-            Inventory.Add(SetItem("롱기누스의 손가락"));
-            Inventory.Add(SetItem("강철 손가락"));
+            Inventory.Add(SetItem("  롱기누스의 손가락"));
+            Inventory.Add(SetItem("  강철 손가락"));
         }
 
         private Item SetItem(string name)
