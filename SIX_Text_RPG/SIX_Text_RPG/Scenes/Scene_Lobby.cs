@@ -14,10 +14,10 @@
                 "\n #########    ##       ##     ## ##     ##  ##  ## ## ## ##   #### ##       ##       ##     ## ########     #########" +
                 "\n   ## ##      ##       ##     ## ##     ##  ##  ##  #### ##    ##  ##       ##       ##     ## ##     ##      ## ##  " +
                 "\n  ##   ##     ##    ## ##     ## ##     ##  ##  ##   ### ##    ##  ##    ## ##       ##     ## ##     ##     ##   ## " +
-                "\n               ######   #######  ########  #### ##    ##  ######    ######  ########  #######  ########\n";
-            
+                "\n               ######   #######  ########  #### ##    ##  ######    ######  ########  #######  ########            \n";
+
             Menu.Add("상태 보기");
-            Menu.Add("튜터 ZONE");
+            Menu.Add("시간 보기");
             zeroText = "게임 종료";
         }
 
@@ -26,11 +26,10 @@
             switch (base.Update())
             {
                 case 1:
-                    GameManager.Instance.DisplayGround();
                     Program.CurrentScene = new Scene_PlayerInfo();
                     break;
                 case 2:
-                    Program.CurrentScene = new Scene_BattleStart();
+                    Program.CurrentScene = new Scene_DungeonLobby();
                     break;
                 case 3:
                     Program.CurrentScene = new Scene_Store();

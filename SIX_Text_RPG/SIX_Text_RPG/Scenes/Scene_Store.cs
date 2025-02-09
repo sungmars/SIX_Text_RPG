@@ -31,7 +31,7 @@ namespace SIX_Text_RPG.Scenes
         private string[,] item =
         {
             {"" }
-        }
+        };
 
 
 
@@ -45,6 +45,7 @@ namespace SIX_Text_RPG.Scenes
             Menu.Add("도?박");
 
             sceneTitle = "수상한 매니저님 방";
+
             sceneInfo = "수상한..? 자세히보니 수상한이 아니라 송승환 매니저님이라 적혀있습니다...";
         }
 

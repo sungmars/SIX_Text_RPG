@@ -33,11 +33,13 @@
             char eye = Define.EYES_MONSTER[random.Next(0, Define.EYES_MONSTER.Length)];
             char nose = Define.FACES[random.Next(0, Define.FACES.Length)];
             graphic = $"({eye}{nose}{eye}) ";
+            graphic_Hit = $"(>{nose}<) ";
         }
 
         public MonsterType Type { get; private set; }
 
         private readonly string graphic;
+        private readonly string graphic_Hit;
 
         //몬스터 정보 출력
         public void DisplayMonster()
@@ -45,11 +47,11 @@
             if (IsDead)
             {
                 //몬스터가 죽었을 때 컬러 (의논 필요)
-                Console.WriteLine($" Lv.{Stats.Level} {Stats.Name} Dead");
+                Console.WriteLine($" Lv.{Stats.Level:00} {Stats.Name} Dead");
             }
             else
             {
-                Console.Write($" Lv.{Stats.Level} {Stats.Name}  ");
+                Console.Write($" Lv.{Stats.Level:00} {Stats.Name}  ");
             }
         }
 
@@ -57,12 +59,14 @@
         {
             Console.SetCursorPosition(Position.X, Position.Y);
             Console.Write(graphic);
+            Utils.WriteColor($"{Stats.Name} ", ConsoleColor.DarkCyan);
+            Display_HPBar();
         }
 
         public void Render_Hit()
         {
             Console.SetCursorPosition(Position.X, Position.Y);
-            Utils.WriteColor(graphic, ConsoleColor.Red);
+            Utils.WriteColor(graphic_Hit, ConsoleColor.Red);
             Thread.Sleep(200);
 
             Render();

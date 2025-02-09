@@ -1,6 +1,6 @@
-﻿using System.Numerics;
+using System.Numerics;
 
-namespace SIX_Text_RPG.Item
+﻿namespace SIX_Text_RPG
 {
     public struct ItemInfo
     {

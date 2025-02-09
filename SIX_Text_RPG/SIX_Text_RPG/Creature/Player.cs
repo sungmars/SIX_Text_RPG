@@ -11,17 +11,23 @@ namespace SIX_Text_RPG
 
     internal class Player : Creature
     {
-        public Player(PlayerType type) : base()
+        public Player(PlayerType type)
         {
             Type = type;
 
             Stats stats = Define.PLAYERS_STATS[(int)type];
             stats.Name = Scene_CreatePlayer.PlayerName;
+            stats.MaxEXP = Define.PLAYER_EXP_TABLE[stats.Level - 1];
             stats.MaxHP = stats.HP;
+            stats.MaxMP = stats.MP;
             Stats = stats;
         }
 
         public PlayerType Type { get; private set; }
+
+        public int EXPBarY { get; private set; } = 0;
+        public int HPBarY { get; private set; } = 0;
+        public int MPBarY { get; private set; } = 0;
 
         public char Graphic_Weapon { get; private set; } = 'つ';
 
@@ -43,15 +49,34 @@ namespace SIX_Text_RPG
 
             Console.Write($" 경험치: ");
             Display_EXPBar();
-            Console.WriteLine($" {Stats.HP}/{Stats.MaxHP}");
+            int test = Console.CursorLeft;
+            Console.WriteLine($" {Stats.EXP}/{Stats.MaxEXP}");
 
             Console.Write($" 체  력: ");
-            Display_HealthBar();
-            Console.WriteLine($" {Stats.HP}/{Stats.MaxHP}");
+            Display_HPBar();
+            Console.WriteLine($" {Stats.HP:F0}/{Stats.MaxHP:F0}");
 
             Console.Write($" 마  력: ");
-            Display_ManaBar();
-            Console.WriteLine($" {Stats.HP}/{Stats.MaxHP}\n");
+            Display_MPBar();
+            Console.WriteLine($" {Stats.MP:F0}/{Stats.MaxMP:F0}\n");
+        }
+
+        public override void Display_EXPBar()
+        {
+            base.Display_EXPBar();
+            EXPBarY = Console.CursorTop;
+        }
+
+        public override void Display_HPBar()
+        {
+            base.Display_HPBar();
+            HPBarY = Console.CursorTop;
+        }
+
+        public override void Display_MPBar()
+        {
+            base.Display_MPBar();
+            MPBarY = Console.CursorTop;
         }
 
         public void DisplayInfo_Gold()
