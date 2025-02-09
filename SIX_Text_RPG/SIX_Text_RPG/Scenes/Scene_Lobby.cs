@@ -166,21 +166,22 @@
             switch (base.Update())
             {
                 case 1:
-                    GameManager.Instance.CurrentStage = 3;
-                    Display_ClockAnim(2059);
-                    //Program.CurrentScene = new Scene_LevelUp();
+                    Program.CurrentScene = new Scene_LevelUp();
                     break;
                 case 2:
+                    Program.CurrentScene = new Scene_Inventory();
+                    break;
+                case 3:
+                    Program.CurrentScene = new Scene_Store();
+                    break;
+                case 4:
                     // TODO: 팀 스크럼때, 주석 해제
                     Utils.WriteAnim($"튜터님께 걸어가는 중...");
                     Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
                     Utils.WriteAnim("탈것이 없어 시간이 지체되는 중...");
                     Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
                     Utils.WriteAnim("뚜벅. 뚜벅. 뚜벅. 뚜벅.");
-                    Program.CurrentScene = new Scene_BattleStart();
-                    break;
-                case 3:
-                    Program.CurrentScene = new Scene_Store();
+                    Program.CurrentScene = new Scene_BattleLobby();
                     break;
                 case 0:
                     Utils.Quit();
@@ -203,7 +204,7 @@
             Display_Clock(currentStage == 4 ? ConsoleColor.Red : ConsoleColor.Green);
 
             Console.ForegroundColor = currentStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkCyan;
-            Utils.WriteAnim(NOTICE[currentStage], ConsoleColor.DarkCyan);
+            Utils.WriteAnim(NOTICE[currentStage], currentStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkCyan);
             Console.ResetColor();
         }
 

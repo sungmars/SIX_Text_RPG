@@ -20,22 +20,7 @@ namespace SIX_Text_RPG
             Console.SetCursorPosition(left, top);
         }
 
-        public static void DisplayLine()
-        {
-            int x = 0;
-            int y = Console.CursorTop;
-            Console.SetCursorPosition(x, y + 1);
-
-            int width = Console.WindowWidth;
-            while (x < width)
-            {
-                Console.Write("〓");
-                x += 2;
-            }
-            Console.WriteLine();
-        }
-
-        public static void DisplayLineAnim()
+        public static void DisplayLine(bool hasAnim = false)
         {
             int x = 0;
             int y = Console.CursorTop;
@@ -47,7 +32,10 @@ namespace SIX_Text_RPG
                 Console.Write("〓");
                 x += 2;
 
-                Thread.Sleep(2);
+                if (hasAnim)
+                {
+                    Thread.Sleep(1);
+                }
             }
             Console.WriteLine();
         }

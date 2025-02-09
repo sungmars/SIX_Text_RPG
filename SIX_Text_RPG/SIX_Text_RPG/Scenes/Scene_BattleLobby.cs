@@ -1,6 +1,6 @@
 ﻿namespace SIX_Text_RPG.Scenes
 {
-    internal class Scene_BattleStart : Scene_DisplayBattle
+    internal class Scene_BattleLobby : Scene_Base
     {
 
         private readonly Random random = new Random();
@@ -10,7 +10,8 @@
         {
             base.Awake();
 
-            isSelectMonster = false;
+            hasZero = false;
+            sceneTitle = "튜터 ZONE";
 
             Menu.Add("공격");
 
