@@ -35,6 +35,23 @@ namespace SIX_Text_RPG
             Console.WriteLine();
         }
 
+        public static void DisplayLineAnim()
+        {
+            int x = 0;
+            int y = Console.CursorTop;
+            Console.SetCursorPosition(x, y + 1);
+
+            int width = Console.WindowWidth;
+            while (x < width)
+            {
+                Console.Write("〓");
+                x += 2;
+
+                Thread.Sleep(2);
+            }
+            Console.WriteLine();
+        }
+
         public static bool LuckyMethod(int percent)
         {
             return random.Next(1, 101) <= percent;
@@ -146,19 +163,33 @@ namespace SIX_Text_RPG
             }
         }
 
-        public static void WriteAnim(string value)
+        public static void WriteAnim(string value, ConsoleColor color = ConsoleColor.Gray)
         {
             (int left, int top) = Console.GetCursorPosition();
             Console.WriteLine();
             Console.SetCursorPosition(left, top);
 
-            char[] charArray = value.ToCharArray();
-            foreach (char c in charArray)
+            string[] texts = value.Split("name");
+            for (int i = 0; i < texts.Length; i++)
             {
-                Console.Write(c);
+                if (i > 0)
+                {
+                    char[] name = Scene_CreatePlayer.PlayerName.ToCharArray();
+                    foreach (char c in name)
+                    {
+                        WriteColor(c, ConsoleColor.DarkYellow);
+                        Thread.Sleep(20);
+                    }
+                }
 
-                int delay = c == '.' ? 200 : 50;
-                Thread.Sleep(delay);
+                char[] charArray = texts[i].ToCharArray();
+                foreach (char c in charArray)
+                {
+                    WriteColor(c, color);
+
+                    int delay = c == '.' ? 200 : 20;
+                    Thread.Sleep(delay);
+                }
             }
             Console.WriteLine();
 
@@ -177,17 +208,6 @@ namespace SIX_Text_RPG
             Console.ForegroundColor = color;
             Console.WriteLine(value);
             Console.ResetColor();
-        }
-
-        public static void WriteMenuLine(string value)
-        {
-            string[] texts = value.Split("\n");
-
-            Console.WriteLine(texts[0]);
-            for (int i = 1; i < texts.Length; i++)
-            {
-                WriteColorLine($"     {texts[i]}", ConsoleColor.DarkGray);
-            }
         }
 
         public static void WriteName(string value)

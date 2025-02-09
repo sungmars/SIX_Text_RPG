@@ -42,7 +42,7 @@
 
         protected override void Display()
         {
-            Utils.WriteColorLine(" 당신은 마계조단입니까?", ConsoleColor.DarkCyan);
+            Utils.WriteAnim(" 당신은 마계조단입니까?", ConsoleColor.DarkCyan);
         }
     }
 }

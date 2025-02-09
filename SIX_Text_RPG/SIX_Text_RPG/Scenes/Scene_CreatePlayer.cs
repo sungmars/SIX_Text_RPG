@@ -43,7 +43,7 @@
                 if (i == 1) PlayerName = answers[0];
 
                 Utils.WriteColorLine(" 윤수빈 매니저님", ConsoleColor.DarkCyan);
-                Utils.WriteName(questions[i]);
+                Utils.WriteAnim(questions[i]);
 
                 answers[i] = ReadLine();
                 Console.WriteLine();
@@ -51,7 +51,7 @@
 
             Utils.WriteAnim(" 플레이어 이름을 추첨 중입니다...");
 
-            Random random = new Random();
+            Random random = new();
             int randomIndex = random.Next(1, questions.Length);
             PlayerName = answers[randomIndex];
 
