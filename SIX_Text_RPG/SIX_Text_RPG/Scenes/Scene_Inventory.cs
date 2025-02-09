@@ -83,11 +83,13 @@ namespace SIX_Text_RPG.Scenes
         {
             Utils.WriteColorLine($"\n {selectedItem.info.Name}가 선택되었습니다.", ConsoleColor.DarkYellow);
         }
+        
         // 아래는 출력 시험하기 위해 추가한 코드
         private void MakeItem()
         {
-            Inventory.Add(SetItem("엑스칼리버"));
-            Inventory.Add(SetItem("아처 활"));
+            Inventory.Add(SetItem("찌르기 클로"));
+            Inventory.Add(SetItem("롱기누스의 손가락"));
+            Inventory.Add(SetItem("강철 손가락"));
         }
 
         private Item SetItem(string name)
