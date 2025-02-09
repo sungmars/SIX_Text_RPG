@@ -33,8 +33,10 @@ namespace SIX_Text_RPG
             contentLeft = left;
             contentTop = top;
 
-            Console.SetCursorPosition(left, top);
+            Console.SetCursorPosition(left - 3, top);
+            WriteColor("▶", ConsoleColor.DarkCyan);
 
+            Console.SetCursorPosition(left, top);
             for (int i = 0; i < CursorMenu.Count; i++)
             {
                 Console.SetCursorPosition(left, Console.CursorTop);
@@ -47,22 +49,27 @@ namespace SIX_Text_RPG
                     WriteColorLine(CursorMenu[i].Item1, ConsoleColor.Gray);
                 }
             }
-
-            Console.SetCursorPosition(left - 3, top);
-            WriteColor("▶", ConsoleColor.DarkCyan);
         }
 
-        public static void DisplayLine(bool hasAnim = false)
+        public static void DisplayLine(bool hasAnim = false, int secondLineTop = 0)
         {
-            int x = 0;
-            int y = Console.CursorTop;
-            Console.SetCursorPosition(x, y + 1);
-
             int width = Console.WindowWidth;
-            while (x < width)
+            int firstX = 0;
+            int firstY = Console.CursorTop + 1;
+            int secondX = width - 2;
+
+            while (firstX < width)
             {
+                Console.SetCursorPosition(firstX, firstY);
+                firstX += 2;
                 Console.Write("〓");
-                x += 2;
+
+                if (secondLineTop > 0)
+                {
+                    Console.SetCursorPosition(secondX, secondLineTop);
+                    secondX -= 2;
+                    Console.Write("〓");
+                }
 
                 if (hasAnim)
                 {
@@ -70,6 +77,8 @@ namespace SIX_Text_RPG
                 }
             }
             Console.WriteLine();
+
+            ClearBuffer();
         }
 
         public static bool LuckyMethod(int percent)
@@ -96,7 +105,7 @@ namespace SIX_Text_RPG
                 else if (input.Key == ConsoleKey.DownArrow)
                 {
                     Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
-                    Console.Write(' ');
+                    Console.Write("  ");
 
                     cursorIndex = Math.Min(cursorIndex + 1, CursorMenu.Count - 1);
                     Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);

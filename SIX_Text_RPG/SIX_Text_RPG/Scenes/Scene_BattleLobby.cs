@@ -9,36 +9,24 @@
         public override void Awake()
         {
             base.Awake();
-
             hasZero = false;
-            sceneTitle = "튜터 ZONE";
 
-            Menu.Add("공격");
+            Utils.CursorMenu.Add(("질문시작", () => Program.CurrentScene = new Scene_BattleMonsterSelect()));
+            Utils.CursorMenu.Add(("돌아가기", () => Program.CurrentScene = new Scene_Lobby()));
 
-            if(monsters.Count == 0)
+            if (monsters.Count == 0)
             {
                 MakeMonster();
             }
         }
 
-        public override int Update()
+        public override void LateStart()
         {
-            switch (base.Update())
-            {
-                case 1:
-                    Program.CurrentScene = new Scene_BattleMonsterSelect();
-                    break;
-            }
-
-            return 0;
+            base.LateStart();
+            Utils.DisplayCursorMenu(5, 16);
         }
 
-        protected override void Display()
-        {
-            base.Display();
-        }
-
-        // 랜덤 1-4명의 몬스터 생성
+        // 랜덤 2-4명의 몬스터 생성
         private void MakeMonster()
         {
             if (monsters.Count > 0)
@@ -46,7 +34,7 @@
                 return;
             }
 
-            int monsterCount = random.Next(1, 5);
+            int monsterCount = random.Next(2, 5);
             for (int i = 0; i < monsterCount; i++)
             {
                 monsters.Add(SetMonster(random.Next(1, 13)));

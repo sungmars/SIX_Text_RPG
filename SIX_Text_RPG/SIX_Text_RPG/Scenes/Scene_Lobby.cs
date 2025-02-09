@@ -176,11 +176,11 @@
                     break;
                 case 4:
                     // TODO: 팀 스크럼때, 주석 해제
-                    Utils.WriteAnim($"튜터님께 걸어가는 중...");
-                    Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
-                    Utils.WriteAnim("탈것이 없어 시간이 지체되는 중...");
-                    Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
-                    Utils.WriteAnim("뚜벅. 뚜벅. 뚜벅. 뚜벅.");
+                    //Utils.WriteAnim($"튜터님께 걸어가는 중...");
+                    //Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
+                    //Utils.WriteAnim("탈것이 없어 시간이 지체되는 중...");
+                    //Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
+                    //Utils.WriteAnim("뚜벅. 뚜벅. 뚜벅. 뚜벅.");
                     Program.CurrentScene = new Scene_BattleLobby();
                     break;
                 case 0:
