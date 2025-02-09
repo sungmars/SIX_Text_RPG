@@ -4,8 +4,15 @@ namespace SIX_Text_RPG
 {
     internal class Utils
     {
-        private static readonly int statusBarX = 29;
+        private static readonly int STATUS_BAR_X = 29;
+
+        public static List<(string, Action)> CursorMenu { get; private set; } = new();
+
         private static readonly Random random = new();
+
+        private static int cursorIndex;
+        private static int contentLeft;
+        private static int contentTop;
 
         public static void ClearBuffer()
         {
@@ -18,6 +25,24 @@ namespace SIX_Text_RPG
             Console.SetCursorPosition(left, top);
             Console.Write(new string(' ', Console.WindowWidth - left));
             Console.SetCursorPosition(left, top);
+        }
+
+        public static void DisplayCursorMenu(int left, int top)
+        {
+            cursorIndex = 0;
+            contentLeft = left;
+            contentTop = top;
+
+            Console.SetCursorPosition(left, top);
+
+            foreach (var item in CursorMenu)
+            {
+                Console.SetCursorPosition(left, Console.CursorTop);
+                WriteColorLine(item.Item1, ConsoleColor.White);
+            }
+
+            Console.SetCursorPosition(left - 3, top);
+            WriteColor("▶", ConsoleColor.DarkCyan);
         }
 
         public static void DisplayLine(bool hasAnim = false)
@@ -43,6 +68,76 @@ namespace SIX_Text_RPG
         public static bool LuckyMethod(int percent)
         {
             return random.Next(1, 101) <= percent;
+        }
+
+        public static int ReadArrow()
+        {
+            int cursorLeft = contentLeft - 3;
+            while (true)
+            {
+                ConsoleKeyInfo input = Console.ReadKey(true);
+                if (input.Key == ConsoleKey.UpArrow)
+                {
+                    Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
+                    Console.Write(' ');
+
+                    cursorIndex = Math.Max(cursorIndex - 1, 0);
+                    Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
+                    WriteColor("▶", ConsoleColor.DarkCyan);
+                }
+
+                else if (input.Key == ConsoleKey.DownArrow)
+                {
+                    Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
+                    Console.Write(' ');
+
+                    cursorIndex = Math.Min(cursorIndex + 1, CursorMenu.Count - 1);
+                    Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
+                    WriteColor("▶", ConsoleColor.DarkCyan);
+                }
+
+                else if (input.Key == ConsoleKey.Enter)
+                {
+                    CursorMenu[cursorIndex].Item2?.Invoke();
+                    break;
+                }
+            }
+
+            return 0;
+        }
+
+        public static int ReadIndex(bool hasZero = true)
+        {
+            while (true)
+            {
+                // 키 입력 받기
+                WriteColor("\n >> ", ConsoleColor.DarkYellow);
+                char input = Console.ReadKey(true).KeyChar;
+
+                // 정수인지 검사
+                if (char.IsDigit(input) == false)
+                {
+                    Console.Write(Define.ERROR_MESSAGE_INPUT);
+                    continue;
+                }
+
+                // 인덱스를 초과하는지 검사
+                int index = input - '0';
+                if (index > Program.CurrentScene.MenuCount)
+                {
+                    Console.Write(Define.ERROR_MESSAGE_INPUT);
+                    continue;
+                }
+
+                // 인덱스 0을 허용하는지 검사
+                if (hasZero == false && index == 0)
+                {
+                    Console.Write(Define.ERROR_MESSAGE_INPUT);
+                    continue;
+                }
+
+                return index;
+            }
         }
 
         public static void StatusAnim(int statusBarY, int amount)
@@ -101,7 +196,7 @@ namespace SIX_Text_RPG
             while (amount != 0 && value != 0 && value != maxValue)
             {
                 Thread.Sleep(20);
-                ClearLine(statusBarX, statusBarY);
+                ClearLine(STATUS_BAR_X, statusBarY);
 
                 Console.Write($" {currentValue} ");
                 WriteColor("-> ", ConsoleColor.DarkYellow);
@@ -115,40 +210,6 @@ namespace SIX_Text_RPG
 
             // 커서를 원래 위치로 돌려놓습니다.
             Console.SetCursorPosition(left, top);
-        }
-
-        public static int ReadIndex(bool hasZero = true)
-        {
-            while (true)
-            {
-                // 키 입력 받기
-                WriteColor("\n >> ", ConsoleColor.DarkYellow);
-                char input = Console.ReadKey(true).KeyChar;
-
-                // 정수인지 검사
-                if (char.IsDigit(input) == false)
-                {
-                    Console.Write(Define.ERROR_MESSAGE_INPUT);
-                    continue;
-                }
-
-                // 인덱스를 초과하는지 검사
-                int index = input - '0';
-                if (index > Program.CurrentScene.MenuCount)
-                {
-                    Console.Write(Define.ERROR_MESSAGE_INPUT);
-                    continue;
-                }
-
-                // 인덱스 0을 허용하는지 검사
-                if (hasZero == false && index == 0)
-                {
-                    Console.Write(Define.ERROR_MESSAGE_INPUT);
-                    continue;
-                }
-
-                return index;
-            }
         }
 
         public static void WriteAnim(string value, ConsoleColor color = ConsoleColor.Gray)

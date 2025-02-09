@@ -14,6 +14,7 @@
         public virtual void Awake()
         {
             Console.Clear();
+            Utils.CursorMenu.Clear();
         }
 
         public void Start()
@@ -36,18 +37,23 @@
 
         public void LateStart()
         {
-            if (Menu.Count == 0 && !hasZero)
+            if (Utils.CursorMenu.Count > 0)
             {
                 return;
             }
 
-            Display_Menu();
+            if (Menu.Count > 0 || hasZero)
+            {
+                Display_Menu();
+            }
+
             Utils.DisplayLine(true);
         }
 
         public virtual int Update()
         {
-            return Utils.ReadIndex(hasZero);
+            if (Utils.CursorMenu.Count > 0) return Utils.ReadArrow();
+            else return Utils.ReadIndex(hasZero);
         }
 
         protected abstract void Display();
