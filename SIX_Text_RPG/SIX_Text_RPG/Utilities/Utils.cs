@@ -35,10 +35,17 @@ namespace SIX_Text_RPG
 
             Console.SetCursorPosition(left, top);
 
-            foreach (var item in CursorMenu)
+            for (int i = 0; i < CursorMenu.Count; i++)
             {
                 Console.SetCursorPosition(left, Console.CursorTop);
-                WriteColorLine(item.Item1, ConsoleColor.White);
+                if (i == CursorMenu.Count - 1)
+                {
+                    WriteColorLine(CursorMenu[i].Item1, ConsoleColor.DarkGray);
+                }
+                else
+                {
+                    WriteColorLine(CursorMenu[i].Item1, ConsoleColor.Gray);
+                }
             }
 
             Console.SetCursorPosition(left - 3, top);

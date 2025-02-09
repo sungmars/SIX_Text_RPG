@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SIX_Text_RPG.Scenes
+﻿namespace SIX_Text_RPG.Scenes
 {
-    internal class Scene_BattleDisplay : Scene_Base
+    internal abstract class Scene_BattleDisplay : Scene_Base
     {
         private readonly int LEFT = 92;
         private readonly int TOP = 5;
@@ -33,15 +26,6 @@ namespace SIX_Text_RPG.Scenes
 
             hasZero = false;
             sceneTitle = "튜터 ZONE";
-            //sceneInfo =
-            //    "\n                 ####    ########        ###       ########    ########    ##          ########    ####  " +
-            //    "\n                 ####    ##     ##      ## ##         ##          ##       ##          ##          ####  " +
-            //    "\n                 ####    ##     ##     ##   ##        ##          ##       ##          ##          ####  " +
-            //    "\n                  ##     ########     ##     ##       ##          ##       ##          ######       ##   " +
-            //    "\n                         ##     ##    #########       ##          ##       ##          ##                " +
-            //    "\n                 ####    ##     ##    ##     ##       ##          ##       ##          ##          ####  " +
-            //    "\n                 ####    ########     ##     ##       ##          ##       ########    ########    ####\n";
-
         }
 
         public override int Update()
@@ -56,14 +40,13 @@ namespace SIX_Text_RPG.Scenes
                 return;
             }
 
-
             // 플레이어 정보 출력
             player.DisplayInfo_Status();
 
             // 커서위치 저장
             (int left, int top) = Console.GetCursorPosition();
 
-
+            // 라인 출력
             Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
             Utils.DisplayLine();
 
@@ -78,7 +61,7 @@ namespace SIX_Text_RPG.Scenes
             for (int i = 0; i < monsters.Count; i++)
             {
                 Console.SetCursorPosition(LEFT, TOP + i);
-                if(isSelectMonster)
+                if (isSelectMonster)
                 {
                     if (monsters[i].IsDead)
                     {
