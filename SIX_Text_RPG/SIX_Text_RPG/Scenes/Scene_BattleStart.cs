@@ -25,7 +25,7 @@
             switch (base.Update())
             {
                 case 1:
-                    Program.CurrentScene = new Scene_BattlePhase();
+                    Program.CurrentScene = new Scene_BattleMonsterSelect();
                     break;
             }
 

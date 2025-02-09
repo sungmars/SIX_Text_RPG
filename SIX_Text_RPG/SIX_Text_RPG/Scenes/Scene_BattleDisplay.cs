@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace SIX_Text_RPG.Scenes
 {
-    internal class Scene_DisplayBattle : Scene_Base
+    internal class Scene_BattleDisplay : Scene_Base
     {
         private readonly int LEFT = 92;
-        private readonly int TOP = 10;
+        private readonly int TOP = 4;
         private readonly string[] VERSUS =
         {
             " /$$    /$$  /$$$$$$   ",
@@ -46,7 +46,7 @@ namespace SIX_Text_RPG.Scenes
 
         public override int Update()
         {
-            return 0;
+            return base.Update();
         }
 
         protected override void Display()
@@ -96,4 +96,6 @@ namespace SIX_Text_RPG.Scenes
             Console.SetCursorPosition(left, top);
         }
     }
+
+
 }
