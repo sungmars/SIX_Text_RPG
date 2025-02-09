@@ -10,7 +10,7 @@ namespace SIX_Text_RPG.Scenes
     internal class Scene_BattleDisplay : Scene_Base
     {
         private readonly int LEFT = 92;
-        private readonly int TOP = 4;
+        private readonly int TOP = 5;
         private readonly string[] VERSUS =
         {
             " /$$    /$$  /$$$$$$   ",

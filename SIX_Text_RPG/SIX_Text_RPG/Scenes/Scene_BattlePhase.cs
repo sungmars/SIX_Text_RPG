@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 
 namespace SIX_Text_RPG.Scenes
 {
-    internal class Scene_BattlePhase : Scene_DisplayBattle
+    internal class Scene_BattlePhase : Scene_BattleDisplay
     {
 
         private Random random = new Random();
         private List<Monster> monsters = GameManager.Instance.Monsters;
         private Player? player = GameManager.Instance.Player;
-        private bool isPlayerPhase = true;
-
 
         private int selectMonsterNum = 0;
 
@@ -30,35 +28,40 @@ namespace SIX_Text_RPG.Scenes
         public override void Awake()
         {
             base.Awake();
-
+            isSelectMonster = false;
+            hasZero = false;
             zeroText = "다음";
         }
 
         public override int Update()
         {
+            hasZero = true;
+            if (PlayerPhase(selectMonsterNum))
+            {
+                Program.CurrentScene = new Scene_BattleResult(true);
+                return 0;
+            }
+            (left, top) = Console.GetCursorPosition();
+            Console.WriteLine($"\n [0] player{zeroText}");//player다음
             if (base.Update() == 0)
             {
-                if (isPlayerPhase)
+                MonsterPhase();
+                if (player != null && player.Stats.HP <= 0)
                 {
-                    if (PlayerPhase(selectMonsterNum))
-                    {
-                        Program.CurrentScene = new Scene_BattleResult(true);
-                        return 0;
-                    }
-                    return 1;
-                }
-                else
-                {
-                    MonsterPhase();
-                    if (player != null && player.Stats.HP <= 0)
-                    {
-                        // 플레이어 사망시 결과로
-                        Program.CurrentScene = new Scene_BattleResult(false);
-                        return 0;
-                    }
-                    Program.CurrentScene = new Scene_BattleStart();
+                    // 플레이어 사망시 결과로
+                    Program.CurrentScene = new Scene_BattleResult(false);
                     return 0;
                 }
+                Console.SetCursorPosition(left,top);
+                Console.WriteLine($"\n [0] monster{zeroText}");//monster다음
+                if (base.Update() == 0)
+                {
+                    Program.CurrentScene = new Scene_BattleLobby();
+                    return 0;
+                }
+                Program.CurrentScene = new Scene_BattleMonsterSelect();
+                return 0;
+                
             }
             else
             {
@@ -79,7 +82,7 @@ namespace SIX_Text_RPG.Scenes
                 return true;
             }
 
-            Console.SetCursorPosition(0, 18);
+            Console.SetCursorPosition(0, 16);
             GameManager.Instance.DisplayBattle(monsterNum, 6, () =>
             {
                 // 플레이어 공격
@@ -96,7 +99,7 @@ namespace SIX_Text_RPG.Scenes
             return true;
         }
 
-        public void MonsterPhase()
+        private void MonsterPhase()
         {
             if (player == null)
             {
@@ -112,7 +115,8 @@ namespace SIX_Text_RPG.Scenes
                 float damage = CalculateDamage(monster.Stats.ATK);
                 float beforeHP = player.Stats.HP;
                 player.Damaged(damage);
-                if(player.Stats.HP > 0)
+                Console.WriteLine(damage);
+                if (player.Stats.HP > 0)
                 {
                     GameManager.Instance.TotalDamage += damage;
                 }

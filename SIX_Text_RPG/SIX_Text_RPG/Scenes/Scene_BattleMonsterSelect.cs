@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SIX_Text_RPG.Scenes
 {
-    internal class Scene_BattleMonsterSelect : Scene_DisplayBattle
+    internal class Scene_BattleMonsterSelect : Scene_BattleDisplay
     {
 
         private Random random = new Random();
@@ -22,6 +22,8 @@ namespace SIX_Text_RPG.Scenes
         public override void Awake()
         {
             base.Awake();
+            isSelectMonster = true;
+            hasZero = true;
             if (isSelectPhase == true)//몬스터 선택 페이즈
             {
                 for (int i = 0; i < monsters.Count; i++)
@@ -35,14 +37,14 @@ namespace SIX_Text_RPG.Scenes
 
         public override int Update()
         {
-            int selectNum = 0;
-            switch(base.Update())
+            int selectNum = base.Update();
+            switch(selectNum)
             {
                 case 0:
-                    Program.CurrentScene = new Scene_BattleStart();
+                    Program.CurrentScene = new Scene_BattleLobby();
                     return 0;
                 default:
-                    Program.CurrentScene = new Scene_BattlePhase(selectNum - 1);
+                    Program.CurrentScene = new Scene_BattlePhase(selectNum-1);
                     return 0;
             }
         }
