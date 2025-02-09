@@ -42,7 +42,7 @@
             }
 
             Display_Menu();
-            Utils.DisplayLine();
+            Utils.DisplayLineAnim();
         }
 
         public virtual int Update()
@@ -63,7 +63,15 @@
                     continue;
                 }
 
-                Utils.WriteMenuLine($" [{i + 1}] {Menu[i]}");
+                string[] texts = Menu[i].Split('\n');
+                Console.WriteLine($" [{i + 1}] {texts[0]}");
+                Thread.Sleep(200);
+
+                for (int j = 1; j < texts.Length; j++)
+                {
+                    Console.Write("     ");
+                    Utils.WriteAnim(texts[j], ConsoleColor.DarkGray);
+                }
             }
 
             if (hasZero)
