@@ -42,7 +42,7 @@ namespace SIX_Text_RPG.Scenes
             sceneTitle = "수상한 매니저님 방";
             sceneInfo = "수상한..? 송승환..? 매니저님의 방. 뭔가 초성라임을 맞춘 것 같습니다...";
 
-            buying += Buy();
+            //buying += Buy();
         }
 
         public override int Update()

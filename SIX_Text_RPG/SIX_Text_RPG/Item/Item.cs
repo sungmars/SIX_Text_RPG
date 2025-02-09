@@ -1,4 +1,4 @@
-﻿namespace SIX_Text_RPG.Others
+﻿namespace SIX_Text_RPG
 {
     public enum Type
     {
@@ -28,7 +28,7 @@
 
     internal class Item
     {
-        public 
-        public Item(string name) 
+        //public 
+        //public Item(string name) 
     }
 }

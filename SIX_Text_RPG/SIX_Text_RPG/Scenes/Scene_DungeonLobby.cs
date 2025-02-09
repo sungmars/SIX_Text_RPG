@@ -2,7 +2,7 @@
 {
     internal class Scene_DungeonLobby : Scene_Base
     {
-        private readonly string[] clocks =
+        private readonly string[] clock =
         {
             "\n     000000000            999999999                      000000000            000000000     " +
             "\n   00:::::::::00        99:::::::::99                  00:::::::::00        00:::::::::00   " +
@@ -89,6 +89,10 @@
             "\n2::::::::::::::::::2    00:::::::::00                  55:::::::::55         9::::::9       " +
             "\n22222222222222222222      000000000                      555555555          99999999      \n"
     };
+        private readonly string[] notice =
+        {
+
+        };
 
         public override void Awake()
         {
@@ -100,7 +104,20 @@
 
         public override int Update()
         {
-            return base.Update();
+            switch (base.Update())
+            {
+                case 1:
+                    // TODO: 주석 해제
+                    Utils.WriteAnim($"튜터님께 걸어가는 중...");
+                    Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
+                    Utils.WriteAnim("탈것이 없어 시간이 지체되는 중...");
+                    Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
+                    Utils.WriteAnim("뚜벅. 뚜벅. 뚜벅. 뚜벅.");
+                    Program.CurrentScene = new Scene_BattleStart();
+                    break;
+            }
+
+            return 0;
         }
 
         protected override void Display()
