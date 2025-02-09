@@ -5,7 +5,6 @@
 
         private readonly Random random = new Random();
         private readonly List<Monster> monsters = GameManager.Instance.Monsters;
-        private Player? player = GameManager.Instance.Player;
 
         public override void Awake()
         {
