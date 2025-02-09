@@ -84,5 +84,35 @@ namespace SIX_Text_RPG
             Console.Write($" 소지금:");
             Utils.WriteColorLine($" {Stats.Gold:N0}G", ConsoleColor.Yellow);
         }
+
+        public void LevelUp()
+        {
+            Stats stats = Stats;
+
+            // 레벨 설정
+            stats.Level++;
+            if (stats.Level == Define.PLAYER_EXP_TABLE.Length)
+            {
+                stats.EXP = 0;
+                stats.MaxEXP = 0;
+            }
+            else
+            {
+                stats.EXP -= stats.MaxEXP;
+                stats.MaxEXP = Define.PLAYER_EXP_TABLE[stats.Level];
+            }
+
+            // 회복 보너스
+            stats.HP = stats.MaxHP;
+            stats.MP = stats.MaxMP;
+
+            // 스탯 설정
+            stats.ATK += 0.5f;
+            stats.DEF += 1;
+
+            // 레벨업 씬으로 이동
+            Stats = stats;
+            Program.CurrentScene = new Scene_LevelUp();
+        }
     }
 }

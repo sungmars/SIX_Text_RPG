@@ -12,9 +12,10 @@
 
         public Player? Player { get; set; }
 
-        public List<Item> Inventory { get; private set; } = new();
-        public List<Monster> Monsters { get; private set; } = new();
+        public List<Item> Inventory { get; private set; } = new(Define.INVENTORY_CAPACITY);
+        public List<Monster> Monsters { get; private set; } = new(Define.MONSTERS_CAPACITY);
 
+        public int CurrentStage { get; set; } = 0;
         public float TotalDamage { get; set; } = 0;
 
         private readonly Random random = new();
@@ -26,7 +27,7 @@
                 return;
             }
 
-            // TEST CODE
+            // TODO: TEST CODE, 팀 스크럼 이후 삭제
             if (Monsters.Count == 0)
             {
                 Monsters.Add(new(MonsterType.염예찬));
