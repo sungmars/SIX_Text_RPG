@@ -25,6 +25,10 @@ namespace SIX_Text_RPG
 
         public PlayerType Type { get; private set; }
 
+        public int EXPBarY { get; private set; } = 0;
+        public int HPBarY { get; private set; } = 0;
+        public int MPBarY { get; private set; } = 0;
+
         public char Graphic_Weapon { get; private set; } = 'つ';
 
         public void DisplayInfo()
@@ -60,19 +64,19 @@ namespace SIX_Text_RPG
         public override void Display_EXPBar()
         {
             base.Display_EXPBar();
-            Utils.EXPBarY = Console.CursorTop;
+            EXPBarY = Console.CursorTop;
         }
 
         public override void Display_HPBar()
         {
             base.Display_HPBar();
-            Utils.HPBarY = Console.CursorTop;
+            HPBarY = Console.CursorTop;
         }
 
         public override void Display_MPBar()
         {
             base.Display_MPBar();
-            Utils.MPBarY = Console.CursorTop;
+            MPBarY = Console.CursorTop;
         }
 
         public void DisplayInfo_Gold()
