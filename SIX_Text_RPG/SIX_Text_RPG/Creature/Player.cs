@@ -104,15 +104,56 @@ namespace SIX_Text_RPG
             Utils.WriteColorLine($" {Stats.Gold:N0}G", ConsoleColor.Yellow);
         }
 
-        public void Equip(IEquipable equipment)
+        public void Equip(IEquipable? equipment)
         {
-            var test = equipment as Accessory;
+            if (equipment == null)
+            {
+                return;
+            }
+
+            if (equipment is not Item item)
+            {
+                return;
+            }
+
+            Stats stats = Stats;
+            ItemInfo info = item.Iteminfo;
+
+            stats.ATK += info.ATK;
+            stats.DEF += info.DEF;
+            stats.MaxHP += info.MaxHP;
+            stats.MaxMP += info.MaxMP;
+
+            Stats = stats;
             equipments.Add(equipment);
         }
 
-        public void Unequip(IEquipable equipment)
+        public void Unequip(IEquipable? equipment)
         {
-            equipments.Remove(equipment);
+            if (equipment == null)
+            {
+                return;
+            }
+
+            if (equipment is not Item item)
+            {
+                return;
+            }
+
+            if (equipments.Remove(equipment))
+            {
+                return;
+            }
+
+            Stats stats = Stats;
+            ItemInfo info = item.Iteminfo;
+
+            stats.ATK -= info.ATK;
+            stats.DEF -= info.DEF;
+            stats.MaxHP -= info.MaxHP;
+            stats.MaxMP -= info.MaxMP;
+
+            Stats = stats;
         }
 
         public void LevelUp()
