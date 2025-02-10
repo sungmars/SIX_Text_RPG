@@ -10,9 +10,13 @@
             Utils.CursorMenu.Add(("새로운 찌르기", () => Program.CurrentScene = new Scene_CreatePlayer()));
             Utils.CursorMenu.Add(("익숙한 찌르기", () =>
             {
-                // TODO: 이어하기
-                Scene_CreatePlayer.PlayerName = "테스트플레이어";
-                GameManager.Instance.Player = new(PlayerType.천계조단);
+                Utils.WriteColor("\n\n\n >> ", ConsoleColor.DarkYellow);
+                if (DataManager.Instance.LoadData() == false)
+                {
+                    Console.ReadKey();
+                    return;
+                }
+
                 Program.CurrentScene = new Scene_Lobby();
             }
             ));
