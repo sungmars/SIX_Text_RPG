@@ -2,15 +2,19 @@
 {
     internal class Accessory : Item, IEquipable
     {
-        public Char Graphic { get; set; }
-        public Accessory(string name, string desciption, float hp, float maxhp, float mp, float maxmp, int atk, int def, int price, char graphic) : base(name, desciption, hp, maxhp, mp, maxmp, atk, def, price)
+        public Char Graphic { get; private set; }
+
+        public Accessory(ItemInfo iteminfo, char graphic) : base(iteminfo)
         {
             this.Graphic = graphic;
+            this.Type = ItemType.Accessory;
         }
+
+
 
         public void Equip()
         {
-            GetStatBool(ItemStat.IsEquip);
+            SetBool(ItemBool.IsEquip);
         }
     }
 }

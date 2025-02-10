@@ -158,6 +158,7 @@
             Menu.Add("매니저님 찾아가기 (상점)");
             Menu.Add("튜터님 찾아가기 (전투)");
             Menu.Add("캠 끄기 (휴식)");
+            Menu.Add("TIL 작성 (저장)");
             zeroText = "게임 종료";
         }
 
@@ -182,6 +183,11 @@
                     //Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
                     //Utils.WriteAnim("뚜벅. 뚜벅. 뚜벅. 뚜벅.");
                     Program.CurrentScene = new Scene_BattleLobby();
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    DataManager.Instance.SaveData();
                     break;
                 case 0:
                     Utils.Quit();
@@ -209,7 +215,7 @@
                 return;
             }
 
-            GameManager.Instance.CurrentStage++;
+            Display_ClockAnim(Define.TIMES[targetStage]);
             Utils.WriteAnim(NOTICE[targetStage], targetStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkCyan);
         }
 
@@ -231,6 +237,8 @@
 
         private void Display_ClockAnim(int targetTime)
         {
+            (int left, int top) = Console.GetCursorPosition();
+
             int minute = 0;
             while (targetTime > currentTime)
             {
@@ -248,7 +256,7 @@
             }
 
             GameManager.Instance.CurrentStage++;
-            Program.CurrentScene = new Scene_Lobby();
+            Console.SetCursorPosition(left, top);
         }
 
         private void Display_Number(int index, int number, ConsoleColor color)
