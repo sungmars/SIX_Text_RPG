@@ -11,12 +11,22 @@ namespace SIX_Text_RPG
 
     internal class Player : Creature
     {
+        #region StatusPosition
         private readonly int OFFSET_X = 11;
         private readonly int OFFSET_Y = 1;
         private readonly int STATUS_BAR_X = 30;
         private readonly int STATUS_GOLD_X = 9;
         private readonly int STATUS_LEVEL_X = 4;
         private readonly int STATUS_POWER_X = 9;
+
+        private int levelY;
+        private int expY;
+        private int hpY;
+        private int mpY;
+        private int atkY;
+        private int defY;
+        private int goldY;
+        #endregion
 
         public Player(PlayerType type)
         {
@@ -34,13 +44,7 @@ namespace SIX_Text_RPG
 
         public char Graphic_Weapon { get; private set; } = 'つ';
 
-        private int levelY;
-        private int expY;
-        private int hpY;
-        private int mpY;
-        private int atkY;
-        private int defY;
-        private int goldY;
+        private readonly List<IEquipable> equipments = new();
 
         public void DisplayInfo()
         {
@@ -98,6 +102,17 @@ namespace SIX_Text_RPG
             goldY = Console.CursorTop;
             Console.Write($" 소지금:");
             Utils.WriteColorLine($" {Stats.Gold:N0}G", ConsoleColor.Yellow);
+        }
+
+        public void Equip(IEquipable equipment)
+        {
+            var test = equipment as Accessory;
+            equipments.Add(equipment);
+        }
+
+        public void Unequip(IEquipable equipment)
+        {
+            equipments.Remove(equipment);
         }
 
         public void LevelUp()

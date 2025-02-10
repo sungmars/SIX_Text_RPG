@@ -11,6 +11,7 @@
 
         #region TEXTS
         public static readonly string GAME_TITLE = "스파게티 코딩클럽";
+        public static readonly string ERROR_MESSAGE_DATA = "[!] 저장된 데이터가 없습니다.";
         public static readonly string ERROR_MESSAGE_INPUT = "[!] 잘못된 입력입니다.";
         #endregion
 
@@ -61,6 +62,13 @@
         {
             "이제 돌아가세요.",
             "이해 하셨죠?",
+        };
+        #endregion
+
+        #region Items
+        public static readonly ItemInfo[] ITEM_INFOS =
+        {
+            new() { Name = "테스트", Description = "",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 0 },
         };
         #endregion
 

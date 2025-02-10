@@ -1,4 +1,6 @@
-﻿namespace SIX_Text_RPG
+﻿using SIX_Text_RPG.Scenes;
+
+namespace SIX_Text_RPG
 {
     internal class Armor : Item, IEquipable
     {

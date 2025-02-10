@@ -158,6 +158,7 @@
             Menu.Add("매니저님 찾아가기 (상점)");
             Menu.Add("튜터님 찾아가기 (전투)");
             Menu.Add("캠 끄기 (휴식)");
+            Menu.Add("TIL 작성 (저장)");
             zeroText = "게임 종료";
         }
 
@@ -182,6 +183,11 @@
                     //Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
                     //Utils.WriteAnim("뚜벅. 뚜벅. 뚜벅. 뚜벅.");
                     Program.CurrentScene = new Scene_BattleLobby();
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    DataManager.Instance.SaveData();
                     break;
                 case 0:
                     Utils.Quit();
