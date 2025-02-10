@@ -18,10 +18,10 @@ namespace SIX_Text_RPG
                     break;
                 case 0:
                     Program.CurrentScene = new Scene_Lobby();
-                    break;
+                    return 0;
             }
 
-            return 0;
+            return 1;
         }
 
         protected override void Display()

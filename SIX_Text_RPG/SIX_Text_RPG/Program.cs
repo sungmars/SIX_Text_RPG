@@ -4,10 +4,7 @@ namespace SIX_Text_RPG
 {
     internal class Program
     {
-        public static bool IsSameScene { get { return CurrentScene == PreviousScene; } }
-
         public static Scene_Base CurrentScene { get; set; } = new Scene_Title();
-        public static Scene_Base PreviousScene { get; set; } = CurrentScene;
 
         static void Main()
         {
