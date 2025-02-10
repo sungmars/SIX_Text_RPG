@@ -63,7 +63,7 @@ namespace SIX_Text_RPG
             Player player = GameManager.Instance.Player = new(type) { Stats = stats };
 
             // 아이템 정보 불러오기
-            for (int i = 2; i < jsonData.Length; i++)
+            for (int i = 2; i < jsonData.Length - 1; i++)
             {
                 ItemInfo info = JsonConvert.DeserializeObject<ItemInfo>(jsonData[i]);
             }
