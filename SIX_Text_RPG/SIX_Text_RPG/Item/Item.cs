@@ -65,14 +65,14 @@ using System.Numerics;
             ItemInfo temp = Iteminfo;
             if (ItemStat.IsSold == itemstat)
             {
-                temp.IsSold = true;
-                Iteminfo = temp;
+                temp.IsSold = !GetStatBool(itemstat);
+
             }
             else if (ItemStat.IsEquip == itemstat)
             {
-                temp.IsEquip = true;
-                Iteminfo = temp;
+                temp.IsEquip = !GetStatBool(itemstat);
             }
+            Iteminfo = temp;
         }
 
         //아이템의 string타입 정보 가져오기
