@@ -39,6 +39,7 @@ namespace SIX_Text_RPG.Scenes
             }
             else
             {
+               
                 // 인벤토리의 커서메뉴 추가
                 for (int i = 0; i < Inventory.Count; i++)
                 {
@@ -46,16 +47,24 @@ namespace SIX_Text_RPG.Scenes
 
                     string displayName = (selectItem.Iteminfo.IsEquip ? "[E]" : "") + selectItem.Iteminfo.Name;//상태에 따라 표시할 이름 생성
 
-                    //Utils.CursorMenu.Add((
-                    //    displayName, // 메뉴에 출력될 아이템 이름
-                    //    () =>
-                    //    {
-                    //        Console.Clear();
-                    //        //장착 상태에 따라 토글
-                    //        selectItem.SetBool(ItemStat.IsEquip);
-                    //    }
-                    //));
-
+                    Utils.CursorMenu.Add((
+                        displayName, // 메뉴에 출력될 아이템 이름
+                        () =>
+                        {
+                            Console.Clear();
+                            //장착 상태에 따라 토글
+                            IEquipable? equipable = selectItem as IEquipable;
+                            if (equipable != null)
+                            {
+                                equipable.Equip();
+                            }
+                            else
+                            {
+                                Console.WriteLine("착용불가한 아이템");
+                            }
+                        }
+                    ));
+                    
 
                 }
                 Utils.CursorMenu.Add((
