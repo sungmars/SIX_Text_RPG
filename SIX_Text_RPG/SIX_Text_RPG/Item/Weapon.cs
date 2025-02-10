@@ -9,16 +9,9 @@
             Graphic = graphic;
         }
 
-        void IEquipable.Equip()
+        public void Equip()
         {
-            if (GameManager.Instance.Player == null) return;
-
-            Player player = GameManager.Instance.Player;
-
-            player.SetStat(Stat.DEF, Iteminfo.DEF, true);
-            player.SetStat(Stat.ATK, Iteminfo.ATK, true);
-            player.SetStat(Stat.HP, Iteminfo.HP, true);
-            player.SetStat(Stat.MaxHP, Iteminfo.HP, true);
+            GetStatBool(ItemStat.IsEquip);
         }
     }
 }

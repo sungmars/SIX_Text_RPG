@@ -8,12 +8,9 @@
             this.Graphic = graphic;
         }
 
-        void IEquipable.Equip()
+        public void Equip()
         {
-            if (GameManager.Instance.Player == null) return;
-
-            Player player = GameManager.Instance.Player;
-            //장착 매서드 나오게 되면 사용하기
+            GetStatBool(ItemStat.IsEquip);
         }
     }
 }
