@@ -8,11 +8,15 @@
 
         public override void Awake()
         {
+            Console.Clear();
             base.Awake();
             hasZero = false;
 
             Utils.CursorMenu.Add(("질문시작", () => Program.CurrentScene = new Scene_BattleMonsterSelect()));
-            Utils.CursorMenu.Add(("돌아가기", () => Program.CurrentScene = new Scene_Lobby()));
+            Utils.CursorMenu.Add(("돌아가기", () => {
+                Program.CurrentScene = new Scene_Lobby();
+                Program.PreviousScene = Program.CurrentScene;
+            }));
 
             if (monsters.Count == 0)
             {
@@ -23,11 +27,23 @@
         public override void LateStart()
         {
             base.LateStart();
-            Utils.DisplayCursorMenu(5, 22);
         }
         protected override void Display()
         {
             base.Display();
+        }
+
+        public override int Update()
+        {
+            Utils.DisplayCursorMenu(5, 22);
+            if(base.Update() == 0)
+            {
+                Utils.ClearLine(0, 22);
+                Utils.ClearLine(0, 23);
+                Utils.CursorMenu.Clear();
+                return 0;
+            }
+            return 0;
         }
 
         // 랜덤 2-4명의 몬스터 생성

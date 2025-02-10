@@ -23,18 +23,16 @@ namespace SIX_Text_RPG.Scenes
         };
 
         private readonly Random random = new Random();
-        private readonly List<Monster> monsters = GameManager.Instance.Monsters;
+        protected List<Monster> monsters = GameManager.Instance.Monsters;
         private readonly Player? player = GameManager.Instance.Player;
 
         protected readonly int CURSORMENU_TOP = 22;
 
-        protected int selectMonsterNum = 0;
         protected bool isPlayAnim = false;
 
 
         public override void Awake()
         {
-            base.Awake();
             hasZero = false;
 
             Utils.WriteColorLine("\n 질문 VS 피드백\n\n", ConsoleColor.DarkYellow);
@@ -43,7 +41,10 @@ namespace SIX_Text_RPG.Scenes
         public override void LateStart()
         {
             base.LateStart();
-            Utils.DisplayLine(true, 3);
+            Console.WriteLine();
+
+
+            Program.PreviousScene = Program.CurrentScene;
         }
 
         public override int Update()
@@ -59,9 +60,13 @@ namespace SIX_Text_RPG.Scenes
                 return;
             }
 
+            WaitDisplay();
+
             // 플레이어 정보 출력
-            Console.SetCursorPosition(0, Console.CursorTop + 1);
+            Console.SetCursorPosition(0, 5);
             player.DisplayInfo_Status();
+
+            WaitDisplay();
 
             // 현재 커서위치 저장
             (int left, int top) = Console.GetCursorPosition();
@@ -73,38 +78,37 @@ namespace SIX_Text_RPG.Scenes
                 Utils.WriteColorLine(VERSUS[i], i > 2 ? ConsoleColor.DarkRed : ConsoleColor.Red);
             }
 
-            if(!isPlayAnim)
-            {
-                Thread.Sleep(500);
-            }
 
             // 모든 몬스터 정보 출력
             for (int i = 0; i < monsters.Count; i++)
             {
-                if (!isPlayAnim)
-                {
-                    Thread.Sleep(500);
-                }
+                WaitDisplay();
 
                 Console.SetCursorPosition(LEFT, TOP + 6 - i);
                 monsters[i].DisplayMonster();
             }
 
-            if (!isPlayAnim)
-            {
-                Thread.Sleep(500);
-            }
+            WaitDisplay();
 
             Console.WriteLine();
 
             // 커서 위치 초기화
             Console.SetCursorPosition(left, top);
+            
+            Console.WriteLine();
 
+            Utils.DisplayLine(!(Program.PreviousScene is Scene_BattleScene), 3);
+            
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
             GameManager.Instance.DisplayBattle();
 
         }
 
-        protected bool PlayerPhase()
+        protected bool PlayerPhase(int selectMonsterNum)
         {
 
             if (player == null)
@@ -181,43 +185,11 @@ namespace SIX_Text_RPG.Scenes
             return atk + ((atk * percent) / 100.0f);
         }
 
-        protected void DisplayBattleGround()
+        private void WaitDisplay()
         {
-            // 전투장면 출력
-           
-        }
-
-        private void DisplayGround()
-        {
-            if (player == null)
+            if (!(Program.PreviousScene is Scene_BattleScene))
             {
-                return;
-            }
-            int top = Console.CursorTop - 1;
-            for (int i = 0; i < 4; i++)
-            {
-                Utils.ClearLine(0, top + i);
-            }
-
-            Console.SetCursorPosition(0, top);
-            Console.WriteLine(" (´◎ω◎)");
-            Console.Write(" (       つ");
-            player.SetPosition(Console.CursorLeft, Console.CursorTop);
-
-            Console.WriteLine();
-            Utils.ClearLine(0, Console.CursorTop);
-            Console.WriteLine();
-
-        }
-
-        private void DisplayBatte_Monsters()
-        {
-            int top = Console.CursorTop - 3;
-            for (int i = 0; i < monsters.Count; i++)
-            {
-                monsters[i].SetPosition(monsters[i].Position.X, top);
-                Console.SetCursorPosition(monsters[i].Position.X, top++);
-                monsters[i].Render();
+                Thread.Sleep(400);
             }
         }
 
