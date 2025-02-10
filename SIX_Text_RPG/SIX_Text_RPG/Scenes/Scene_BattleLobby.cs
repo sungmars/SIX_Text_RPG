@@ -1,6 +1,6 @@
 ﻿namespace SIX_Text_RPG.Scenes
 {
-    internal class Scene_BattleLobby : Scene_BattleDisplay
+    internal class Scene_BattleLobby : Scene_BattleScene
     {
 
         private readonly Random random = new Random();
