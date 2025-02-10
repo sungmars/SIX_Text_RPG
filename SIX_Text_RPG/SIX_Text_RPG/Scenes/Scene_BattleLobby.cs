@@ -30,7 +30,8 @@
         }
         protected override void Display()
         {
-            base.Display();
+            DisplayBattleVS();
+            GameManager.Instance.DisplayBattle();
         }
 
         public override int Update()
