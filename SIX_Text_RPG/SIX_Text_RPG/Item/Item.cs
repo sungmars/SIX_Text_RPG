@@ -9,6 +9,14 @@ using System.Numerics;
         IsEquip
     }
 
+    public enum ItemType
+    {
+        Armor,
+        Accessory,
+        Potion,
+        Weapon
+    };
+
     public struct ItemInfo
     {
         public string Name { get; set; }
@@ -31,24 +39,13 @@ using System.Numerics;
     internal abstract class Item
     {
         public ItemInfo Iteminfo { get; private set; }
+        public ItemType Type { get; protected set; }
 
-        public Item(string name, string desciption, float hp, float maxhp, float mp, float maxmp, int atk, int def,int price)
+        public Item(ItemInfo iteminfo)
         {
-            Iteminfo = new ItemInfo()
-            {
-                Name = name,
-                Description = desciption,
-                HP = hp,
-                MaxHP = maxhp,
-                MP = mp,
-                MaxMP = maxmp,
-                ATK = atk,
-                DEF = def,
-                Price = price,
-                IsSold = false,
-                IsEquip = false
-            };
+            Iteminfo = iteminfo;
         }
+
 
         //아이템의 bool타입 정보 수정하는 것
         public void SetBool(ItemBool itemstat)

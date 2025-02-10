@@ -2,8 +2,9 @@
 {
     internal class Armor : Item, IEquipable
     {
-        public Armor(string name, string desciption, float hp, float maxhp, float mp, float maxmp, int atk, int def, int price) : base(name, desciption, hp, maxhp, mp, maxmp, atk, def, price)
+        public Armor(ItemInfo iteminfo) : base(iteminfo)
         {
+            this.Type = ItemType.Armor;
         }
 
         public void Equip()
