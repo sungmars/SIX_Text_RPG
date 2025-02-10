@@ -11,7 +11,7 @@
 
         public void Equip()
         {
-            GetStatBool(ItemStat.IsEquip);
+            SetBool(ItemBool.IsEquip);
         }
     }
 }
