@@ -3,17 +3,8 @@ using System.Numerics;
 
 ﻿namespace SIX_Text_RPG
 {
-    enum ItemStat
+    enum ItemBool
     {
-        Name,
-        Description,
-        HP,
-        MaxHP,
-        MP,
-        MaxMP,
-        ATK,
-        DEF,
-        Price,
         IsSold,
         IsEquip
     }
@@ -60,101 +51,18 @@ using System.Numerics;
         }
 
         //아이템의 bool타입 정보 수정하는 것
-        protected void SetBool(ItemStat itemstat)
+        public void SetBool(ItemBool itemstat)
         {
             ItemInfo temp = Iteminfo;
-            if (ItemStat.IsSold == itemstat)
+            if (ItemBool.IsSold == itemstat)
             {
-                temp.IsSold = !GetStatBool(itemstat);
-
+                temp.IsSold = !Iteminfo.IsSold;
             }
-            else if (ItemStat.IsEquip == itemstat)
+            else if (ItemBool.IsEquip == itemstat)
             {
-                temp.IsEquip = !GetStatBool(itemstat);
+                temp.IsEquip = Iteminfo.IsEquip;
             }
             Iteminfo = temp;
-        }
-
-        //아이템의 string타입 정보 가져오기
-        public string GetStatString(ItemStat itemstat)
-        {
-            string value = "";
-            switch (itemstat)
-            {
-                case ItemStat.Name:
-                    value = Iteminfo.Name;
-                    break;
-
-                case ItemStat.Description:
-                    value = Iteminfo.Description;
-                    break;
-            }
-            return value;
-
-        }
-
-        //아이템의 int타입 정보 가져오기
-        public int GetStatInt(ItemStat itemstat)
-        {
-            int value = -1;
-            switch (itemstat)
-            {
-                case ItemStat.DEF:
-                    value = Iteminfo.DEF;
-                    break;
-
-                case ItemStat.ATK:
-                    value = Iteminfo.ATK;
-                    break;
-
-                case ItemStat.Price:
-                    value = Iteminfo.Price;
-                    break;
-                    
-            }
-            return value;
-        }
-
-        //아이템의 float타입 정보 가져오기
-        public float GetStatFloat(ItemStat itemstat)
-        {
-            float value = -999f;
-            switch (itemstat)
-            {
-                case ItemStat.MaxHP:
-                    value = Iteminfo.MaxHP;
-                    break;
-
-                case ItemStat.HP:
-                    value = Iteminfo.HP;
-                    break;
-
-                case ItemStat.MaxMP:
-                    value = Iteminfo.MaxMP;
-                    break;
-
-                case ItemStat.MP:
-                    value = Iteminfo.MP;
-                    break;
-            }
-            return value;
-        }
-
-        //아이템의 bool타입 정보 가져오기
-        public bool GetStatBool(ItemStat itemstat)
-        {
-            bool value = false;
-            switch (itemstat)
-            {
-                case ItemStat.IsSold:
-                    value = Iteminfo.IsSold;
-                    break;
-
-                case ItemStat.IsEquip:
-                    value = Iteminfo.IsEquip;
-                    break;
-            }
-            return value;
         }
     }
 }
