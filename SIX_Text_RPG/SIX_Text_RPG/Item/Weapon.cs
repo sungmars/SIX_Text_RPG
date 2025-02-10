@@ -2,12 +2,15 @@
 {
     internal class Weapon : Item, IEquipable
     {
-        public char Graphic { get; set; }
-        
-        public Weapon(string name, string desciption, float hp, float maxhp, float mp, float maxmp, int atk, int def, int price, char graphic) : base(name, desciption, hp, maxhp, mp, maxmp, atk, def, price)
+        public char Graphic { get; private set; }
+
+        public Weapon(ItemInfo iteminfo, char graphic) : base(iteminfo)
         {
-            Graphic = graphic;
+            this.Graphic = graphic;
+            this.Type = ItemType.Accessory;
         }
+
+
 
         public void Equip()
         {
