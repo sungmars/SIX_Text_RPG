@@ -21,7 +21,7 @@
 
         private readonly Random random = new();
 
-        public void DisplayBattle(int targetIndex, int attackCount = 1, Action? onHit = null)
+        public void DisplayBattle()
         {
             if (Player == null)
             {
@@ -33,8 +33,6 @@
             (int left, int top) = Console.GetCursorPosition();
 
             DisplayBatte_Monsters();
-            DisplayBattle_Damage(() => { }, () => { });
-            //DisplayBattle_Attack(targetIndex, attackCount, onHit);
 
             Console.SetCursorPosition(left, top);
             Utils.ClearBuffer();
@@ -173,7 +171,7 @@
                     {
                         // Hit 애니메이션과 onHit 콜백을 호출합니다.
                         onDamage[i]?.Invoke();
-                        Player.Render_Hit();
+                        //play.Render_Hit();
                     }
 
                     // 투사체를 렌더링합니다.
