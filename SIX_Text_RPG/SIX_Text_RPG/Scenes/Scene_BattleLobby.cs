@@ -1,6 +1,6 @@
 ﻿namespace SIX_Text_RPG.Scenes
 {
-    internal class Scene_BattleLobby : Scene_BattleDisplay
+    internal class Scene_BattleLobby : Scene_BattleScene
     {
 
         private readonly Random random = new Random();
@@ -23,7 +23,11 @@
         public override void LateStart()
         {
             base.LateStart();
-            Utils.DisplayCursorMenu(5, 16);
+            Utils.DisplayCursorMenu(5, 22);
+        }
+        protected override void Display()
+        {
+            base.Display();
         }
 
         // 랜덤 2-4명의 몬스터 생성
