@@ -73,19 +73,20 @@ namespace SIX_Text_RPG.Scenes
 
 
             //무기 아이템
-            SetItem(ItemType.Weapon, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 20f, 0f, 0f, 0f, 0, 0, 0);
-            SetItem(ItemType.Weapon, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 20f, 0f, 0f, 0f, 0, 0, 0);
-            SetItem(ItemType.Weapon, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 20f, 0f, 0f, 0f, 0, 0, 0);
-            SetItem(ItemType.Weapon, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 20f, 0f, 0f, 0f, 0, 0, 0);
-            SetItem(ItemType.Weapon, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 20f, 0f, 0f, 0f, 0, 0, 0);
+            SetItem(ItemType.Weapon, "강력한 손가락", "체력을 기존보다 20만큼 회복시켜줍니다.", 0f, 0f, 0f, 0f, 0, 5, 0, '☞');
+            SetItem(ItemType.Weapon, "펀치", "체력을 기존보다 20만큼 회복시켜줍니다.", 20f, 0f, 0f, 0f, 0, 10, 0, ' ');
+            SetItem(ItemType.Weapon, "물풍선", "추운겨울 튜터님을 시원하게 얼려보아요.", 20f, 0f, 0f, 0f, 0, 0, 0, 'ㄹ');
+            SetItem(ItemType.Weapon, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 20f, 0f, 0f, 0f, 0, 0, 0, ' ');
+            SetItem(ItemType.Weapon, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 20f, 0f, 0f, 0f, 0, 0, 0, ' ');
 
 
             //악세서리 아이템
-            SetItem(ItemType.Accessory, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 20f, 0f, 0f, 0f, 0, 0, 0);
-            SetItem(ItemType.Accessory, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 20f, 0f, 0f, 0f, 0, 0, 0);
-            SetItem(ItemType.Accessory, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 20f, 0f, 0f, 0f, 0, 0, 0);
-            SetItem(ItemType.Accessory, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 20f, 0f, 0f, 0f, 0, 0, 0);
-            SetItem(ItemType.Accessory, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 20f, 0f, 0f, 0f, 0, 0, 0);
+            SetItem(ItemType.Accessory, "강력한 손가락", "보기만해도 따끔합니다..", 0f, 0f, 0f, 0f, 0, 0, 0, '☞');
+            SetItem(ItemType.Accessory, "펀치", "", 0f, 0f, 0f, 0f, 0, 0, 0, '▶');
+            SetItem(ItemType.Accessory, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 0f, 0f, 0f, 0f, 0, 0, 0, ' ');
+            SetItem(ItemType.Accessory, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 0f, 0f, 0f, 0f, 0, 0, 0, ' ');
+            SetItem(ItemType.Accessory, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 0f, 0f, 0f, 0f, 0, 0, 0, ' ');
+            SetItem(ItemType.Accessory, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 0f, 0f, 0f, 0f, 0, 0, 0, ' ');
         }
 
         public override int Update()
