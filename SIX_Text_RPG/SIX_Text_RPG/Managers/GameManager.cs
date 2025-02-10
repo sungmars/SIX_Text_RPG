@@ -21,7 +21,7 @@
 
         private readonly Random random = new();
 
-        public void DisplayBattle(int targetIndex, int attackCount = 1, Action? onHit = null)
+        public void DisplayBattle()
         {
             if (Player == null)
             {
@@ -33,14 +33,12 @@
             (int left, int top) = Console.GetCursorPosition();
 
             DisplayBatte_Monsters();
-            DisplayBattle_Damage(() => { }, () => { });
-            //DisplayBattle_Attack(targetIndex, attackCount, onHit);
 
             Console.SetCursorPosition(left, top);
             Utils.ClearBuffer();
         }
 
-        private void DisplayBattle_Attack(int targetIndex, int attackCount, Action? onHit)
+        public void DisplayBattle_Attack(int targetIndex, int attackCount, Action? onHit)
         {
             if (Player == null)
             {
@@ -126,7 +124,7 @@
             }
         }
 
-        private void DisplayBattle_Damage(params Action[] onDamage)
+        public void DisplayBattle_Damage(params Action[] onDamage)
         {
             if (Player == null)
             {
@@ -149,20 +147,32 @@
             int[] count = new int[monsterCount];  // 공백은 1글자로 취급되기 때문에 글자간 공백을 맞추기 위해 공백 숫자를 저장해둘 변수입니다.
             int[] randomIndex = new int[monsterCount];
             char[][] charArray = new char[monsterCount][];
+            int maxLength = 0;  // charArray 중 가장 긴 문자열을 확인합니다.
             for (int i = 0; i < randomIndex.Length; i++)
             {
                 randomIndex[i] = random.Next(0, Define.MONSTER_ATK_SCRIPTS.Length);
-                charArray[i] = Define.MONSTER_ATK_SCRIPTS[randomIndex[i]].ToCharArray();
+                charArray[i] = $"{Define.MONSTER_ATK_SCRIPTS[randomIndex[i]]} ".ToCharArray();
+                maxLength = Math.Max(charArray[i].Length, maxLength);
             }
 
-            while (startX[^1] > endX)
+            while (startX[^1] + charArray[^1].Length * 2 - count[^1] > endX)
             {
                 // 몬스터 수만큼 반복합니다.
                 for (int i = 0; i < monsterCount; i++)
                 {
-                    // 투사체 좌표를 설정합니다.
+                    // 공백 수를 초기화합니다.
                     count[i] = 0;
+
+                    // 투사체 좌표를 설정합니다.
                     startX[i]--;
+
+                    // 투사체가 목표지점에 도달할 경우
+                    if (startX[i] == endX)
+                    {
+                        // Hit 애니메이션과 onDamage 콜백을 호출합니다.
+                        onDamage[i]?.Invoke();
+                        Player.Render_Hit();
+                    }
 
                     // 투사체를 렌더링합니다.
                     int length = charArray[i].Length;

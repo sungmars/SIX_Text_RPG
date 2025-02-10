@@ -4,8 +4,6 @@ namespace SIX_Text_RPG
 {
     internal class Utils
     {
-        private static readonly int STATUS_BAR_X = 29;
-
         public static List<(string, Action)> CursorMenu { get; private set; } = new();
 
         private static readonly Random random = new();
@@ -161,79 +159,6 @@ namespace SIX_Text_RPG
 
                 return index;
             }
-        }
-
-        // 플레이어 상태(HP, MP, EXP) 텍스트 애니메이션 (회복, 감소 둘 다 가능!)
-        public static void StatusAnim(int statusBarY, int amount)
-        {
-            if (amount == 0)
-            {
-                return;
-            }
-
-            Player? player = GameManager.Instance.Player;
-            if (player == null)
-            {
-                return;
-            }
-
-            (int left, int top) = Console.GetCursorPosition();
-
-            // StatusBar type를 지정합니다.
-            int type = 0;
-            if (statusBarY == player.EXPBarY) type = 1;
-            else if (statusBarY == player.HPBarY) type = 2;
-            else if (statusBarY == player.MPBarY) type = 3;
-
-            // type에 따라 현재값과 최대값을 설정합니다.
-            float currentValue = 0;
-            float maxValue = 0;
-            switch (type)
-            {
-                case 1:
-                    currentValue = player.Stats.EXP;
-                    maxValue = int.MaxValue;
-                    break;
-                case 2:
-                    currentValue = player.Stats.HP;
-                    maxValue = player.Stats.MaxHP;
-                    break;
-                case 3:
-                    currentValue = player.Stats.MP;
-                    maxValue = player.Stats.MaxMP;
-                    break;
-            }
-
-            // value가 이미 maxVlaue라면 종료합니다.
-            int direction = amount > 0 ? 1 : -1;
-            if (direction == 1 && currentValue == maxValue)
-            {
-                return;
-            }
-
-            // direction에 따라 애니메이션 텍스트 색상을 지정합니다.
-            int value = direction;
-            ConsoleColor color = direction == 1 ? ConsoleColor.Green : ConsoleColor.Red;
-
-            // amount를 모두 회복하거나, value가 0 미만이거나, maxValue 만큼 회복하면 종료합니다.
-            int index = 1;
-            while (amount != 0 && value != 0 && value != maxValue)
-            {
-                Thread.Sleep(20);
-                ClearLine(STATUS_BAR_X, statusBarY);
-
-                Console.Write($" {currentValue} ");
-                WriteColor("-> ", ConsoleColor.DarkYellow);
-
-                value = (int)(currentValue + index * direction);
-                WriteColor(value, color);
-
-                amount -= direction;
-                index++;
-            }
-
-            // 커서를 원래 위치로 돌려놓습니다.
-            Console.SetCursorPosition(left, top);
         }
 
         // 텍스트를 애니메이션으로 그림니다. 구두점(.)은 더 느리게 재생됩니다!
