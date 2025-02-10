@@ -44,11 +44,17 @@ using System.Numerics;
         public Item(ItemInfo iteminfo)
         {
             Iteminfo = iteminfo;
+            ItemInfo temp = new ItemInfo() { IsSold = false, IsEquip = false };
+            Iteminfo = temp;
         }
 
+        public void Sale()
+        {
+            SetBool(ItemBool.IsSold);
+        }
 
         //아이템의 bool타입 정보 수정하는 것
-        public void SetBool(ItemBool itemstat)
+        protected void SetBool(ItemBool itemstat)
         {
             ItemInfo temp = Iteminfo;
             if (ItemBool.IsSold == itemstat)
@@ -57,7 +63,7 @@ using System.Numerics;
             }
             else if (ItemBool.IsEquip == itemstat)
             {
-                temp.IsEquip = Iteminfo.IsEquip;
+                temp.IsEquip = !Iteminfo.IsEquip;
             }
             Iteminfo = temp;
         }
