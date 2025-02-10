@@ -1,5 +1,7 @@
 ﻿using System.Numerics;
 using System;
+using static System.Net.Mime.MediaTypeNames;
+using System.Threading;
 
 namespace SIX_Text_RPG.Scenes
 {
@@ -24,6 +26,8 @@ namespace SIX_Text_RPG.Scenes
         private readonly List<Monster> monsters = GameManager.Instance.Monsters;
         private readonly Player? player = GameManager.Instance.Player;
 
+        protected readonly int CURSORMENU_TOP = 22;
+
         protected int selectMonsterNum = 0;
         protected bool isPlayAnim = false;
 
@@ -39,8 +43,6 @@ namespace SIX_Text_RPG.Scenes
         public override void LateStart()
         {
             base.LateStart();
-            Console.WriteLine();
-            Console.WriteLine();
             Utils.DisplayLine(true, 3);
         }
 
@@ -98,11 +100,7 @@ namespace SIX_Text_RPG.Scenes
             // 커서 위치 초기화
             Console.SetCursorPosition(left, top);
 
-            // 전투 장면 출력
-            Console.SetCursorPosition(0, 15);
-            DisplayGround();
-            (left, top) = Console.GetCursorPosition();
-            DisplayBatte_Monsters();
+            GameManager.Instance.DisplayBattle();
 
         }
 
@@ -114,8 +112,9 @@ namespace SIX_Text_RPG.Scenes
                 return true;
             }
 
+
             Console.SetCursorPosition(0, 16);
-            GameManager.Instance.DisplayBattle(selectMonsterNum, 6, () =>
+            GameManager.Instance.DisplayBattle_Attack(selectMonsterNum, 6, () =>
             {
                 // 플레이어 공격
                 GameManager.Instance.Monsters[selectMonsterNum].Damaged(CalculateDamage(player.Stats.ATK));
@@ -138,23 +137,33 @@ namespace SIX_Text_RPG.Scenes
                 return true;
             }
 
-            foreach (var monster in monsters)
+            Action[] damageActions = new Action[monsters.Count];
+
+            float damage = 0;
+
+            float beforeHP = player.Stats.HP;
+
+            for (int i = 0; i < monsters.Count; i++)
             {
-                float damage = CalculateDamage(monster.Stats.ATK);
-                float beforeHP = player.Stats.HP;
-                player.Damaged(damage);
-                if (player.Stats.HP > 0)
-                {
+                beforeHP = player.Stats.HP;
+                damage = CalculateDamage(monsters[i].Stats.ATK);
+                damageActions[i] = () =>player.Damaged(damage);
+                if(player.Stats.HP > 0) 
                     GameManager.Instance.TotalDamage += damage;
-                    return false;
-                }
-                else
-                {
+                else 
                     GameManager.Instance.TotalDamage += beforeHP;
-                    return true;
-                }
             }
-            return false;
+
+            GameManager.Instance.DisplayBattle_Damage(damageActions);
+
+            if (player.Stats.HP <= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private float CalculateDamage(float atk)

@@ -31,7 +31,7 @@ namespace SIX_Text_RPG.Scenes
             {
                 Utils.CursorMenu.Add((string.Empty, () => selectMonsterNum = i));
             }
-            Utils.CursorMenu.Add(("돌아가기", () => Program.CurrentScene = new Scene_BattleLobby()));
+            Utils.CursorMenu.Add(("찌르기 취소", () => Program.CurrentScene = new Scene_BattleLobby()));
 
             isPlayAnim = true;
 
@@ -54,7 +54,7 @@ namespace SIX_Text_RPG.Scenes
                     return 0;
             }*/
 
-            Utils.DisplayCursorMenu(79, 14);
+            Utils.DisplayCursorMenu(79, 13);
 
             base.Update();
 

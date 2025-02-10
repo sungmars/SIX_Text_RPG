@@ -33,8 +33,7 @@ namespace SIX_Text_RPG.Scenes
             }
             else
             {
-                (left, top) = Console.GetCursorPosition();
-                Utils.DisplayCursorMenu(5, top);
+                Utils.DisplayCursorMenu(5, CURSORMENU_TOP);
                 base.Update();
                 return 0;
             }
@@ -61,7 +60,7 @@ namespace SIX_Text_RPG.Scenes
             {
                 Utils.CursorMenu.Clear();
                 Utils.CursorMenu.Add(("monster다음", () => Program.CurrentScene = new Scene_BattleLobby()));
-                Utils.DisplayCursorMenu(5, top);
+                Utils.DisplayCursorMenu(5, CURSORMENU_TOP);
                 base.Update();
             }
         }
