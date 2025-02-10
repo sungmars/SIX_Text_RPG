@@ -50,6 +50,8 @@ namespace SIX_Text_RPG
                     WriteColorLine(CursorMenu[i].Item1, ConsoleColor.Gray);
                 }
             }
+
+            AudioManager.Instance.Play(AudioClip.SoundFX_TaskDone);
         }
 
         // 화면에 선을 그립니다. 원할 경우 애니메이션, 이중선도 그릴 수 있습니다.
@@ -59,6 +61,10 @@ namespace SIX_Text_RPG
             int firstX = 0;
             int firstY = Console.CursorTop + 1;
             int secondX = width - 2;
+            if (hasAnim)
+            {
+                AudioManager.Instance.Play(AudioClip.SoundFX_DrawLine);
+            }
 
             while (firstX < width)
             {
@@ -109,7 +115,7 @@ namespace SIX_Text_RPG
                 else if (input.Key == ConsoleKey.DownArrow)
                 {
                     Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
-                    Console.Write("  ");
+                    Console.Write(' ');
 
                     cursorIndex = Math.Min(cursorIndex + 1, CursorMenu.Count - 1);
                     Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
@@ -168,6 +174,8 @@ namespace SIX_Text_RPG
             Console.WriteLine();
             Console.SetCursorPosition(left, top);
 
+            AudioManager.Instance.Play(AudioClip.SoundFX_WriteAnim);
+
             string[] texts = value.Split("name");
             for (int i = 0; i < texts.Length; i++)
             {
@@ -193,6 +201,7 @@ namespace SIX_Text_RPG
             Console.WriteLine();
 
             ClearBuffer();
+            AudioManager.Instance.Stop(AudioClip.SoundFX_WriteAnim);
         }
 
         // 텍스트에 색상을 입힐 수 있습니다.

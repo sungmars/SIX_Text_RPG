@@ -26,7 +26,7 @@
             }
             ));
 
-            //AudioManager.Instance.PlayMusic("Music_Title");
+            AudioManager.Instance.Play(AudioClip.Music_Title);
         }
 
         protected override void Display()

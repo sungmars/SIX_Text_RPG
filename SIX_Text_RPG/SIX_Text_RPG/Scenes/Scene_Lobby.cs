@@ -238,23 +238,26 @@
         private void Display_ClockAnim(int targetTime)
         {
             (int left, int top) = Console.GetCursorPosition();
+            AudioManager.Instance.Play(AudioClip.SoundFX_ClockTicking);
 
             int minute = 0;
             while (targetTime > currentTime)
             {
                 currentTime++;
-                Thread.Sleep(6);
+                Thread.Sleep(2);
 
                 minute++;
                 if (minute == 60)
                 {
                     currentTime += 40;
                     minute = 0;
+                    AudioManager.Instance.Play(AudioClip.SoundFX_ClockTicking);
                 }
 
                 Display_Clock(ConsoleColor.Green);
             }
 
+            AudioManager.Instance.Stop(AudioClip.SoundFX_ClockTicking);
             GameManager.Instance.CurrentStage++;
             Console.SetCursorPosition(left, top);
         }
