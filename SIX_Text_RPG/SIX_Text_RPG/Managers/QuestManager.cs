@@ -11,8 +11,6 @@ namespace SIX_Text_RPG
 
         // 튜터님들 한명씩 검사?
         public List<bool> killCount = new List<bool>(new bool[(int)MonsterType.Count]);
-        //test용 
-        public List<bool> clearQuestId { get; set; } = new List<bool>() {true,true};
 
         public static void AddQuest(Quest quest)
         {
@@ -47,7 +45,32 @@ namespace SIX_Text_RPG
 
             return null;
         }
-        
+
+        public bool KillCountPlus(int MonsterTypeCount)
+        {
+            if (!killCount[MonsterTypeCount])
+            {
+                killCount[MonsterTypeCount] = true;
+                return true;
+            }
+
+            return false;
+        }
+
+        public void QuestReward(Player player, int questId)
+        {
+            if (Quests.ContainsKey(questId))
+            {
+                // 플레이어한테 아이템보상
+                //Quests[questId].ItemReward = null;
+                
+                // Gold 보상
+                var playerStats = player.Stats;
+                playerStats.Gold += Quests[questId].GoldReward;
+                player.Stats = playerStats;
+
+            }
+        }
         
     }
 }

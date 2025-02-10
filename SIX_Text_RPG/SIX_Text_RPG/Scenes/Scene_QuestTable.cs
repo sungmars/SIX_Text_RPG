@@ -4,16 +4,33 @@ namespace SIX_Text_RPG.Scenes;
 
 internal class Scene_QuestTable : Scene_Base
 {
-    private List<Item> inventory = GameManager.Instance.Inventory;
+    private readonly List<Item> inventory = GameManager.Instance.Inventory;
+    
+    private static readonly string[] questDetail_1 =
+    {
+        "?",
+        "?",
+        "?",
+        "?"
+    };
+    
+    private static readonly string[] questDetail_2 =
+    {
+        "?",
+        "?"
+    };
+    
 
     public override void Awake()
     {
+        base.Awake();
         sceneTitle = "Quest!!";
         sceneInfo = " 퀘스트 테이블 출력하는 장소 / ";
         
         //test용 퀘스트생성
-        Quest quest1 = new Quest(0, "튜터님들 순회공연", 5);
-        Quest quest2 = new Quest(1, "아이템 수집", 3);
+        Item item = new Potion("최대 체력증가 엘릭서", "최대 체력이 20만큼 증가합니다..", 0f, 20f, 0f, 0f, 0, 0, 0);
+        Quest quest1 = new Quest(0, "튜터님들 순회공연",questDetail_1,"튜터님들 5명 사냥", 0, item,1000);
+        Quest quest2 = new Quest(1, "아이템 수집",questDetail_2,"읎어요", 3, item,0);
         QuestManager.AddQuest(quest1);
         QuestManager.AddQuest(quest2);
         
@@ -54,9 +71,7 @@ internal class Scene_QuestTable : Scene_Base
     {
         //test용 퀘스트조건
         if (GameManager.Instance.Player.Stats.Level == 10)
-            QuestManager.Instance.clearQuestId[0] = true;
-        
-        QuestManager.Instance.UpdateQuestProgress(0,100);
+            QuestManager.Instance.UpdateQuestProgress(0,100);
     }
     public void Quest2()
     {
