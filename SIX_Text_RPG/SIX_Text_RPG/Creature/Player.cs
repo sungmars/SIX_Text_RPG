@@ -49,7 +49,6 @@ namespace SIX_Text_RPG
 
             Console.Write($" 경험치: ");
             Display_EXPBar();
-            int test = Console.CursorLeft;
             Console.WriteLine($" {Stats.EXP}/{Stats.MaxEXP}");
 
             Console.Write($" 체  력: ");
