@@ -33,6 +33,7 @@ namespace SIX_Text_RPG.Scenes
             }
             Utils.CursorMenu.Add(("돌아가기", () => Program.CurrentScene = new Scene_BattleLobby()));
 
+            isPlayAnim = true;
 
         }
         public override void LateStart()
@@ -53,7 +54,7 @@ namespace SIX_Text_RPG.Scenes
                     return 0;
             }*/
 
-            Utils.DisplayCursorMenu(80, 14);
+            Utils.DisplayCursorMenu(79, 14);
 
             base.Update();
 

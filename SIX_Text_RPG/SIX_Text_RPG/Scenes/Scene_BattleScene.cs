@@ -6,8 +6,6 @@ namespace SIX_Text_RPG.Scenes
     internal class Scene_BattleScene : Scene_Base
     {
 
-        delegate void BattleCallback();
-
         private readonly int LEFT = 99;
         private readonly int TOP = 5;
         private readonly string[] VERSUS =
@@ -25,7 +23,9 @@ namespace SIX_Text_RPG.Scenes
         private readonly Random random = new Random();
         private readonly List<Monster> monsters = GameManager.Instance.Monsters;
         private readonly Player? player = GameManager.Instance.Player;
+
         protected int selectMonsterNum = 0;
+        protected bool isPlayAnim = false;
 
 
         public override void Awake()
@@ -39,6 +39,8 @@ namespace SIX_Text_RPG.Scenes
         public override void LateStart()
         {
             base.LateStart();
+            Console.WriteLine();
+            Console.WriteLine();
             Utils.DisplayLine(true, 3);
         }
 
@@ -69,25 +71,38 @@ namespace SIX_Text_RPG.Scenes
                 Utils.WriteColorLine(VERSUS[i], i > 2 ? ConsoleColor.DarkRed : ConsoleColor.Red);
             }
 
-            Thread.Sleep(500);
+            if(!isPlayAnim)
+            {
+                Thread.Sleep(500);
+            }
 
             // 모든 몬스터 정보 출력
             for (int i = 0; i < monsters.Count; i++)
             {
-                Thread.Sleep(500);
+                if (!isPlayAnim)
+                {
+                    Thread.Sleep(500);
+                }
 
                 Console.SetCursorPosition(LEFT, TOP + 6 - i);
                 monsters[i].DisplayMonster();
             }
 
-            Thread.Sleep(500);
+            if (!isPlayAnim)
+            {
+                Thread.Sleep(500);
+            }
+
+            Console.WriteLine();
 
             // 커서 위치 초기화
             Console.SetCursorPosition(left, top);
 
             // 전투 장면 출력
-
-            DisplayBattleGround();
+            Console.SetCursorPosition(0, 15);
+            DisplayGround();
+            (left, top) = Console.GetCursorPosition();
+            DisplayBatte_Monsters();
 
         }
 
@@ -162,5 +177,40 @@ namespace SIX_Text_RPG.Scenes
             // 전투장면 출력
            
         }
+
+        private void DisplayGround()
+        {
+            if (player == null)
+            {
+                return;
+            }
+            int top = Console.CursorTop - 1;
+            for (int i = 0; i < 4; i++)
+            {
+                Utils.ClearLine(0, top + i);
+            }
+
+            Console.SetCursorPosition(0, top);
+            Console.WriteLine(" (´◎ω◎)");
+            Console.Write(" (       つ");
+            player.SetPosition(Console.CursorLeft, Console.CursorTop);
+
+            Console.WriteLine();
+            Utils.ClearLine(0, Console.CursorTop);
+            Console.WriteLine();
+
+        }
+
+        private void DisplayBatte_Monsters()
+        {
+            int top = Console.CursorTop - 3;
+            for (int i = 0; i < monsters.Count; i++)
+            {
+                monsters[i].SetPosition(monsters[i].Position.X, top);
+                Console.SetCursorPosition(monsters[i].Position.X, top++);
+                monsters[i].Render();
+            }
+        }
+
     }
 }

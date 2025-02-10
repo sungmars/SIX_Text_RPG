@@ -21,6 +21,7 @@ namespace SIX_Text_RPG.Scenes
             base.Awake();
             hasZero = false;
             Utils.CursorMenu.Add(("player다음", () => MonsterNext()));
+            isPlayAnim = true;
         }
 
         public override int Update()
@@ -28,7 +29,6 @@ namespace SIX_Text_RPG.Scenes
             if (PlayerPhase())
             {
                 Program.CurrentScene = new Scene_BattleResult(true);
-
                 return 0;
             }
             else
