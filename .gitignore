@@ -402,3 +402,4 @@ SIX_Text_RPG/SIX_Text_RPG/obj/Debug/net8.0/SIX_Text_RPG.AssemblyInfo.cs
 *.props
 *.json
 *.cache
+!*.wav
