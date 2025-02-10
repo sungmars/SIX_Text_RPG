@@ -7,18 +7,21 @@ namespace SIX_Text_RPG
         public override void Awake()
         {
             base.Awake();
+            Menu.Add("테스트");
         }
 
         public override int Update()
         {
             switch (base.Update())
             {
+                case 1:
+                    break;
                 case 0:
                     Program.CurrentScene = new Scene_Lobby();
-                    break;
+                    return 0;
             }
 
-            return 0;
+            return 1;
         }
 
         protected override void Display()

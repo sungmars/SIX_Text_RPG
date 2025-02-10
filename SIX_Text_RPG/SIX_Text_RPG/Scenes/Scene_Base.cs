@@ -13,6 +13,7 @@
 
         public virtual void Awake()
         {
+            Menu.Clear();
             Console.Clear();
             Utils.CursorMenu.Clear();
         }
@@ -61,6 +62,7 @@
 
         private void Display_Menu()
         {
+            int delay = 200;
             Console.WriteLine();
 
             for (int i = 0; i < Menu.Count; i++)
@@ -72,7 +74,7 @@
 
                 string[] texts = Menu[i].Split('\n');
                 Console.WriteLine($" [{i + 1}] {texts[0]}");
-                Thread.Sleep(200);
+                Thread.Sleep(delay);
 
                 for (int j = 1; j < texts.Length; j++)
                 {
@@ -84,7 +86,7 @@
             if (hasZero)
             {
                 Console.WriteLine($"\n [0] {zeroText}");
-                Thread.Sleep(200);
+                Thread.Sleep(delay);
             }
         }
     }

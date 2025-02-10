@@ -9,6 +9,7 @@ namespace SIX_Text_RPG
         static void Main()
         {
             Console.CursorVisible = false;
+            CurrentScene = new Scene_Title();
 
             while (CurrentScene != null)
             {
