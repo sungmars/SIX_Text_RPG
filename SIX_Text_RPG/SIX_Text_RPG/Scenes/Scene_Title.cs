@@ -12,7 +12,8 @@
             {
                 // TODO: 이어하기
                 Scene_CreatePlayer.PlayerName = "테스트플레이어";
-                Program.CurrentScene = new Scene_CreateCharacter(); ;
+                GameManager.Instance.Player = new(PlayerType.천계조단);
+                Program.CurrentScene = new Scene_Lobby();
             }
             ));
             Utils.CursorMenu.Add(("찌르고 나가기", () =>

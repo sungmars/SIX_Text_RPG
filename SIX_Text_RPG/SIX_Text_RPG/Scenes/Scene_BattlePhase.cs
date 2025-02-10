@@ -28,7 +28,6 @@ namespace SIX_Text_RPG.Scenes
         public override void Awake()
         {
             base.Awake();
-            isSelectMonster = false;
             hasZero = false;
             zeroText = "다음";
         }

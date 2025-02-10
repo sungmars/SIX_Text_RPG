@@ -141,9 +141,9 @@
         private readonly string[] NOTICE =
         {
             " 내일배움 캠프에 오신 여러분 환영합니다. 출석은 누르셨나요?",
-            " 여러분들 C# 체크리스트 특강 들어오세요!",
-            " 여러분 점심은 맛있게 드셨나요?",
-            " 벌써 저녁 시간이네요. 여러분들 식사 맛있게 드세요.",
+            " 여러분들 C# 체크리스트 특강 들어오셔야 합니다!",
+            " 여러분 점심은 맛있게 드셨나요? 저도 맛있게 먹었습니다.",
+            " 벌써 저녁 시간이네요? 여러분들 식사 맛있게 드시고 오세요!",
             " 퇴근 시간에 찾아오면 범죄인거 아시죠?"
         };
 
@@ -176,11 +176,11 @@
                     break;
                 case 4:
                     // TODO: 팀 스크럼때, 주석 해제
-                    Utils.WriteAnim($"튜터님께 걸어가는 중...");
-                    Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
-                    Utils.WriteAnim("탈것이 없어 시간이 지체되는 중...");
-                    Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
-                    Utils.WriteAnim("뚜벅. 뚜벅. 뚜벅. 뚜벅.");
+                    //Utils.WriteAnim($"튜터님께 걸어가는 중...");
+                    //Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
+                    //Utils.WriteAnim("탈것이 없어 시간이 지체되는 중...");
+                    //Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
+                    //Utils.WriteAnim("뚜벅. 뚜벅. 뚜벅. 뚜벅.");
                     Program.CurrentScene = new Scene_BattleLobby();
                     break;
                 case 0:
@@ -197,15 +197,20 @@
             Utils.WriteColorLine(Define.GAME_TITLE, ConsoleColor.DarkYellow);
 
             Console.SetCursorPosition(1, 3);
-            int currentStage = GameManager.Instance.CurrentStage;
-            Utils.WriteColorLine("현재 시간: ", currentStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkGreen);
+            int targetStage = GameManager.Instance.TargetStage;
+            Utils.WriteColorLine("현재 시간: ", targetStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkGreen);
 
-            currentTime = Define.TIMES[currentStage];
-            Display_Clock(currentStage == 4 ? ConsoleColor.Red : ConsoleColor.Green);
+            currentTime = Define.TIMES[targetStage];
+            Display_Clock(targetStage == 4 ? ConsoleColor.Red : ConsoleColor.Green);
 
-            Console.ForegroundColor = currentStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkCyan;
-            Utils.WriteAnim(NOTICE[currentStage], currentStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkCyan);
-            Console.ResetColor();
+            if (targetStage == GameManager.Instance.CurrentStage)
+            {
+                Utils.WriteColorLine(NOTICE[targetStage], targetStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkCyan);
+                return;
+            }
+
+            GameManager.Instance.CurrentStage++;
+            Utils.WriteAnim(NOTICE[targetStage], targetStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkCyan);
         }
 
         private void Display_Clock(ConsoleColor color)

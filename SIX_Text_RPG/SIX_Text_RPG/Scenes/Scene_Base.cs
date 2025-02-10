@@ -35,18 +35,19 @@
             Display();
         }
 
-        public void LateStart()
+        public virtual void LateStart()
         {
             if (Utils.CursorMenu.Count > 0)
             {
                 return;
             }
 
-            if (Menu.Count > 0 || hasZero)
+            if (Menu.Count == 0 && !hasZero)
             {
-                Display_Menu();
+                return;
             }
 
+            Display_Menu();
             Utils.DisplayLine(true);
         }
 
@@ -83,6 +84,7 @@
             if (hasZero)
             {
                 Console.WriteLine($"\n [0] {zeroText}");
+                Thread.Sleep(200);
             }
         }
     }

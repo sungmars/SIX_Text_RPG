@@ -15,7 +15,8 @@
         public List<Item> Inventory { get; private set; } = new(Define.INVENTORY_CAPACITY);
         public List<Monster> Monsters { get; private set; } = new(Define.MONSTERS_CAPACITY);
 
-        public int CurrentStage { get; set; } = 0;
+        public int CurrentStage { get; set; } = -1;
+        public int TargetStage { get; set; } = 0;
         public float TotalDamage { get; set; } = 0;
 
         private readonly Random random = new();
@@ -27,15 +28,7 @@
                 return;
             }
 
-            // TODO: TEST CODE, 팀 스크럼 이후 삭제
-            if (Monsters.Count == 0)
-            {
-                Monsters.Add(new(MonsterType.염예찬));
-                Monsters.Add(new(MonsterType.강성훈));
-                Monsters.Add(new(MonsterType.강인));
-                Monsters.Add(new(MonsterType.권관우));
-            }
-
+            Console.SetCursorPosition(0, 15);
             DisplayBattle_Ground();
             (int left, int top) = Console.GetCursorPosition();
 

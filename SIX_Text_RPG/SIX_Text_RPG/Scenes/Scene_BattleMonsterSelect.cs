@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SIX_Text_RPG.Scenes
+﻿namespace SIX_Text_RPG.Scenes
 {
     internal class Scene_BattleMonsterSelect : Scene_BattleDisplay
     {
@@ -22,7 +15,6 @@ namespace SIX_Text_RPG.Scenes
         public override void Awake()
         {
             base.Awake();
-            isSelectMonster = true;
             hasZero = true;
             if (isSelectPhase == true)//몬스터 선택 페이즈
             {
@@ -38,21 +30,15 @@ namespace SIX_Text_RPG.Scenes
         public override int Update()
         {
             int selectNum = base.Update();
-            switch(selectNum)
+            switch (selectNum)
             {
                 case 0:
                     Program.CurrentScene = new Scene_BattleLobby();
                     return 0;
                 default:
-                    Program.CurrentScene = new Scene_BattlePhase(selectNum-1);
+                    Program.CurrentScene = new Scene_BattlePhase(selectNum - 1);
                     return 0;
             }
         }
-
-        protected override void Display()
-        {
-            base.Display();
-        }
-
     }
 }
