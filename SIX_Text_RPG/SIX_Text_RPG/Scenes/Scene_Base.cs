@@ -13,6 +13,7 @@
 
         public virtual void Awake()
         {
+            Menu.Clear();
             Console.Clear();
             Utils.CursorMenu.Clear();
         }
@@ -48,7 +49,8 @@
             }
 
             Display_Menu();
-            Utils.DisplayLine(true);
+            Utils.DisplayLine(!Program.IsSameScene);
+            Program.PreviousScene = this;
         }
 
         public virtual int Update()
@@ -62,6 +64,7 @@
         private void Display_Menu()
         {
             Console.WriteLine();
+            int delay = Program.IsSameScene ? 0 : 200;
 
             for (int i = 0; i < Menu.Count; i++)
             {
@@ -72,7 +75,7 @@
 
                 string[] texts = Menu[i].Split('\n');
                 Console.WriteLine($" [{i + 1}] {texts[0]}");
-                Thread.Sleep(200);
+                Thread.Sleep(delay);
 
                 for (int j = 1; j < texts.Length; j++)
                 {
@@ -84,7 +87,7 @@
             if (hasZero)
             {
                 Console.WriteLine($"\n [0] {zeroText}");
-                Thread.Sleep(200);
+                Thread.Sleep(delay);
             }
         }
     }

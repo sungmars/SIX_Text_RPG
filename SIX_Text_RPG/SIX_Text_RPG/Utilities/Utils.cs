@@ -14,12 +14,14 @@ namespace SIX_Text_RPG
         private static int contentLeft;
         private static int contentTop;
 
+        // 애니메이션(Thread.Sleep) 재생 중인 동안 눌린 키를 지워줌.
         public static void ClearBuffer()
         {
             Thread.Sleep(100);
             while (Console.KeyAvailable) Console.ReadKey(true);
         }
 
+        // 원하는 콘솔 좌표 시작점 left로부터 top 좌표에 있는 모든 텍스트를 지워준다.
         public static void ClearLine(int left, int top)
         {
             Console.SetCursorPosition(left, top);
@@ -27,6 +29,7 @@ namespace SIX_Text_RPG
             Console.SetCursorPosition(left, top);
         }
 
+        // 커서 메뉴를 출력합니다.
         public static void DisplayCursorMenu(int left, int top)
         {
             cursorIndex = 0;
@@ -51,6 +54,7 @@ namespace SIX_Text_RPG
             }
         }
 
+        // 화면에 선을 그립니다. 원할 경우 애니메이션, 이중선도 그릴 수 있습니다.
         public static void DisplayLine(bool hasAnim = false, int secondLineTop = 0)
         {
             int width = Console.WindowWidth;
@@ -81,11 +85,13 @@ namespace SIX_Text_RPG
             ClearBuffer();
         }
 
+        // percent의 확률로 true를 반환합니다.
         public static bool LuckyMethod(int percent)
         {
             return random.Next(1, 101) <= percent;
         }
 
+        // 방향키 입력을 받는 함수 (예외처리 포함)
         public static int ReadArrow()
         {
             int cursorLeft = contentLeft - 3;
@@ -122,6 +128,7 @@ namespace SIX_Text_RPG
             return 0;
         }
 
+        // 인덱스 입력을 받는 함수 (예외처리 포함)
         public static int ReadIndex(bool hasZero = true)
         {
             while (true)
@@ -156,6 +163,7 @@ namespace SIX_Text_RPG
             }
         }
 
+        // 플레이어 상태(HP, MP, EXP) 텍스트 애니메이션 (회복, 감소 둘 다 가능!)
         public static void StatusAnim(int statusBarY, int amount)
         {
             if (amount == 0)
@@ -228,6 +236,7 @@ namespace SIX_Text_RPG
             Console.SetCursorPosition(left, top);
         }
 
+        // 텍스트를 애니메이션으로 그림니다. 구두점(.)은 더 느리게 재생됩니다!
         public static void WriteAnim(string value, ConsoleColor color = ConsoleColor.Gray)
         {
             (int left, int top) = Console.GetCursorPosition();
@@ -261,6 +270,7 @@ namespace SIX_Text_RPG
             ClearBuffer();
         }
 
+        // 텍스트에 색상을 입힐 수 있습니다.
         public static void WriteColor(object value, ConsoleColor color)
         {
             Console.ForegroundColor = color;
@@ -268,6 +278,7 @@ namespace SIX_Text_RPG
             Console.ResetColor();
         }
 
+        // 텍스트에 색상을 입히고 개행문자(\n)을 추가합니다.
         public static void WriteColorLine(string value, ConsoleColor color)
         {
             Console.ForegroundColor = color;
@@ -275,6 +286,7 @@ namespace SIX_Text_RPG
             Console.ResetColor();
         }
 
+        // 텍스트에 name 단어가 포함되어 있으면 플레이어 이름으로 치환해줍니다.
         public static void WriteName(string value)
         {
             string[] texts = value.Split("name");
@@ -288,6 +300,7 @@ namespace SIX_Text_RPG
             Console.WriteLine();
         }
 
+        // 애플리케이션을 종료시킵니다.
         public static void Quit()
         {
             Console.WriteLine("게임이 종료되었습니다.");
