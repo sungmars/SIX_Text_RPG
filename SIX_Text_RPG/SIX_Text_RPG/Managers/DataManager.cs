@@ -27,6 +27,7 @@ namespace SIX_Text_RPG
             // 아이템 정보 저장하기
             foreach (var item in GameManager.Instance.Inventory)
             {
+                stringBuilder.Append($"{JsonConvert.SerializeObject(item.Type)}\n");
                 stringBuilder.Append($"{JsonConvert.SerializeObject(item.Iteminfo)}\n");
             }
 
@@ -58,14 +59,37 @@ namespace SIX_Text_RPG
 
             // 플레이어 정보 불러오기
             string[] jsonData = Encoding.UTF8.GetString(data).Split('\n');
-            PlayerType type = JsonConvert.DeserializeObject<PlayerType>(jsonData[0]);
+            PlayerType playerType = JsonConvert.DeserializeObject<PlayerType>(jsonData[0]);
             Stats stats = JsonConvert.DeserializeObject<Stats>(jsonData[1]);
-            Player player = GameManager.Instance.Player = new(type) { Stats = stats };
+            Player player = GameManager.Instance.Player = new(playerType) { Stats = stats };
 
             // 아이템 정보 불러오기
             for (int i = 2; i < jsonData.Length - 1; i++)
             {
-                ItemInfo info = JsonConvert.DeserializeObject<ItemInfo>(jsonData[i]);
+                if ((i + 1) % 3 == 0)
+                {
+                    continue;
+                }
+
+                ItemType itemType = JsonConvert.DeserializeObject<ItemType>(jsonData[i]);
+                ItemInfo info = JsonConvert.DeserializeObject<ItemInfo>(jsonData[i + 1]);
+
+                //Item item;
+                //switch (itemType)
+                //{
+                //    case ItemType.Armor:
+                //        item = new Armor(info);
+                //        break;
+                //    case ItemType.Accessory:
+                //        item = new Accessory(info);
+                //        break;
+                //    case ItemType.Potion:
+                //        item = new Potion(info);
+                //        break;
+                //    case ItemType.Weapon:
+                //        item = new Weapon(info);
+                //        break;
+                //}
             }
 
             return true;
