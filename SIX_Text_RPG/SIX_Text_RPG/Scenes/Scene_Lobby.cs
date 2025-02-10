@@ -215,7 +215,7 @@
                 return;
             }
 
-            GameManager.Instance.CurrentStage++;
+            Display_ClockAnim(Define.TIMES[targetStage]);
             Utils.WriteAnim(NOTICE[targetStage], targetStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkCyan);
         }
 
@@ -237,6 +237,8 @@
 
         private void Display_ClockAnim(int targetTime)
         {
+            (int left, int top) = Console.GetCursorPosition();
+
             int minute = 0;
             while (targetTime > currentTime)
             {
@@ -254,7 +256,7 @@
             }
 
             GameManager.Instance.CurrentStage++;
-            Program.CurrentScene = new Scene_Lobby();
+            Console.SetCursorPosition(left, top);
         }
 
         private void Display_Number(int index, int number, ConsoleColor color)

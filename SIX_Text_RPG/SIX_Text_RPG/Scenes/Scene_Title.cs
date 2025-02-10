@@ -26,6 +26,8 @@
                 Utils.Quit();
             }
             ));
+
+            AudioManager.Instance.Play("Music_Title", 0.2f, true);
         }
 
         protected override void Display()
