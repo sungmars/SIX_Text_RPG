@@ -77,17 +77,17 @@ namespace SIX_Text_RPG.Scenes
             sceneInfo = "수상한..? 아! 자세히보니 수상한이 아니라 송승환 매니저님이라 적혀있습니다...";
 
             //포션 아이템
-            SetItem(ItemType.Potion, "최대 체력증가 엘릭서", "최대 체력이 20만큼 증가합니다..", 0f, 20f, 0f, 0f, 0, 0, 0);
-            SetItem(ItemType.Potion, "마나 회복포션", "마나를 기존보다 20만큼 회복시켜줍니다.", 0f, 0f, 0f, 20f, 0, 0, 0);
-            SetItem(ItemType.Potion, "최대 마나증가 엘릭서", "최대 마나가 20만큼 증가합니다..", 0f, 0f, 0f, 20f, 0, 0, 0);
+            SetItem(ItemType.Potion, "최대체력 증가 포션", "최대 체력이 20만큼 증가합니다..", 0f, 20f, 0f, 0f, 0, 0, 0);
+            SetItem(ItemType.Potion, "마나회복 포션", "마나를 기존보다 20만큼 회복시켜줍니다.", 0f, 0f, 0f, 20f, 0, 0, 0);
+            SetItem(ItemType.Potion, "최대마나 증가 포션", "최대 마나가 20만큼 증가합니다..", 0f, 0f, 0f, 20f, 0, 0, 0);
             SetItem(ItemType.Potion, "체력 회복포션", "체력을 기존보다 20만큼 회복시켜줍니다.", 20f, 0f, 0f, 0f, 0, 0, 0);
 
             //방어구 아이템 
             SetItem(ItemType.Armor, "손가락골무", "찌르는 손가락이 아프지 않도록 지켜주세요.", 0f, 0f, 0f, 0f, 0, 5, 0);
-            SetItem(ItemType.Armor, "방어구3", "방어구3", 0f, 0f, 0f, 0f, 0, 10, 0);
-            SetItem(ItemType.Armor, "초랭이", "수조를 탈출한 수생거북 초랭이입니다. 곁에만 있어도 든든합니다", 0f, 0f, 0f, 0f, 0, 17, 0);
-            SetItem(ItemType.Armor, "상어옷", "놀랍도록 파랗습니다..", 0f, 0f, 0f, 0f, 0, 30, 0);
-            SetItem(ItemType.Armor, "노이즈캔슬링 이어팟", "아무것도 들리지 않습니다..", 0f, 0f, 0f, 0f, 0, 45, 0);
+            SetItem(ItemType.Armor, "말랑한 생각", "생각이 말랑해야 정신이 건강합니다...", 0f, 0f, 0f, 0f, 0, 10, 0);
+            SetItem(ItemType.Armor, "초랭이", "수생거북 초랭이입니다. 곁에만 있어도 든든합니다", 0f, 0f, 0f, 0f, 0, 17, 0);
+            SetItem(ItemType.Armor, "상어옷", "놀랍도록 파랗습니다.. 피부까지도...", 0f, 0f, 0f, 0f, 0, 30, 0);
+            SetItem(ItemType.Armor, "노이즈캔슬링", "아무것도 들리지 않습니다..", 0f, 0f, 0f, 0f, 0, 45, 0);
 
             //무기 아이템
             SetItem(ItemType.Weapon, "강력한 손가락", "보기만 해도 따끔합니다..", 0f, 0f, 0f, 0f, 0, 5, 0, '☞');
@@ -131,7 +131,7 @@ namespace SIX_Text_RPG.Scenes
                     Program.CurrentScene = new Scene_Lobby();
                     return 0;
             }
-            return 1;
+            return -1;
         }
 
         protected override void Display()
@@ -157,90 +157,93 @@ namespace SIX_Text_RPG.Scenes
             }
         }
 
+        //내일 버튼작업 꼭하기!!!!!
         private void Buy()
         {
-            Talking(talkBuy);
-            for (int i = 0; i< storeItem.Count; i++)
+            //대화가 한번만 뜨도록
+            if (!isTalk)
             {
-                ShowItem(i);
-                switch(base.Update())
+                Talking(talkBuy);
+                isTalk = true;
+            }
+
+            int flag = -1;
+            do
+            {
+                for (int i = 0; i < storeItem.Count; i++)
                 {
-                    case 0:
-                        break;
-                    default:
-                        continue;
+                    ShowItem(i);
+                    flag = base.Update();
+                    if (flag == 0) break;
                 }
             }
+            while (flag != 0);
         }
 
         //상점 아이템 보여주기
         private void ShowItem(int num)
         {
-            for (int i =7; i< 15; i++)
-            {
-                Utils.ClearLine(0, i);
-            }
-
-            //위치 지정필요
+            Clear(7, 20);
             Console.SetCursorPosition(1, 7);
 
             switch (num)
             {
-                case 0:
+                case (int)ItemType.Armor:
                     Console.WriteLine($" [방어구]");
                     break;
 
-                case 1:
+                case (int)ItemType.Potion:
                     Console.WriteLine($" [ 포션 ]");
                     break;
 
-                case 2:
+                case (int)ItemType.Weapon:
                     Console.WriteLine($" [ 무기 ]");
                     break;
 
-                case 3:
+                case (int)ItemType.Accessory:
                     Console.WriteLine($" [장신구]");
                     break;
             }
-            Console.WriteLine(Console.GetCursorPosition());
+            Console.WriteLine();
 
             for (int i = 0; i < storeItem[num].Count; i++)
             {
                 Item item = storeItem[num][i];
 
-                Console.SetCursorPosition(1, 8 + i);
-                Console.Write($" [{num}] ");
+                Console.SetCursorPosition(1, 9 + i);
+                Console.Write($" [{i + 1}] ");
 
-                Console.SetCursorPosition(4, 8 + i);
+                Console.SetCursorPosition(6, 9 + i);
                 Console.Write($"{item.Iteminfo.Name}");
 
-                Console.SetCursorPosition(14, 8 + i);
-                Console.Write($" | ");
+                Console.SetCursorPosition(25, 9 + i);
+                Console.Write($"|");
 
-                Console.SetCursorPosition(17, 8 + i);
+                Console.SetCursorPosition(27, 9 + i);
                 Console.Write($"{item.Iteminfo.Description}");
 
-                Console.SetCursorPosition(30, 8 + i);
-                Console.Write($" | ");
+                Console.SetCursorPosition(76, 9 + i);
+                Console.Write($"|");
 
-                Console.SetCursorPosition(33, 8 + i);
+                Console.SetCursorPosition(78, 9 + i);
                 Console.Write($"공격력 +{item.Iteminfo.ATK}");
 
-                Console.SetCursorPosition(43, 8 + i);
-                Console.Write($" | ");
+                Console.SetCursorPosition(88, 9 + i);
+                Console.Write($"|");
 
-                Console.SetCursorPosition(53, 8 + i);
+                Console.SetCursorPosition(90, 9 + i);
                 Console.Write($"방어력 +{item.Iteminfo.DEF}");
 
-                Console.SetCursorPosition(65, 8 + i);
-                Console.Write($" | ");
+                Console.SetCursorPosition(104, 9 + i);
+                Console.Write($"|");
 
-                Console.SetCursorPosition(73, 8 + i);
-                Console.Write($"{item.Iteminfo.Price}");
+                Console.SetCursorPosition(106, 9 + i);
+                Console.Write($"{item.Iteminfo.Price} Point");
             }
+            Console.SetCursorPosition(2, 16);
+            Console.WriteLine("[0] 나가기");
         }
 
-        //
         private void Clear(int min, int max)
         {
             for (int i = min; i< max+1; i++)
