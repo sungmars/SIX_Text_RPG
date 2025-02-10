@@ -7,7 +7,13 @@ namespace SIX_Text_RPG
         public override void Awake()
         {
             base.Awake();
-            Menu.Add("테스트");
+
+            sceneTitle = "축하합니다! 레벨이 증가했습니다!";
+            Menu.Add("레벨");
+            Menu.Add("경험치");
+            Menu.Add("공격력");
+            Menu.Add("방어력");
+            Menu.Add("골드");
         }
 
         public override int Update()
@@ -15,20 +21,38 @@ namespace SIX_Text_RPG
             switch (base.Update())
             {
                 case 1:
+                    GameManager.Instance.Player.StatusAnim(Stat.Level, 3);
+                    break;
+                case 2:
+                    GameManager.Instance.Player.StatusAnim(Stat.EXP, 33);
+                    break;
+                case 3:
+                    GameManager.Instance.Player.StatusAnim(Stat.ATK, 33);
+                    break;
+                case 4:
+                    GameManager.Instance.Player.StatusAnim(Stat.DEF, 33);
+                    break;
+                case 5:
+                    GameManager.Instance.Player.StatusAnim(Stat.Gold, 33);
                     break;
                 case 0:
                     Program.CurrentScene = new Scene_Lobby();
                     break;
             }
 
+            Console.ReadKey();
             return 0;
         }
 
         protected override void Display()
         {
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Utils.WriteName(" name의 시간과 정신의 방");
-            Console.ResetColor();
+            Player? player = GameManager.Instance.Player;
+            if (player == null)
+            {
+                return;
+            }
+
+            player.DisplayInfo();
         }
     }
 }

@@ -169,9 +169,9 @@
                     // 투사체가 목표지점에 도달할 경우
                     if (startX[i] == endX)
                     {
-                        // Hit 애니메이션과 onHit 콜백을 호출합니다.
+                        // Hit 애니메이션과 onDamage 콜백을 호출합니다.
                         onDamage[i]?.Invoke();
-                        //play.Render_Hit();
+                        Player.Render_Hit();
                     }
 
                     // 투사체를 렌더링합니다.

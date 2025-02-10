@@ -22,6 +22,7 @@
             switch (base.Update())
             {
                 case 0:
+                    GameManager.Instance.TotalDamage = 0f;
                     Program.CurrentScene = new Scene_Title();
                     break;
                 default:
