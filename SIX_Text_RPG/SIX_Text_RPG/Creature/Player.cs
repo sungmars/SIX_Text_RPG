@@ -195,6 +195,7 @@ namespace SIX_Text_RPG
 
         public void Render_Hit()
         {
+            AudioManager.Instance.Play(AudioClip.SoundFX_Damage1 + random.Next(0, 4));
             Console.SetCursorPosition(Position.X - OFFSET_X, Position.Y - OFFSET_Y);
             Utils.WriteColorLine(" (´＞ω＜)", ConsoleColor.Red);
             Utils.WriteColor(" (       つ", ConsoleColor.Red);

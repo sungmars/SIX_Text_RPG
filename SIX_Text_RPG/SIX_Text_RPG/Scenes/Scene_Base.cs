@@ -74,6 +74,7 @@
                 }
 
                 string[] texts = Menu[i].Split('\n');
+                AudioManager.Instance.Play(AudioClip.SoundFX_DrawMenu);
                 Console.WriteLine($" [{i + 1}] {texts[0]}");
                 Thread.Sleep(delay);
 
@@ -86,6 +87,7 @@
 
             if (hasZero)
             {
+                AudioManager.Instance.Play(AudioClip.SoundFX_DrawMenu);
                 Console.WriteLine($"\n [0] {zeroText}");
                 Thread.Sleep(delay);
             }

@@ -2,107 +2,125 @@
 
 namespace SIX_Text_RPG
 {
-    public enum Clip
+    public enum AudioClip
     {
         Music_Title,
-        Music_Lobby,
         Music_Battle,
+
+        SoundFX_Click,
+        SoundFX_ClockTicking,
+        SoundFX_Damage1,
+        SoundFX_Damage2,
+        SoundFX_Damage3,
+        SoundFX_Damage4,
+        SoundFX_DrawLine,
+        SoundFX_DrawMenu,
+        SoundFX_Hit1,
+        SoundFX_Hit2,
+        SoundFX_Hit3,
+        SoundFX_TaskDone,
+        SoundFX_WriteAnim,
+
         Count
     }
 
     internal class AudioManager
     {
+        private readonly float VOLUME = 0.5f;
+
         public AudioManager()
         {
-            var fileName = Enum.GetNames(typeof(Clip));
+            var fileName = Enum.GetNames(typeof(AudioClip));
             for (int i = 0; i < fileName.Length - 1; i++)
             {
-                audioSource[i] = new();
+                WaveOutEvent audioSource = new();
+                audioSources[i] = audioSource;
 
                 string filePath = $"Audio/{fileName[i]}.wav";
-                audioClips[i] = new(filePath);
+                AudioFileReader audioClip = new(filePath); ;
+                audioSource.Init(audioClip);
+                if (fileName[i].Contains("Music"))
+                {
+                    audioSource.PlaybackStopped += PlaybackStoppedHandler;
+                }
+
+                audioClips[i] = audioClip;
             }
         }
 
         public static AudioManager Instance { get; private set; } = new();
 
-        private readonly WaveOutEvent[] audioSource = new WaveOutEvent[(int)Clip.Count];
-        private readonly AudioFileReader[] audioClips = new AudioFileReader[(int)Clip.Count];
+        private readonly WaveOutEvent[] audioSources = new WaveOutEvent[(int)AudioClip.Count];
+        private readonly AudioFileReader[] audioClips = new AudioFileReader[(int)AudioClip.Count];
 
-        private Clip clip = Clip.Count;
+        private AudioClip musicClip = AudioClip.Count;
 
-        //public void PlayMusic(Clip audioClip, float volume = 0.2f)
-        //{
-        //    if (clip == audioClip)
-        //    {
-        //        return;
-        //    }
+        public void Play(AudioClip audioClip)
+        {
+            if (musicClip == audioClip)
+            {
+                return;
+            }
 
+            int index = (int)audioClip;
+            audioClips[index].Position = 0;
 
+            if (audioClip.ToString().Contains("SoundFX"))
+            {
+                audioSources[index].Play();
+                return;
+            }
 
-        //    audioSource.Stop();
-        //    audioSource.Init(musicClip);
-        //    audioSource.Volume = volume;
-        //    audioSource.Play();
+            musicClip = audioClip;
+            Task.Run(FadeIn);
+        }
 
-        //    clip = audioClip;
+        public void Stop(AudioClip audioClip)
+        {
+            if (audioClip.ToString().Contains("SoundFX"))
+            {
+                audioSources[(int)audioClip].Stop();
+                return;
+            }
 
-        //    //Task.Run(FadeOut);
-        //    //Task.Run(() => FadeIn(fileName));
-        //}
+            Task.Run(FadeOut);
+        }
 
-        //public void PlayOneShot(string fileName, float volume = 0.4f)
-        //{
+        private async Task FadeIn()
+        {
+            var audioSource = audioSources[(int)musicClip];
+            audioSource.Volume = 0.0f;
+            audioSource.Play();
 
-        //}
+            while (audioSource.Volume < VOLUME)
+            {
+                await Task.Delay(10);
+                audioSource.Volume += VOLUME * 0.01f;
+            }
 
-        //private async Task FadeOutIn(string key)
-        //{
-        //    await FadeOut();
+            audioSource.Volume = VOLUME;
+        }
 
-        //    await FadeIn();
+        private async Task FadeOut()
+        {
+            int index = (int)musicClip;
+            var audioSource = audioSources[index];
+            while (audioSource.Volume > 0)
+            {
+                await Task.Delay(10);
+                audioSource.Volume -= VOLUME * 0.01f;
+            }
 
-        //    audioSource.Volume = volume;
-        //    audioSource.PlaybackStopped += PlaybackStoppedHandler;
+            audioSource.Stop();
 
-        //    this.key = key;
-        //    this.volume = volume;
-        //}
+            audioClips[index].Position = 0;
+            musicClip = AudioClip.Count;
+        }
 
-        //private async Task FadeIn()
-        //{
-        //    audioSource.Volume = 0.0f;
-        //    audioSource.Play();
-
-        //    while (audioSource.Volume < VOLUMES[])
-        //    {
-        //        await Task.Delay(10);
-
-        //        volume += volume * 0.05f;
-        //        audioSource.Volume = volume;
-        //    }
-        //}
-
-        //private async Task FadeOut()
-        //{
-        //    while (musicFXSource.Volume > 0)
-        //    {
-        //        await Task.Delay(10);
-        //        musicFXSource.Volume -= 0.5f;
-        //    }
-
-        //    musicFXSource.Stop();
-        //}
-
-        //private void PlaybackStoppedHandler(object? sender, StoppedEventArgs? e)
-        //{
-        //    if (musicClip == null)
-        //    {
-        //        return;
-        //    }
-
-        //    musicClip.Position = 0;
-        //    audioSource.Play();
-        //}
+        private void PlaybackStoppedHandler(object? sender, StoppedEventArgs? e)
+        {
+            audioClips[(int)musicClip].Position = 0;
+            audioSources[(int)musicClip].Play();
+        }
     }
 }
