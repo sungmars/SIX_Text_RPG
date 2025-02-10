@@ -46,15 +46,15 @@ namespace SIX_Text_RPG.Scenes
 
                     string displayName = (selectItem.Iteminfo.IsEquip ? "[E]" : "") + selectItem.Iteminfo.Name;//상태에 따라 표시할 이름 생성
 
-                    Utils.CursorMenu.Add((
-                        displayName, // 메뉴에 출력될 아이템 이름
-                        () =>
-                        {
-                            Console.Clear();
-                            //장착 상태에 따라 토글
-                            selectItem.SetBool(ItemStat.IsEquip);
-                        }
-                    ));
+                    //Utils.CursorMenu.Add((
+                    //    displayName, // 메뉴에 출력될 아이템 이름
+                    //    () =>
+                    //    {
+                    //        Console.Clear();
+                    //        //장착 상태에 따라 토글
+                    //        selectItem.SetBool(ItemStat.IsEquip);
+                    //    }
+                    //));
 
 
                 }
