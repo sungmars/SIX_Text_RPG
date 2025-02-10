@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
+using SIX_Text_RPG.Scenes;
 
 namespace SIX_Text_RPG
 {
@@ -48,7 +49,9 @@ namespace SIX_Text_RPG
             }
             catch
             {
+                Utils.WriteColor("\n\n\n >> ", ConsoleColor.DarkYellow);
                 Console.WriteLine(Define.ERROR_MESSAGE_DATA);
+
                 return false;
             }
 
@@ -62,6 +65,7 @@ namespace SIX_Text_RPG
             PlayerType playerType = JsonConvert.DeserializeObject<PlayerType>(jsonData[0]);
             Stats stats = JsonConvert.DeserializeObject<Stats>(jsonData[1]);
             Player player = GameManager.Instance.Player = new(playerType) { Stats = stats };
+            Scene_CreatePlayer.PlayerName = player.Stats.Name;
 
             // 아이템 정보 불러오기
             for (int i = 2; i < jsonData.Length - 1; i++)
