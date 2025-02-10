@@ -54,19 +54,22 @@ namespace SIX_Text_RPG.Scenes
                             //장착 상태에 따라 토글
                             IEquipable? equipable = selectItem as IEquipable;
                             IConsumable? consumable = selectItem as IConsumable;
-                            if (equipable != null)
+                            if (consumable != null)//소비하는 아이템이라면
                             {
-                                if (consumable != null)//소비하는 아이템이라면
-                                {
-                                    consumable.Consume();//소비 메서드 호출
-                                }
-                                equipable.Equip();//장비 메서드호출
-                                
+                                consumable.Consume();//소비 메서드 호출
                             }
                             else
                             {
-                                Console.WriteLine("착용불가한 아이템");
-                                Console.ReadKey(); // 대기
+                                if (equipable != null)
+                                {
+                                    equipable.Equip();//장비 메서드호출
+
+                                }
+                                else
+                                {
+                                    Console.WriteLine("착용불가한 아이템");
+                                    Console.ReadKey(); // 대기
+                                }
                             }
                         }
                     ));
