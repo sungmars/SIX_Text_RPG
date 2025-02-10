@@ -11,7 +11,7 @@ namespace SIX_Text_RPG.Scenes
     internal class Scene_Inventory : Scene_Base
     {
         private readonly List<Item> Inventory = new List<Item>();//이거 게임매니저로 갖고오게 해야함
-
+        
         public override void Awake()
         {
             base.Awake();
@@ -58,26 +58,43 @@ namespace SIX_Text_RPG.Scenes
                 if (key.Key == ConsoleKey.Enter)
                 {
                     Program.CurrentScene = new Scene_Lobby();
-
+                    
                     return;
                 }
             }
+            
             // 인벤토리의 커서메뉴 추가
             for (int i = 0; i < Inventory.Count; i++)
             {
-                // 루프 변수 캡처 문제를 피하기 위해 현재 아이템을 별도의 변수에 저장합니다.
-                Item currentItem = Inventory[i];
-
+                string displayName = (Inventory[i].info.IsEquipped ? "[E]" : "")+Inventory[i].info.Name ;//상태에 따라 표시할 이름 생성
+                var selectItem = Inventory[i];//캡쳐 방지
+                
                 Utils.CursorMenu.Add((
-                    currentItem.info.Name, // 메뉴에 출력될 아이템 이름
+                    displayName, // 메뉴에 출력될 아이템 이름
                     () =>
                     {
                         Console.Clear();
-                        Utils.WriteColorLine($"[[E]{currentItem.info.Name}]", ConsoleColor.DarkYellow);
-                        
+                        //장착 상태에 따라 토글
+                        if (selectItem.info.IsEquipped==false)
+                        {
+                            selectItem.info.IsEquipped = true;
+                        }
+                        else
+                        {
+                            selectItem.info.IsEquipped = false;
+                        }
                     }
                 ));
+                
+                
             }
+            Utils.CursorMenu.Add((
+                    "나가기",
+                    () =>
+                    {
+                        Program.CurrentScene = new Scene_Lobby();
+                    }
+            ));
             Utils.DisplayCursorMenu(5, 5);
             
         }
@@ -99,6 +116,11 @@ namespace SIX_Text_RPG.Scenes
 
             Item item = new Item() { info = new() { Name = name, Description = "", IsSold = true, Price = 100 } };
             return item;
+        }
+
+        private void ResetCursorPosition(int left,int top)
+        {
+            Console.SetCursorPosition(left, top+1);
         }
     
     }
