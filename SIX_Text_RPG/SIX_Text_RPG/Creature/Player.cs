@@ -31,6 +31,9 @@ namespace SIX_Text_RPG
 
         public char Graphic_Weapon { get; private set; } = 'つ';
 
+        private int offsetX = 11;
+        private int offsetY = 1;
+
         public void DisplayInfo()
         {
             DisplayInfo_Status();
@@ -112,6 +115,23 @@ namespace SIX_Text_RPG
             // 레벨업 씬으로 이동
             Stats = stats;
             Program.CurrentScene = new Scene_LevelUp();
+        }
+
+        public void Render()
+        {
+            Console.SetCursorPosition(Position.X - offsetX, Position.Y - offsetY);
+            Console.WriteLine(" (´◎ω◎)");
+            Console.Write(" (       つ");
+        }
+
+        public void Render_Hit()
+        {
+            Console.SetCursorPosition(Position.X - offsetX, Position.Y - offsetY);
+            Utils.WriteColorLine(" (´＞ω＜)", ConsoleColor.Red);
+            Utils.WriteColor(" (       つ", ConsoleColor.Red);
+            Thread.Sleep(200);
+
+            Render();
         }
     }
 }
