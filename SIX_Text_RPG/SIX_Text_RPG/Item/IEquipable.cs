@@ -8,6 +8,6 @@ namespace SIX_Text_RPG
 {
     internal interface IEquipable
     {
-        protected void Equip();
+        public void Equip();
     }
 }
