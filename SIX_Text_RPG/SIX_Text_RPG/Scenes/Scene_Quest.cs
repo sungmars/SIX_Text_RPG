@@ -9,6 +9,7 @@ internal class Scene_Quest : Scene_Base
     {
         quest = QuestManager.Instance.QuestFind(questId);
     }
+    //인코딩 테스트
     
     public override void Awake()
     {

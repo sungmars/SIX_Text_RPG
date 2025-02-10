@@ -10,6 +10,7 @@ internal class Scene_EnemyPhase : Scene_Base
         this.monsters = monsters;
         this.monsterCount = monsterCount;
     }
+    //ì¸ì½”ë”© í…ŒìŠ¤íŠ¸
 
     public override void Awake()
     {
@@ -17,7 +18,7 @@ internal class Scene_EnemyPhase : Scene_Base
         hasZero = false;
         sceneTitle = "Battle!!";
         sceneInfo = "???";
-        Menu.Add("´ÙÀ½");
+        Menu.Add("ë‹¤ìŒ");
 
         EnemyAttack();
     }
@@ -36,13 +37,13 @@ internal class Scene_EnemyPhase : Scene_Base
                 monsterCount++;
                 if (player.Stats.HP <= 0)
                 {
-                    // ÇÃ·¹ÀÌ¾î »ç¸Á½Ã °á°ú·Î
+                    // í”Œë ˆì´ì–´ ì‚¬ë§ì‹œ ê²°ê³¼ë¡œ
                     Program.CurrentScene = new Scene_BattleResult(false);
                     break;
                 }
                 if (monsters.Count == monsterCount)
                 {
-                    // ¸ó½ºÅÍµé °ø°İ ¿Ï·áÈÄ playerÅÏ
+                    // ëª¬ìŠ¤í„°ë“¤ ê³µê²© ì™„ë£Œí›„ playerí„´
                     Program.CurrentScene = new Scene_BattleLobby();
                     break;
                 }
@@ -56,7 +57,7 @@ internal class Scene_EnemyPhase : Scene_Base
 
     protected override void Display()
     {
-        // enemy 1 scene¿¡ 1¸¶¸®
+        // enemy 1 sceneì— 1ë§ˆë¦¬
         if (!monsters[monsterCount].IsDead)
         {
             DisplayMonsterAttack();
@@ -86,8 +87,8 @@ internal class Scene_EnemyPhase : Scene_Base
 
         var monster = monsters[monsterCount];
         var damage = monster.Stats.ATK;
-        Console.WriteLine($"Lv .{monster.Stats.Level} {monster.Stats.Name}ÀÇ °ø°İ!");
-        Console.WriteLine($"{player.Stats.Name}À»(¸¦) ¸ÂÃè½À´Ï´Ù.     " + $"[µ¥¹ÌÁö : {damage}]");
+        Console.WriteLine($"Lv .{monster.Stats.Level} {monster.Stats.Name}ì˜ ê³µê²©!");
+        Console.WriteLine($"{player.Stats.Name}ì„(ë¥¼) ë§ì·„ìŠµë‹ˆë‹¤.     " + $"[ë°ë¯¸ì§€ : {damage}]");
         Console.WriteLine("");
         Console.WriteLine($"Lv . {player.Stats.Level} {player.Stats.Name}");
         Console.WriteLine($"HP {player.Stats.HP} / {player.Stats.MaxHP} -> {player.Stats.HP} / {player.Stats.MaxHP}");
