@@ -49,7 +49,8 @@
             }
 
             Display_Menu();
-            Utils.DisplayLine(true);
+            Utils.DisplayLine(Program.CurrentScene != Program.PreviousScene);
+            Program.PreviousScene = Program.CurrentScene;
         }
 
         public virtual int Update()
@@ -62,7 +63,7 @@
 
         private void Display_Menu()
         {
-            int delay = 200;
+            int delay = Program.CurrentScene == Program.PreviousScene ? 0 : 200;
             Console.WriteLine();
 
             for (int i = 0; i < Menu.Count; i++)

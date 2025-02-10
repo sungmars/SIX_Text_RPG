@@ -82,11 +82,11 @@ namespace SIX_Text_RPG.Scenes
             }
 
             Console.SetCursorPosition(0, 16);
-            GameManager.Instance.DisplayBattle(monsterNum, 6, () =>
-            {
-                // 플레이어 공격
-                GameManager.Instance.Monsters[monsterNum].Damaged(CalculateDamage(player.Stats.ATK));
-            });
+            //GameManager.Instance.DisplayBattle(monsterNum, 6, () =>
+            //{
+            //    // 플레이어 공격
+            //    GameManager.Instance.Monsters[monsterNum].Damaged(CalculateDamage(player.Stats.ATK));
+            //});
 
             foreach (var monster in monsters)
             {
