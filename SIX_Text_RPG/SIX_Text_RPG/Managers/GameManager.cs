@@ -38,7 +38,7 @@
             Utils.ClearBuffer();
         }
 
-        private void DisplayBattle_Attack(int targetIndex, int attackCount, Action? onHit)
+        public void DisplayBattle_Attack(int targetIndex, int attackCount, Action? onHit)
         {
             if (Player == null)
             {
@@ -124,7 +124,7 @@
             }
         }
 
-        private void DisplayBattle_Damage(params Action[] onDamage)
+        public void DisplayBattle_Damage(params Action[] onDamage)
         {
             if (Player == null)
             {
