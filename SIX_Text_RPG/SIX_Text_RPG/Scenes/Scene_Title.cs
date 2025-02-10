@@ -10,7 +10,6 @@
             Utils.CursorMenu.Add(("새로운 찌르기", () => Program.CurrentScene = new Scene_CreatePlayer()));
             Utils.CursorMenu.Add(("익숙한 찌르기", () =>
             {
-                Utils.WriteColor("\n\n\n >> ", ConsoleColor.DarkYellow);
                 if (DataManager.Instance.LoadData() == false)
                 {
                     Console.ReadKey();
@@ -27,7 +26,7 @@
             }
             ));
 
-            AudioManager.Instance.Play("Music_Title", 0.2f, true);
+            //AudioManager.Instance.PlayMusic("Music_Title");
         }
 
         protected override void Display()
