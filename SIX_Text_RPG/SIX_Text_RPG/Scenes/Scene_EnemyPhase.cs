@@ -17,7 +17,7 @@ internal class Scene_EnemyPhase : Scene_Base
         hasZero = false;
         sceneTitle = "Battle!!";
         sceneInfo = "???";
-        Menu.Add("ë‹¤ìŒ");
+        Menu.Add("´ÙÀ½");
 
         EnemyAttack();
     }
@@ -36,14 +36,14 @@ internal class Scene_EnemyPhase : Scene_Base
                 monsterCount++;
                 if (player.Stats.HP <= 0)
                 {
-                    // í”Œë ˆì´ì–´ ì‚¬ë§ì‹œ ê²°ê³¼ë¡œ
+                    // ÇÃ·¹ÀÌ¾î »ç¸Á½Ã °á°ú·Î
                     Program.CurrentScene = new Scene_BattleResult(false);
                     break;
                 }
                 if (monsters.Count == monsterCount)
                 {
-                    // ëª¬ìŠ¤í„°ë“¤ ê³µê²© ì™„ë£Œí›„ playerí„´
-                    Program.CurrentScene = new Scene_BattleStart();
+                    // ¸ó½ºÅÍµé °ø°İ ¿Ï·áÈÄ playerÅÏ
+                    Program.CurrentScene = new Scene_BattleLobby();
                     break;
                 }
 
@@ -56,7 +56,7 @@ internal class Scene_EnemyPhase : Scene_Base
 
     protected override void Display()
     {
-        // enemy 1 sceneì— 1ë§ˆë¦¬
+        // enemy 1 scene¿¡ 1¸¶¸®
         if (!monsters[monsterCount].IsDead)
         {
             DisplayMonsterAttack();
@@ -86,8 +86,8 @@ internal class Scene_EnemyPhase : Scene_Base
 
         var monster = monsters[monsterCount];
         var damage = monster.Stats.ATK;
-        Console.WriteLine($"Lv .{monster.Stats.Level} {monster.Stats.Name}ì˜ ê³µê²©!");
-        Console.WriteLine($"{player.Stats.Name}ì„(ë¥¼) ë§ì·„ìŠµë‹ˆë‹¤.     " + $"[ë°ë¯¸ì§€ : {damage}]");
+        Console.WriteLine($"Lv .{monster.Stats.Level} {monster.Stats.Name}ÀÇ °ø°İ!");
+        Console.WriteLine($"{player.Stats.Name}À»(¸¦) ¸ÂÃè½À´Ï´Ù.     " + $"[µ¥¹ÌÁö : {damage}]");
         Console.WriteLine("");
         Console.WriteLine($"Lv . {player.Stats.Level} {player.Stats.Name}");
         Console.WriteLine($"HP {player.Stats.HP} / {player.Stats.MaxHP} -> {player.Stats.HP} / {player.Stats.MaxHP}");

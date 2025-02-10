@@ -2,9 +2,17 @@
 {
     internal class Define
     {
+        #region VALUENS
+        public static readonly int INVENTORY_CAPACITY = 9;
+        public static readonly int MONSTERS_CAPACITY = 4;
         public static readonly int MONSTER_SPAWN_X = 78;
+        public static readonly int[] TIMES = { 0900, 1200, 1500, 1800, 2059 };
+        #endregion
+
+        #region TEXTS
         public static readonly string GAME_TITLE = "스파게티 코딩클럽";
         public static readonly string ERROR_MESSAGE_INPUT = "[!] 잘못된 입력입니다.";
+        #endregion
 
         #region Players
         public static readonly Stats[] PLAYERS_STATS =
@@ -24,12 +32,13 @@
             "만나서 반갑습니다?",
             "머지가 머죠?",
             "안녕하세요?튜터님?",
-            "제가 뭘 질문해야 할지 모르겠어요 ㅠㅠ",
+            "제가 뭘 질문해야 할까요?ㅠㅠ",
             "튜터님 자리에 계세요?",
             "튜터님 저 또 왔어요!",
             "튜터님 해주세요 ㅎㅎ;ㅈㅅ;",
         };
         #endregion
+
         #region Monsters
         public static readonly Stats[] MONSTERS_STATS =
         {
@@ -53,6 +62,7 @@
             "이제 돌아가세요.",
         };
         #endregion
+
         #region Graphics
         public static readonly char[] FACES =
         {

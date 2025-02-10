@@ -14,6 +14,7 @@
         public virtual void Awake()
         {
             Console.Clear();
+            Utils.CursorMenu.Clear();
         }
 
         public void Start()
@@ -34,20 +35,26 @@
             Display();
         }
 
-        public void LateStart()
+        public virtual void LateStart()
         {
+            if (Utils.CursorMenu.Count > 0)
+            {
+                return;
+            }
+
             if (Menu.Count == 0 && !hasZero)
             {
                 return;
             }
 
             Display_Menu();
-            Utils.DisplayLine();
+            Utils.DisplayLine(true);
         }
 
         public virtual int Update()
         {
-            return Utils.ReadIndex(hasZero);
+            if (Utils.CursorMenu.Count > 0) return Utils.ReadArrow();
+            else return Utils.ReadIndex(hasZero);
         }
 
         protected abstract void Display();
@@ -63,12 +70,21 @@
                     continue;
                 }
 
-                Utils.WriteMenuLine($" [{i + 1}] {Menu[i]}");
+                string[] texts = Menu[i].Split('\n');
+                Console.WriteLine($" [{i + 1}] {texts[0]}");
+                Thread.Sleep(200);
+
+                for (int j = 1; j < texts.Length; j++)
+                {
+                    Console.Write("     ");
+                    Utils.WriteAnim(texts[j], ConsoleColor.DarkGray);
+                }
             }
 
             if (hasZero)
             {
                 Console.WriteLine($"\n [0] {zeroText}");
+                Thread.Sleep(200);
             }
         }
     }
