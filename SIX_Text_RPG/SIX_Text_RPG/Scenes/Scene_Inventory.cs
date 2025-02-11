@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
@@ -20,10 +21,9 @@ namespace SIX_Text_RPG.Scenes
             sceneInfo = "Enter키를 눌러 장착/해제 가능합니다.";
             hasZero = false;
         }
-
-
         protected override void Display()
         {
+
             Console.SetCursorPosition(0, 10);
             if (Inventory.Count == 0)//아이템이 없다면 아무것도 없다는 문장과 엔터키를 누르면 나가는 기능
             {
@@ -43,8 +43,11 @@ namespace SIX_Text_RPG.Scenes
                 for (int i = 0; i < Inventory.Count; i++)
                 {
                     var selectItem = Inventory[i];//캡쳐 방지
-                    
-                    string displayName = (selectItem.Iteminfo.IsEquip ? "[E]" : "") + selectItem.Iteminfo.Name;//상태에 따라 표시할 이름 생성
+                    IEquipable? equipable = selectItem as IEquipable;
+                    IConsumable? consumable = selectItem as IConsumable;
+
+                    string displayName = (equipable != null && selectItem.Iteminfo.IsEquip ? "[E]" : "") 
+                    + selectItem.Iteminfo.Name;//상태에 따라 표시할 이름 생성
                     
                     Utils.CursorMenu.Add((
                         displayName, // 메뉴에 출력될 아이템 이름
@@ -52,32 +55,32 @@ namespace SIX_Text_RPG.Scenes
                         {
                             Console.Clear();
                             //장착 상태에 따라 토글
-                            IEquipable? equipable = selectItem as IEquipable;
-                            IConsumable? consumable = selectItem as IConsumable;
-                            if (consumable != null)//소비하는 아이템이라면
-                            {
-                                consumable.Consume();//소비 메서드 호출
-                            }
-                            else if (equipable != null)
-                            {
-                                equipable.Equip();//장비 메서드호출
-                            }
-                            else
-                            {
-                                Console.WriteLine("착용불가한 아이템");
-                                Console.ReadKey(); // 대기
-                            }
+                            UseItem(i);
                         }
                     ));
                 }
-                Utils.CursorMenu.Add((
-                        "나가기",
-                        () =>
-                        {
-                            Program.CurrentScene = new Scene_Lobby();
-                        }
-                ));
+                Utils.CursorMenu.Add(("나가기",() =>{Program.CurrentScene = new Scene_Lobby();}));
                 Utils.DisplayCursorMenu(5, 7);
+            }
+        }
+        public void UseItem(int j)
+        {
+            var selectItem = Inventory[j];//캡쳐 방지
+            IEquipable? equipable = selectItem as IEquipable;
+            IConsumable? consumable = selectItem as IConsumable;
+
+            if (consumable != null)//소비하는 아이템이라면
+            {
+                consumable.Consume();//소비 메서드 호출
+            }
+            else if (equipable != null)
+            {
+                equipable.Equip();//장비 메서드호출
+            }
+            else
+            {
+                Console.WriteLine("착용불가한 아이템");
+                Console.ReadKey(); // 대기
             }
         }
     }
