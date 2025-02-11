@@ -83,6 +83,10 @@ namespace SIX_Text_RPG.Scenes
                 case 0:
                     Program.CurrentScene = new Scene_Lobby();
                     break;
+                 //테스트용 코드
+                case 9:
+                    GameManager.Instance.Player.SetStat(Stat.Gold, 10000);
+                    break;
             }
             return 0;
         }
