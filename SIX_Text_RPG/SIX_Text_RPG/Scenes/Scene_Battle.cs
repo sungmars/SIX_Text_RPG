@@ -52,8 +52,7 @@
             }
 
             // 플레이어 정보 출력
-            Console.SetCursorPosition(0, 6);
-            player.DisplayInfo_Status();
+            Display_PlayerInfo();
 
             if (HasAnim) Thread.Sleep(500);
 
@@ -84,6 +83,17 @@
             // 커서 위치 초기화 및 이중선 그리기
             Console.SetCursorPosition(left, top);
             Utils.DisplayLine(HasAnim, 3);
+        }
+
+        protected void Display_PlayerInfo()
+        {
+            if (player == null)
+            {
+                return;
+            }
+
+            Console.SetCursorPosition(0, 6);
+            player.DisplayInfo_Status();
         }
     }
 }

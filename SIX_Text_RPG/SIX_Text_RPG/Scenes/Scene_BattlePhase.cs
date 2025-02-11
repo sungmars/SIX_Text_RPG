@@ -69,7 +69,11 @@
             {
                 float currentHP = player.Stats.HP;
                 float damage = CalculateDamage(monsters[i].Stats.ATK);
-                damageActions[i] = () => player.Damaged(damage);
+                damageActions[i] = () =>
+                {
+                    player.Damaged(damage);
+                    Display_PlayerInfo();
+                };
 
                 if (player.Stats.HP > 0)
                 {
@@ -82,10 +86,8 @@
             }
 
             GameManager.Instance.DisplayBattle_Damage(damageActions);
-
             return player.IsDead;
         }
-
 
         private float CalculateDamage(float atk)
         {
@@ -97,6 +99,7 @@
             {
                 return 0;
             }
+
             // -10% ~ 10% 랜덤 퍼센트
             float percent = random.Next(-10, 11);
             return atk + ((atk * percent) / 100.0f);
