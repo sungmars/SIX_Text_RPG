@@ -297,7 +297,7 @@ namespace SIX_Text_RPG
                         Utils.WriteColor($"{Stats.Gold:N0}G ", ConsoleColor.Yellow);
                         break;
                     default:
-                        Console.Write($"{currentValue} ");
+                        Console.Write($"{currentValue:f0} ");
                         break;
                 }
 
