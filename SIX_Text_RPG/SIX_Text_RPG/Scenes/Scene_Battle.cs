@@ -23,6 +23,7 @@
         protected readonly Random random = new();
         protected readonly Player? player = GameManager.Instance.Player;
         protected readonly List<Monster> monsters = GameManager.Instance.Monsters;
+        protected readonly int stage = GameManager.Instance.CurrentStage;
 
         protected static int monsterIndex;
 

@@ -12,14 +12,14 @@
             if (PlayerPhase(monsterIndex))
             {
                 // 플레이어 승리 로직
-                Program.CurrentScene = new Scene_BattleResult(true);
+                Program.CurrentScene = new Scene_BattleResult();
                 return 0;
             }
 
             if (MonsterPhase())
             {
                 // 플레이어 패배 로직
-                Program.CurrentScene = new Scene_BattleResult(false);
+                Program.CurrentScene = new Scene_BattleResult();
                 return 0;
             }
 
