@@ -147,7 +147,7 @@
             " 퇴근 시간에 찾아오면 범죄인거 아시죠?"
         };
 
-        private int currentTime;
+        public int currentTime;
 
         public override void Awake()
         {
@@ -169,7 +169,7 @@
             switch (base.Update())
             {
                 case 1:
-                    Program.CurrentScene = new Scene_LevelUp();
+                    Program.CurrentScene = new Scene_PlayerInfo();
                     break;
                 case 2:
                     Program.CurrentScene = new Scene_Inventory();
@@ -204,11 +204,11 @@
             Console.SetCursorPosition(1, 1);
             Utils.WriteColorLine(Define.GAME_TITLE, ConsoleColor.DarkYellow);
 
-            Console.SetCursorPosition(1, 3);
+            currentTime = Define.TIMES[Math.Max(GameManager.Instance.CurrentStage, 0)];
             int targetStage = GameManager.Instance.TargetStage;
-            Utils.WriteColorLine("현재 시간: ", targetStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkGreen);
 
-            currentTime = Define.TIMES[targetStage];
+            Console.SetCursorPosition(1, 3);
+            Utils.WriteColorLine("현재 시간: ", targetStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkGreen);
             Display_Clock(targetStage == 4 ? ConsoleColor.Red : ConsoleColor.Green);
 
             if (targetStage == GameManager.Instance.CurrentStage)

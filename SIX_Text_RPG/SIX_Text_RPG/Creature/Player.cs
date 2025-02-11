@@ -66,14 +66,17 @@ namespace SIX_Text_RPG
             Utils.WriteColor($" {Type}", ConsoleColor.DarkCyan);
             Utils.WriteColorLine($" {Stats.Name}\n", ConsoleColor.DarkYellow);
 
+            Utils.ClearLine(0, Console.CursorTop, 50);
             Console.Write($" 경험치: ");
             Display_EXPBar();
             Console.WriteLine($" {Stats.EXP}/{Stats.MaxEXP}");
 
+            Utils.ClearLine(0, Console.CursorTop, 50);
             Console.Write($" 체  력: ");
             Display_HPBar();
             Console.WriteLine($" {Stats.HP:F0}/{Stats.MaxHP:F0}");
 
+            Utils.ClearLine(0, Console.CursorTop, 50);
             Console.Write($" 마  력: ");
             Display_MPBar();
             Console.WriteLine($" {Stats.MP:F0}/{Stats.MaxMP:F0}\n");
@@ -154,36 +157,6 @@ namespace SIX_Text_RPG
             stats.MaxMP -= info.MaxMP;
 
             Stats = stats;
-        }
-
-        public void LevelUp()
-        {
-            Stats stats = Stats;
-
-            // 레벨 설정
-            stats.Level++;
-            if (stats.Level == Define.PLAYER_EXP_TABLE.Length)
-            {
-                stats.EXP = 0;
-                stats.MaxEXP = 0;
-            }
-            else
-            {
-                stats.EXP -= stats.MaxEXP;
-                stats.MaxEXP = Define.PLAYER_EXP_TABLE[stats.Level];
-            }
-
-            // 회복 보너스
-            stats.HP = stats.MaxHP;
-            stats.MP = stats.MaxMP;
-
-            // 스탯 설정
-            stats.ATK += 1;
-            stats.DEF += 0.5f;
-
-            // 레벨업 씬으로 이동
-            Stats = stats;
-            Program.CurrentScene = new Scene_LevelUp();
         }
 
         public void Render()
@@ -285,7 +258,8 @@ namespace SIX_Text_RPG
             int index = 1;
             while (amount != 0 && value != 0 && value != maxValue)
             {
-                Thread.Sleep(20);
+                int delay = (type == Stat.HP || type == Stat.MP) ? 10 : 50;
+                Thread.Sleep(delay);
                 Utils.ClearLine(posX, posY);
 
                 switch (type)

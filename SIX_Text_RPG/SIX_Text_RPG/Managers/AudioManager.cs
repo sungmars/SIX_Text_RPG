@@ -22,7 +22,7 @@ namespace SIX_Text_RPG
         SoundFX_Hit2,
         SoundFX_Hit3,
         SoundFX_Landed,
-        SoundFX_LevelUp,
+        Music_LevelUp,
         SoundFX_TaskDone,
         SoundFX_WriteAnim,
 

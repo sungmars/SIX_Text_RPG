@@ -23,7 +23,16 @@
 
         public static readonly int[] PLAYER_EXP_TABLE =
         {
-            10, // Level 1 -> 2
+            10, // Level 1
+            20, // Level 2
+            30, // Level 3
+            40, // Level 4
+            50, // Level 5
+            60, // Level 6
+            70, // Level 7
+            80, // Level 8
+            90, // Level 9
+            100, // Level 10
         };
 
         public static readonly string[] PLAYER_ATK_SCRIPTS =
