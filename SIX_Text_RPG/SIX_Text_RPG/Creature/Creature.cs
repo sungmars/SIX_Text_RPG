@@ -51,7 +51,7 @@ namespace SIX_Text_RPG
             stats.HP = MathF.Max(hp, 0);
 
             // 체력이 최대 체력 이상으로 설정되지 않습니다.
-            stats.HP = MathF.Min(hp, Stats.MaxHP);
+            stats.HP = MathF.Min(stats.HP, Stats.MaxHP);
 
             Stats = stats;
         }
