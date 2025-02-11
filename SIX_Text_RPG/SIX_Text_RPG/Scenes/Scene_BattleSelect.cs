@@ -41,7 +41,14 @@
             }
             else
             {
-                Program.CurrentScene = new Scene_BattlePhase();
+                if (monsters[monsterIndex].IsDead)
+                {
+                    Program.CurrentScene = this;
+                }
+                else
+                {
+                    Program.CurrentScene = new Scene_BattlePhase();
+                }
             }
 
             return 0;
