@@ -12,21 +12,16 @@ namespace SIX_Text_RPG.Scenes
 
 
 
-        private int left = 0;
-        private int top = 0;
-
-
         public override void Awake()
         {
-            base.Awake();
             hasZero = false;
             Utils.CursorMenu.Add(("player다음", () => MonsterNext()));
-            isPlayAnim = true;
         }
 
         public override int Update()
         {
-            if (PlayerPhase())
+
+            if (IsAllMonsterDead())
             {
                 Program.CurrentScene = new Scene_BattleResult(true);
                 return 0;
@@ -34,14 +29,19 @@ namespace SIX_Text_RPG.Scenes
             else
             {
                 Utils.DisplayCursorMenu(5, CURSORMENU_TOP);
-                base.Update();
+                if(base.Update() == 0)
+                {
+                    Utils.CursorMenu.Clear();
+                    Utils.ClearLine(0, CURSORMENU_TOP);
+                    return 0;
+                }
                 return 0;
             }
         }
 
         public override void LateStart()
         {
-            base.LateStart();
+            Console.Write(string.Empty);
         }
 
         protected override void Display()
@@ -53,7 +53,6 @@ namespace SIX_Text_RPG.Scenes
         {
             if (MonsterPhase())
             {
-                // 플레이어 사망시 결과로
                 Program.CurrentScene = new Scene_BattleResult(false);
             }
             else
@@ -61,11 +60,18 @@ namespace SIX_Text_RPG.Scenes
                 Utils.CursorMenu.Clear();
                 Utils.CursorMenu.Add(("monster다음", () => Program.CurrentScene = new Scene_BattleLobby()));
                 Utils.DisplayCursorMenu(5, CURSORMENU_TOP);
-                base.Update();
+                if (base.Update() == 0)
+                {
+                    Utils.CursorMenu.Clear();
+                    Utils.ClearLine(0, CURSORMENU_TOP);
+                }
             }
         }
 
-
+        private bool IsAllMonsterDead()
+        {
+            return monsters.All(monster => monster.IsDead);
+        }
 
     }
 }
