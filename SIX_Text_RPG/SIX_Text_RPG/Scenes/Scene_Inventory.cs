@@ -58,6 +58,7 @@ namespace SIX_Text_RPG.Scenes
                 }
                 Utils.CursorMenu.Add(("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓", () =>//구분선 만듬
                 {
+                    Console.WriteLine("이거 누르지 마세욧");
                 }
                 ));
                 //소비 아이템 출력할곳
