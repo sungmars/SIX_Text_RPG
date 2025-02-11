@@ -40,6 +40,8 @@ namespace SIX_Text_RPG
         public Stats Stats { get; set; }
         public bool IsDead { get { return Stats.HP == 0; } }
 
+        protected Random random = new();
+
         public void Damaged(float damage)
         {
             Stats stats = Stats;
