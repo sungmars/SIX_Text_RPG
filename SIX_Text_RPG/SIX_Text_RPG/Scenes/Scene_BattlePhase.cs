@@ -13,6 +13,7 @@
             {
                 // 플레이어 승리 로직
                 Program.CurrentScene = new Scene_BattleResult();
+                QuestManager.Instance.UpdateQuestProgress(0,monsters.Count);
                 return 0;
             }
 
@@ -43,6 +44,7 @@
                 // 플레이어 공격
                 float damage = CalculateDamage(player.Stats.ATK);
                 GameManager.Instance.Monsters[selectMonsterNum].Damaged(damage);
+                QuestManager.Instance.KillCountPlus(1, (int)GameManager.Instance.Monsters[selectMonsterNum].Type);
             });
 
             // 몬스터가 1마리라도 살아있으면 false
