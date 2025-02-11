@@ -188,6 +188,7 @@
                     Program.CurrentScene = new Scene_BattleLobby();
                     break;
                 case 5: // 퀘스트
+                    Program.CurrentScene = new Scene_QuestTable();
                     break;
                 case 6: // 휴식
                     break;
