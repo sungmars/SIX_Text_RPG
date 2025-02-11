@@ -38,7 +38,9 @@ namespace SIX_Text_RPG.Scenes
         private int left;
         private int top;
 
-        private bool isTalk = false;
+        private bool isTalk_1 = false;
+        private bool isTalk_2 = false;
+        private bool isTalk_3 = false;
 
 
         public override void Awake()
@@ -60,17 +62,17 @@ namespace SIX_Text_RPG.Scenes
             {
                 //아이템 구매
                 case 1:
-                    if (!isTalk)
+                    if (!isTalk_1)
                     {
                         Talking(talkBuy);
-                        isTalk = true;
+                        isTalk_1 = true;
                     }
                     Program.CurrentScene = new Scene_Store_Buy();
                     break;
 
                 //아이템 판매
                 case 2:
-                    //Program.CurrentScene = new Scene_Store_Sell();
+                    Program.CurrentScene = new Scene_Store_Sell();
                     break;
 
                 //골드 도박
@@ -80,6 +82,10 @@ namespace SIX_Text_RPG.Scenes
 
                 case 0:
                     Program.CurrentScene = new Scene_Lobby();
+                    break;
+                 //테스트용 코드
+                case 9:
+                    GameManager.Instance.Player.SetStat(Stat.Gold, 10000);
                     break;
             }
             return 0;
