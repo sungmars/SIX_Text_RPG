@@ -70,13 +70,13 @@ namespace SIX_Text_RPG
             // 아이템 정보 불러오기
             for (int i = 2; i < jsonData.Length - 1; i++)
             {
-                if ((i + 1) % 3 == 0)
+                if (i % 2 != 0)
                 {
                     continue;
                 }
 
-                ItemType itemType = JsonConvert.DeserializeObject<ItemType>(jsonData[i]);
-                ItemInfo info = JsonConvert.DeserializeObject<ItemInfo>(jsonData[i + 1]);
+                ItemType itemType = JsonConvert.DeserializeObject<ItemType>(jsonData[i + 1]);
+                ItemInfo info = JsonConvert.DeserializeObject<ItemInfo>(jsonData[i + 2]);
 
                 //Item item;
                 //switch (itemType)

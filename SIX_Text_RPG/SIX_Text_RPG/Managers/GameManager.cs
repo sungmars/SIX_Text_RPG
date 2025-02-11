@@ -12,7 +12,7 @@
 
         public Player? Player { get; set; }
 
-        public List<Item> Inventory { get; private set; } = new(Define.INVENTORY_CAPACITY);
+        public List<Item> Inventory { get; private set; } = new();
         public List<Monster> Monsters { get; private set; } = new(Define.MONSTERS_CAPACITY);
 
         public int CurrentStage { get; set; } = -1;
@@ -46,7 +46,7 @@
             }
 
             int[] startX = new int[attackCount];
-            int endX = Define.MONSTER_SPAWN_X - 2;
+            int endX = Define.MONSTER_SPAWN_X - 3;
             int targetY = Monsters[targetIndex].Position.Y;
             string value = Player.Graphic_Weapon.ToString();
 
@@ -231,7 +231,7 @@
             Utils.ClearLine(0, Console.CursorTop);
             Console.WriteLine();
             Utils.DisplayLine();
-            Console.SetCursorPosition(0, Console.CursorTop-1);
+            Console.SetCursorPosition(0, Console.CursorTop - 1);
         }
 
         private void DisplayBatte_Monsters()

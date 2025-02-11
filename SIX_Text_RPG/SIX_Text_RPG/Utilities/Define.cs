@@ -3,7 +3,6 @@
     internal class Define
     {
         #region VALUENS
-        public static readonly int INVENTORY_CAPACITY = 9;
         public static readonly int MONSTERS_CAPACITY = 4;
         public static readonly int MONSTER_SPAWN_X = 78;
         public static readonly int[] TIMES = { 0900, 1200, 1500, 1800, 2059 };
@@ -66,9 +65,40 @@
         #endregion
 
         #region Items
-        public static readonly ItemInfo[] ITEM_INFOS =
+        public static readonly ItemInfo[,] ITEM_INFOS =
         {
-            new() { Name = "테스트", Description = "",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 0 },
+            //Armor
+            {
+                new() { Name = "손가락골무", Description = "찌르는 손가락이 아프지 않도록 지켜주세요.",ATK = 0, DEF = 5, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 700, Graphic = '☞', Color = ConsoleColor.Magenta },
+                new() { Name = "말랑한 정신", Description = "생각이 말랑해야 정신이 건강합니다...",ATK = 0, DEF = 10, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 1500, Graphic = '♣', Color = ConsoleColor.DarkGreen },
+                new() { Name = "초랭이", Description = "수생거북 초랭이입니다. 곁에만 있어도 든든합니다",ATK = 0, DEF = 17, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 2500, Graphic = '¤', Color = ConsoleColor.Green },
+                new() { Name = "상어옷", Description = "놀랍도록 파랗습니다.. 피부까지도...",ATK = 0, DEF = 30, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 4000,Graphic = 'δ', Color = ConsoleColor.Blue },
+                new() { Name = "노이즈캔슬링", Description = "아무 것도 들리지 않습니다..",ATK = 0, DEF = 45, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 5900, Graphic = '¶', Color = ConsoleColor.Blue },
+            },
+            //Accessory
+            {
+                new() { Name = "입1", Description = "이가 보이게 활짝웃어봐요",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 300, Graphic = '∀' },
+                new() { Name = "입2", Description = "입을 Woo~아하게 만들어줍니다",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 300, Graphic = 'ω'  },
+                new() { Name = "입3", Description = "입을 빵끗 웃을 수 있습니다",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 300 , Graphic = 'ⅴ'},
+                new() { Name = "입4", Description = "모기와 친구먹으세요",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 300 , Graphic = '3'},
+                new() { Name = "입5", Description = "조용히 입을 다물어요..",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 300 , Graphic = 'ⅹ'}
+            },
+            //Potion
+            {
+                new() { Name = "최대체력 증가 포션", Description = "최대 체력이 20만큼 증가합니다..",ATK = 0, DEF = 0, HP = 20, MaxHP = 20, MP = 0, MaxMP = 0, Price = 1500 , Graphic = '♨', Color = ConsoleColor.DarkRed},
+                new() { Name = "체력 회복포션", Description = "현재체력을 20만큼 회복시켜줍니다.",ATK = 0, DEF = 0, HP = 20, MaxHP = 0, MP = 0, MaxMP = 0, Price = 400 , Graphic = 'δ', Color = ConsoleColor.Red},
+                new() { Name = "마나회복 포션", Description = "현재마나를 20만큼 회복시켜줍니다",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 20, MaxMP = 0, Price = 400 , Graphic = 'δ', Color = ConsoleColor.Blue},
+                new() { Name = "최대마나 증가 포션", Description = "최대 체력이 20만큼 증가합니다.",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 20, MaxMP = 20, Price = 1500, Graphic = '♨', Color = ConsoleColor.DarkBlue },
+                new() { Name = "회복약", Description = "더 저렴한 가격에 두 가지를 동시에!",ATK = 0, DEF = 0, HP = 20, MaxHP = 0, MP = 20, MaxMP = 0, Price = 700 , Graphic = 'δ', Color = ConsoleColor.Magenta},
+            },
+            //Weapon
+            {
+                new() { Name = "강력한 손가락", Description = "보기만 해도 따끔합니다!",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 1000, Graphic = '☞', Color = ConsoleColor.Magenta},
+                new() { Name = "펀치", Description = "튜터님들에게 강력한 \"한 방\"을 선사하세요!",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 2000, Graphic = '⊃', Color = ConsoleColor.Red},
+                new() { Name = "물풍선", Description = "추운 겨울날 튜터님을 Cool하게 만들어드려요...",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 3000, Graphic = '∞', Color = ConsoleColor.Cyan },
+                new() { Name = "싸커킥", Description = "아야! 절대절대 \"엉덩이\"를 조심하세요..",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 4000, Graphic = 'ζ', Color = ConsoleColor.DarkRed},
+                new() { Name = "뿅망치", Description = "이거 진짜 아파보이는데... 진짜 뿅망치 맞죠...?",ATK = 45, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 5000, Graphic = 'ф', Color = ConsoleColor.Gray},
+            }
         };
         #endregion
 

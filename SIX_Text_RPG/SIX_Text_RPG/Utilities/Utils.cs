@@ -11,6 +11,7 @@ namespace SIX_Text_RPG
         private static int cursorIndex;
         private static int contentLeft;
         private static int contentTop;
+        private static int offsetTop;
 
         // 애니메이션(Thread.Sleep) 재생 중인 동안 눌린 키를 지워줌.
         public static void ClearBuffer()
@@ -20,19 +21,23 @@ namespace SIX_Text_RPG
         }
 
         // 원하는 콘솔 좌표 시작점 left로부터 top 좌표에 있는 모든 텍스트를 지워준다.
-        public static void ClearLine(int left, int top)
+        public static void ClearLine(int left, int top, int right = 0)
         {
             Console.SetCursorPosition(left, top);
-            Console.Write(new string(' ', Console.WindowWidth - left));
+
+            int width = right > 0 ? right : Console.WindowWidth - left;
+            Console.Write(new string(' ', width));
+
             Console.SetCursorPosition(left, top);
         }
 
         // 커서 메뉴를 출력합니다.
-        public static void DisplayCursorMenu(int left, int top)
+        public static void DisplayCursorMenu(int left, int top, int exitOffsetY = 0, int delay = 0)
         {
             cursorIndex = 0;
             contentLeft = left;
             contentTop = top;
+            offsetTop = Math.Abs(exitOffsetY);
 
             Console.SetCursorPosition(left - 3, top);
             WriteColor("▶", ConsoleColor.DarkCyan);
@@ -40,18 +45,22 @@ namespace SIX_Text_RPG
             Console.SetCursorPosition(left, top);
             for (int i = 0; i < CursorMenu.Count; i++)
             {
-                Console.SetCursorPosition(left, Console.CursorTop);
                 if (i == CursorMenu.Count - 1)
                 {
+                    int Y = exitOffsetY > 0 ? top + exitOffsetY : Console.CursorTop;
+                    Console.SetCursorPosition(left, Y);
                     WriteColorLine(CursorMenu[i].Item1, ConsoleColor.DarkGray);
+
+                    AudioManager.Instance.Play(AudioClip.SoundFX_TaskDone);
                 }
                 else
                 {
+                    Console.SetCursorPosition(left, Console.CursorTop);
                     WriteColorLine(CursorMenu[i].Item1, ConsoleColor.Gray);
                 }
-            }
 
-            AudioManager.Instance.Play(AudioClip.SoundFX_TaskDone);
+                Thread.Sleep(delay);
+            }
         }
 
         // 화면에 선을 그립니다. 원할 경우 애니메이션, 이중선도 그릴 수 있습니다.
@@ -102,9 +111,24 @@ namespace SIX_Text_RPG
             while (true)
             {
                 ConsoleKeyInfo input = Console.ReadKey(true);
+                switch (input.Key)
+                {
+                    case ConsoleKey.LeftArrow:
+                        return -1;
+                    case ConsoleKey.RightArrow:
+                        return 1;
+                }
+
                 if (input.Key == ConsoleKey.UpArrow)
                 {
-                    Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
+                    if (cursorIndex == CursorMenu.Count - 1 && offsetTop > 0)
+                    {
+                        Console.SetCursorPosition(cursorLeft, contentTop + offsetTop);
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
+                    }
                     Console.Write(' ');
 
                     cursorIndex = Math.Max(cursorIndex - 1, 0);
@@ -118,7 +142,15 @@ namespace SIX_Text_RPG
                     Console.Write(' ');
 
                     cursorIndex = Math.Min(cursorIndex + 1, CursorMenu.Count - 1);
-                    Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
+                    if (cursorIndex == CursorMenu.Count - 1 && offsetTop > 0)
+                    {
+                        Console.SetCursorPosition(cursorLeft, contentTop + offsetTop);
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
+                    }
+
                     WriteColor("▶", ConsoleColor.DarkCyan);
                 }
 
@@ -221,7 +253,7 @@ namespace SIX_Text_RPG
         }
 
         // 텍스트에 name 단어가 포함되어 있으면 플레이어 이름으로 치환해줍니다.
-        public static void WriteName(string value)
+        public static void WriteName(string value, ConsoleColor color = ConsoleColor.Gray)
         {
             string[] texts = value.Split("name");
 
@@ -229,7 +261,7 @@ namespace SIX_Text_RPG
             for (int i = 1; i < texts.Length; i++)
             {
                 WriteColor(Scene_CreatePlayer.PlayerName, ConsoleColor.DarkYellow);
-                Console.Write(texts[i]);
+                WriteColor(texts[i], color);
             }
             Console.WriteLine();
         }
