@@ -16,6 +16,8 @@
                 return 0;
             }
 
+            Thread.Sleep(500);
+
             if (MonsterPhase())
             {
                 // 플레이어 패배 로직
@@ -95,6 +97,7 @@
             {
                 return 0;
             }
+
             if (monsters.Count == 0)
             {
                 return 0;

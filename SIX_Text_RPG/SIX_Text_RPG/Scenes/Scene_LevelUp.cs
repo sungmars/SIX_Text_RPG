@@ -8,39 +8,65 @@ namespace SIX_Text_RPG
         {
             base.Awake();
 
+            hasZero = false;
             sceneTitle = "축하합니다! 레벨이 증가했습니다!";
-            Menu.Add("레벨");
-            Menu.Add("경험치");
-            Menu.Add("공격력");
-            Menu.Add("방어력");
-            Menu.Add("골드");
+
+            AudioManager.Instance.Play(AudioClip.Music_LevelUp);
         }
 
         public override int Update()
         {
-            switch (base.Update())
+            Player? player = GameManager.Instance.Player;
+            if (player == null)
             {
-                case 1:
-                    GameManager.Instance.Player.StatusAnim(Stat.Level, 3);
-                    break;
-                case 2:
-                    GameManager.Instance.Player.StatusAnim(Stat.EXP, 33);
-                    break;
-                case 3:
-                    GameManager.Instance.Player.StatusAnim(Stat.ATK, 33);
-                    break;
-                case 4:
-                    GameManager.Instance.Player.StatusAnim(Stat.DEF, 33);
-                    break;
-                case 5:
-                    GameManager.Instance.Player.StatusAnim(Stat.Gold, 33);
-                    break;
-                case 0:
-                    Program.CurrentScene = new Scene_Lobby();
-                    break;
+                return 0;
             }
 
-            Console.ReadKey();
+            Stats stats = player.Stats;
+            stats.HP = stats.MaxHP;
+            stats.MP = stats.MaxMP;
+
+            // 레벨 증가
+            int levelAmount = 0;
+            while (stats.EXP >= stats.MaxEXP && stats.MaxEXP > 0)
+            {
+                if (stats.Level + ++levelAmount > Define.PLAYER_EXP_TABLE.Length)
+                {
+                    stats.EXP = 0;
+                    stats.MaxEXP = 0;
+                }
+                else
+                {
+                    stats.EXP -= stats.MaxEXP;
+                    stats.MaxEXP = Define.PLAYER_EXP_TABLE[stats.Level];
+                }
+
+                player.Stats = stats;
+
+                Console.SetCursorPosition(0, 5);
+                player.DisplayInfo();
+            }
+
+            // 레벨 애니메이션 재생
+            player.StatusAnim(Stat.Level, levelAmount);
+            stats.Level += levelAmount;
+
+            // 공격력 증가
+            float atkAmount = levelAmount * 2.0f;
+            player.StatusAnim(Stat.ATK, (int)atkAmount);
+            stats.ATK = atkAmount;
+
+            // 방어력 증가
+            float defAmount = levelAmount * 1.5f;
+            player.StatusAnim(Stat.DEF, (int)defAmount);
+            stats.DEF = defAmount;
+
+            // 스탯 적용
+            player.Stats = stats;
+
+            Thread.Sleep(2000);
+            Program.CurrentScene = new Scene_Lobby();
+
             return 0;
         }
 
