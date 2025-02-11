@@ -160,6 +160,12 @@
                 // 몬스터 수만큼 반복합니다.
                 for (int i = 0; i < monsterCount; i++)
                 {
+                    if (Monsters[i].IsDead)
+                    {
+                        startX[i]--;
+                        continue;
+                    }
+
                     // 공백 수를 초기화합니다.
                     count[i] = 0;
 

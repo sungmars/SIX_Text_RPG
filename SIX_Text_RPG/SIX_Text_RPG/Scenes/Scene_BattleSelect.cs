@@ -19,11 +19,13 @@
             Utils.CursorMenu.Add(("찌르지 말고 조금만 더 기다려볼까?", () => monsterIndex = monsters.Count));
         }
 
-        public override void LateStart() { }
+        public override void LateStart()
+        {
+            Utils.DisplayCursorMenu(CURSOR_MENU_X, CURSOR_MENU_Y, EXIT_OFFSET_Y);
+        }
 
         public override int Update()
         {
-            Utils.DisplayCursorMenu(CURSOR_MENU_X, CURSOR_MENU_Y, EXIT_OFFSET_Y);
             if (base.Update() == 0)
             {
                 for (int i = 0; i <= monsters.Count; i++)
@@ -33,25 +35,20 @@
 
                 Utils.ClearLine(CURSOR_MENU_X - 3, CURSOR_MENU_Y + EXIT_OFFSET_Y);
                 Utils.CursorMenu.Clear();
-            }
 
-            if (monsters.Count == monsterIndex)
-            {
-                Program.CurrentScene = new Scene_BattleLobby();
-            }
-            else
-            {
-                if (monsters[monsterIndex].IsDead)
+                if (monsters.Count == monsterIndex)
                 {
-                    Program.CurrentScene = this;
+                    Program.CurrentScene = new Scene_BattleLobby();
                 }
                 else
                 {
                     Program.CurrentScene = new Scene_BattlePhase();
                 }
+
+                return 0;
             }
 
-            return 0;
+            return -1;
         }
     }
 }

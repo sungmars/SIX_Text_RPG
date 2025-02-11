@@ -34,25 +34,20 @@
             char nose = Define.FACES[random.Next(0, Define.FACES.Length)];
             graphic = $"({eye}{nose}{eye}) ";
             graphic_Hit = $"(>{nose}<) ";
+            graphic_Dead = $"(x{nose}x) ";
         }
 
         public MonsterType Type { get; private set; }
+        public Stack<int> PoisonStack { get; private set; } = new();
 
         private readonly string graphic;
         private readonly string graphic_Hit;
+        private readonly string graphic_Dead;
 
         //몬스터 정보 출력
         public void DisplayMonster()
         {
-            if (IsDead)
-            {
-                //몬스터가 죽었을 때 컬러 (의논 필요)
-                Console.WriteLine($" Lv.{Stats.Level:00} {Stats.Name} Dead");
-            }
-            else
-            {
-                Console.Write($" Lv.{Stats.Level:00} {Stats.Name}  ");
-            }
+            Utils.WriteColor($" Lv.{Stats.Level:00} {Stats.Name}  ", IsDead ? ConsoleColor.DarkGray : ConsoleColor.Gray);
         }
 
         public void Render()
@@ -63,14 +58,35 @@
             Display_HPBar();
         }
 
-        public void Render_Hit()
+        public void Render_Dead()
+        {
+            Console.SetCursorPosition(Position.X, Position.Y);
+            Utils.WriteColor(graphic_Dead, ConsoleColor.DarkGray);
+        }
+
+        public void Render_Hit(ConsoleColor color = ConsoleColor.Red)
         {
             AudioManager.Instance.Play(AudioClip.SoundFX_Hit1 + random.Next(0, 3));
             Console.SetCursorPosition(Position.X, Position.Y);
             Utils.WriteColor(graphic_Hit, ConsoleColor.Red);
             Thread.Sleep(200);
 
-            Render();
+            if (IsDead)
+            {
+                Render_Dead();
+            }
+            else
+            {
+                Render();
+            }
+        }
+
+        public void Render_Position()
+        {
+            while (PoisonStack.Pop() > 0)
+            {
+
+            }
         }
     }
 }
