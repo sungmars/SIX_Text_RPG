@@ -44,8 +44,6 @@ using System.Numerics;
         public Item(ItemInfo iteminfo)
         {
             Iteminfo = iteminfo;
-            ItemInfo temp = new ItemInfo() { IsSold = false, IsEquip = false };
-            Iteminfo = temp;
         }
 
         public void Sale()
