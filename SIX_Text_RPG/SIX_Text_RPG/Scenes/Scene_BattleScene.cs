@@ -193,8 +193,15 @@ namespace SIX_Text_RPG.Scenes
             }
         }
 
+
+        // 전투 화면 출력 = 전투 로비에서 한번 출력
         protected void DisplayBattleVS()
         {
+            if (!(Program.PreviousScene is Scene_BattleScene))
+            {
+                //여기?
+            }
+
             if (player == null)
             {
                 return;

@@ -16,6 +16,7 @@
             Utils.CursorMenu.Add(("돌아가기", () => {
                 Program.CurrentScene = new Scene_Lobby();
                 Program.PreviousScene = Program.CurrentScene;
+                monsters.Clear();
             }));
 
             if (monsters.Count == 0)
@@ -30,7 +31,7 @@
         }
         protected override void Display()
         {
-            DisplayBattleVS();
+            DisplayBattleVS();//전투 VS 화면 출력(여기서 한번)
             GameManager.Instance.DisplayBattle();
         }
 
