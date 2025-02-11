@@ -42,6 +42,11 @@
             {
                 // 플레이어 공격
                 float damage = CalculateDamage(player.Stats.ATK);
+                if (Utils.LuckyMethod(15))
+                {
+                    //치명타
+                    damage = (damage * 1060f) / 100f;
+                }
                 GameManager.Instance.Monsters[selectMonsterNum].Damaged(damage);
             });
 
@@ -73,18 +78,24 @@
                 float damage = CalculateDamage(monsters[i].Stats.ATK);
                 damageActions[i] = () =>
                 {
+                    if(Utils.LuckyMethod(50))
+                    {
+                        //회피
+                        damage = 0;
+                    }
                     player.Damaged(damage);
                     Display_PlayerInfo();
+                    if (player.Stats.HP > 0)
+                    {
+                        GameManager.Instance.TotalDamage += damage;
+                    }
+                    else
+                    {
+                        GameManager.Instance.TotalDamage += currentHP;
+                    }
                 };
 
-                if (player.Stats.HP > 0)
-                {
-                    GameManager.Instance.TotalDamage += damage;
-                }
-                else
-                {
-                    GameManager.Instance.TotalDamage += currentHP;
-                }
+                
             }
 
             GameManager.Instance.DisplayBattle_Damage(damageActions);
