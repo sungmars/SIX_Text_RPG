@@ -35,12 +35,9 @@ namespace SIX_Text_RPG.Scenes
             "여기는 어쩐 일이실까요?"
         };
 
-        private int left;
-        private int top;
-
-        private bool isTalk_1 = false;
-        private bool isTalk_2 = false;
-        private bool isTalk_3 = false;
+        static private bool isTalk_1 = false;
+        static private bool isTalk_2 = false;
+        static private bool isTalk_3 = false;
 
 
         public override void Awake()
@@ -50,6 +47,10 @@ namespace SIX_Text_RPG.Scenes
             Menu.Add("\"아이템 사기\"");
             Menu.Add("아이템 팔기");
             Menu.Add("도?박");
+
+            ////테스트를 위한 코드
+            //Menu.Add("돈 복사");
+
 
             //씬 타이틀 인포
             sceneTitle = "수상한 매니저님 방";
@@ -72,17 +73,34 @@ namespace SIX_Text_RPG.Scenes
 
                 //아이템 판매
                 case 2:
+                    if (!isTalk_2)
+                    {
+                        Talking(talkSell);
+                        isTalk_2 = true;
+                    }
                     Program.CurrentScene = new Scene_Store_Sell();
                     break;
 
                 //골드 도박
                 case 3:
+                    if (!isTalk_3)
+                    {
+                        Talking(talkGambling);
+                        isTalk_3 = true;
+                    }
                     //Program.CurrentScene = new Scene_Store_Gambling();
                     break;
+                
+
+                //골드돈복사 (삭제할 예정)
+                //case 4:
+                //    GameManager.Instance.Player.SetStat(Stat.Gold, 99999);
+                //    break;
 
                 case 0:
                     Program.CurrentScene = new Scene_Lobby();
                     break;
+
             }
             return 0;
         }
