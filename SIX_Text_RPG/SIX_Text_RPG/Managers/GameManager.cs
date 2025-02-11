@@ -12,7 +12,7 @@
 
         public Player? Player { get; set; }
 
-        public List<Item> Inventory { get; private set; } = new(Define.INVENTORY_CAPACITY);
+        public List<Item> Inventory { get; private set; } = new();
         public List<Monster> Monsters { get; private set; } = new(Define.MONSTERS_CAPACITY);
 
         public int CurrentStage { get; set; } = -1;
