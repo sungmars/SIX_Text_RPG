@@ -97,16 +97,17 @@ namespace SIX_Text_RPG.Scenes
             SetItem(ItemType.Weapon, "뿅망치", "이거 진짜 아파보이는데... 진짜 뿅망치 맞죠...?", 0f, 0f, 0f, 0f, 45, 0, 0, 'ф');
 
             ////악세서리 아이템 => 보류
-            //SetItem(ItemType.Accessory, " ", " ", 0f, 0f, 0f, 0f, 0, 0, 0, '∀');
-            //SetItem(ItemType.Accessory, " ", " ", 0f, 0f, 0f, 0f, 0, 0, 0, 'ω');
-            //SetItem(ItemType.Accessory, " ", " ", 0f, 0f, 0f, 0f, 0, 0, 0, 'ㅱ');
-            //SetItem(ItemType.Accessory, " ", " ", 0f, 0f, 0f, 0f, 0, 0, 0, 'ⅴ');
-            //SetItem(ItemType.Accessory, " ", " ", 0f, 0f, 0f, 0f, 0, 0, 0, '♥');
-            //SetItem(ItemType.Accessory, " ", " ", 0f, 0f, 0f, 0f, 0, 0, 0, 'ⅹ');
+            //SetItem(ItemType.Accessory, "입1", "이가 보이게 활짝웃어봐요", 0f, 0f, 0f, 0f, 0, 0, 0, '∀');
+            //SetItem(ItemType.Accessory, "입2", "입을 Woo~아하게 만들어줍니다..", 0f, 0f, 0f, 0f, 0, 0, 0, 'ω');
+            //SetItem(ItemType.Accessory, "입3", "네모네모빔을 맞은 코입니다..", 0f, 0f, 0f, 0f, 0, 0, 0, 'ㅱ');
+            //SetItem(ItemType.Accessory, "입4", "입을 V자로 웃을 수 있습니다", 0f, 0f, 0f, 0f, 0, 0, 0, 'ⅴ');
+            //SetItem(ItemType.Accessory, "입5", "하트모양의 입이 있을 수 있습니다..", 0f, 0f, 0f, 0f, 0, 0, 0, '♥');
+            //SetItem(ItemType.Accessory, "입6", "조용히 입을 다물어요..", 0f, 0f, 0f, 0f, 0, 0, 0, 'ⅹ');
         }
 
         public override int Update()
         {
+
             (left, top) = Console.GetCursorPosition();
             Console.SetCursorPosition(left, top);
             switch (base.Update())
@@ -130,7 +131,12 @@ namespace SIX_Text_RPG.Scenes
                 case 0:
                     Program.CurrentScene = new Scene_Lobby();
                     return 0;
+
+                default:
+                    break;
             }
+            Console.SetCursorPosition(1, 15);
+            base.LateStart();
             return -1;
         }
 
@@ -158,6 +164,7 @@ namespace SIX_Text_RPG.Scenes
         }
 
         //내일 버튼작업 꼭하기!!!!!
+        //아이템 구매
         private void Buy()
         {
             //대화가 한번만 뜨도록
@@ -178,6 +185,7 @@ namespace SIX_Text_RPG.Scenes
                 }
             }
             while (flag != 0);
+            Clear(7, 20);
         }
 
         //상점 아이템 보여주기
