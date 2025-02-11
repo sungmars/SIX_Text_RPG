@@ -27,7 +27,7 @@ namespace SIX_Text_RPG.Scenes
             Console.SetCursorPosition(0, 10);
             if (Inventory.Count == 0)//아이템이 없다면 아무것도 없다는 문장과 엔터키를 누르면 나가는 기능
             {
-                Utils.WriteColorLine("현재 가방에 있는 것: 공기", ConsoleColor.DarkGray);
+                Utils.WriteColorLine("     현재 가방에 있는 것: 공기", ConsoleColor.DarkGray);
                 Utils.CursorMenu.Add((
                         "나가려면 Enter키를 누르세요.", // 메뉴에 출력될 아이템 이름
                         () =>
@@ -58,18 +58,14 @@ namespace SIX_Text_RPG.Scenes
                             {
                                 consumable.Consume();//소비 메서드 호출
                             }
+                            else if (equipable != null)
+                            {
+                                equipable.Equip();//장비 메서드호출
+                            }
                             else
                             {
-                                if (equipable != null)
-                                {
-                                    equipable.Equip();//장비 메서드호출
-
-                                }
-                                else
-                                {
-                                    Console.WriteLine("착용불가한 아이템");
-                                    Console.ReadKey(); // 대기
-                                }
+                                Console.WriteLine("착용불가한 아이템");
+                                Console.ReadKey(); // 대기
                             }
                         }
                     ));
