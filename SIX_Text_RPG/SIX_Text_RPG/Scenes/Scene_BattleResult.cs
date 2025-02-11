@@ -30,7 +30,7 @@ namespace SIX_Text_RPG.Scenes
 
         public override int Update()
         {
-            Utils.DisplayCursorMenu(5, 22);
+            Utils.DisplayCursorMenu(5, 23);
 
             base.Update();
             if (Program.CurrentScene is Scene_LevelUp)
@@ -81,6 +81,9 @@ namespace SIX_Text_RPG.Scenes
                 player.StatusAnim(Stat.Gold, rewardGold);
                 player.SetStat(Stat.Gold, rewardGold, true);
 
+
+                Console.WriteLine();
+                Utils.WriteColorLine(" 스테이지 클리어!", ConsoleColor.Green);
                 Console.WriteLine();
                 RewardItems();
                 Utils.DisplayLine();
@@ -90,7 +93,12 @@ namespace SIX_Text_RPG.Scenes
             //패배 시
             else
             {
-                Utils.WriteColorLine(" You Lose...", ConsoleColor.DarkRed);
+                Console.WriteLine();
+                Utils.WriteColorLine(" 패배", ConsoleColor.DarkRed);
+                Console.WriteLine();
+                Utils.WriteColorLine(" 저는 이만 정신을 잃고 말았습니다.", ConsoleColor.DarkRed);
+                Console.WriteLine();
+                Utils.DisplayLine();
                 player.SetStat(Stat.HP, 1, false);
             }
 
