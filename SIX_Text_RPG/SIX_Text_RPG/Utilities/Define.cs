@@ -3,7 +3,6 @@
     internal class Define
     {
         #region VALUENS
-        public static readonly int INVENTORY_CAPACITY = 9;
         public static readonly int MONSTERS_CAPACITY = 4;
         public static readonly int MONSTER_SPAWN_X = 78;
         public static readonly int[] TIMES = { 0900, 1200, 1500, 1800, 2059 };

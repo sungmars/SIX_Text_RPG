@@ -1,4 +1,5 @@
 ﻿using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 
 namespace SIX_Text_RPG
 {
@@ -9,6 +10,7 @@ namespace SIX_Text_RPG
 
         SoundFX_Click,
         SoundFX_ClockTicking,
+        SoundFX_Confirm,
         SoundFX_Damage1,
         SoundFX_Damage2,
         SoundFX_Damage3,
@@ -26,8 +28,6 @@ namespace SIX_Text_RPG
 
     internal class AudioManager
     {
-        private readonly float VOLUME = 0.5f;
-
         public AudioManager()
         {
             var fileName = Enum.GetNames(typeof(AudioClip));
@@ -37,13 +37,8 @@ namespace SIX_Text_RPG
                 audioSources[i] = audioSource;
 
                 string filePath = $"Audio/{fileName[i]}.wav";
-                AudioFileReader audioClip = new(filePath); ;
+                WaveFileReader audioClip = new(filePath); ;
                 audioSource.Init(audioClip);
-                if (fileName[i].Contains("Music"))
-                {
-                    audioSource.PlaybackStopped += PlaybackStoppedHandler;
-                }
-
                 audioClips[i] = audioClip;
             }
         }
@@ -51,76 +46,69 @@ namespace SIX_Text_RPG
         public static AudioManager Instance { get; private set; } = new();
 
         private readonly WaveOutEvent[] audioSources = new WaveOutEvent[(int)AudioClip.Count];
-        private readonly AudioFileReader[] audioClips = new AudioFileReader[(int)AudioClip.Count];
+        private readonly WaveFileReader[] audioClips = new WaveFileReader[(int)AudioClip.Count];
 
-        private AudioClip musicClip = AudioClip.Count;
+        private AudioClip audioClip = AudioClip.Count;
+        private FadeInOutSampleProvider? sampleProvider;
 
         public void Play(AudioClip audioClip)
         {
-            if (musicClip == audioClip)
+            if (audioClip == this.audioClip)
             {
                 return;
             }
 
             int index = (int)audioClip;
-            audioClips[index].Position = 0;
+            var clip = audioClips[index];
+            clip.Position = 0;
 
+            var audioSource = audioSources[index];
             if (audioClip.ToString().Contains("SoundFX"))
             {
-                audioSources[index].Play();
+                audioSource.Play();
                 return;
             }
 
-            musicClip = audioClip;
-            Task.Run(FadeIn);
+            if (this.audioClip != AudioClip.Count)
+            {
+                Stop(this.audioClip);
+            }
+
+            var source = clip.ToSampleProvider();
+            sampleProvider = new FadeInOutSampleProvider(source);
+            sampleProvider.BeginFadeIn(4000);
+
+            audioSource.Stop();
+            audioSource.Init(sampleProvider);
+            audioSource.Play();
+            audioSource.PlaybackStopped += PlaybackStoppedHandler;
+
+            this.audioClip = audioClip;
         }
 
         public void Stop(AudioClip audioClip)
         {
+            var audioSource = audioSources[(int)audioClip];
             if (audioClip.ToString().Contains("SoundFX"))
             {
-                audioSources[(int)audioClip].Stop();
+                audioSource.Stop();
                 return;
             }
 
-            Task.Run(FadeOut);
-        }
-
-        private async Task FadeIn()
-        {
-            var audioSource = audioSources[(int)musicClip];
-            audioSource.Volume = 0.0f;
-            audioSource.Play();
-
-            while (audioSource.Volume < VOLUME)
+            if (sampleProvider == null)
             {
-                await Task.Delay(10);
-                audioSource.Volume += VOLUME * 0.01f;
+                return;
             }
 
-            audioSource.Volume = VOLUME;
-        }
-
-        private async Task FadeOut()
-        {
-            int index = (int)musicClip;
-            var audioSource = audioSources[index];
-            while (audioSource.Volume > 0)
-            {
-                await Task.Delay(10);
-                audioSource.Volume -= VOLUME * 0.01f;
-            }
-
-            audioSource.Stop();
-
-            audioClips[index].Position = 0;
-            musicClip = AudioClip.Count;
+            sampleProvider.BeginFadeOut(2000);
+            audioSource.PlaybackStopped -= PlaybackStoppedHandler;
         }
 
         private void PlaybackStoppedHandler(object? sender, StoppedEventArgs? e)
         {
-            audioClips[(int)musicClip].Position = 0;
-            audioSources[(int)musicClip].Play();
+            int index = (int)audioClip;
+            audioClips[index].Position = 0;
+            audioSources[index].Play();
         }
     }
 }

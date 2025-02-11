@@ -28,6 +28,7 @@ namespace SIX_Text_RPG
             // 아이템 정보 저장하기
             foreach (var item in GameManager.Instance.Inventory)
             {
+                stringBuilder.Append(item is IGraphicable graphicable ? $"{JsonConvert.SerializeObject(graphicable.Graphic)}\n" : "\n");
                 stringBuilder.Append($"{JsonConvert.SerializeObject(item.Type)}\n");
                 stringBuilder.Append($"{JsonConvert.SerializeObject(item.Iteminfo)}\n");
             }
@@ -75,8 +76,9 @@ namespace SIX_Text_RPG
                     continue;
                 }
 
-                ItemType itemType = JsonConvert.DeserializeObject<ItemType>(jsonData[i]);
-                ItemInfo info = JsonConvert.DeserializeObject<ItemInfo>(jsonData[i + 1]);
+                IGraphicable? graphicable = JsonConvert.DeserializeObject<IGraphicable>(jsonData[i]);
+                ItemType itemType = JsonConvert.DeserializeObject<ItemType>(jsonData[i + 1]);
+                ItemInfo info = JsonConvert.DeserializeObject<ItemInfo>(jsonData[i + 2]);
 
                 //Item item;
                 //switch (itemType)

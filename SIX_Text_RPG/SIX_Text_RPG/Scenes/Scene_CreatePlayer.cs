@@ -49,12 +49,13 @@
                 Console.WriteLine();
             }
 
-            Utils.WriteAnim(" 플레이어 이름을 추첨 중입니다...");
+            Utils.WriteAnim(" 플레이어 이름을 생성 중입니다......");
 
             Random random = new();
             int randomIndex = random.Next(1, questions.Length);
             PlayerName = answers[randomIndex];
 
+            AudioManager.Instance.Play(AudioClip.SoundFX_Confirm);
             Utils.WriteColor("\n >> ", ConsoleColor.DarkYellow);
             Utils.WriteName($"축하합니다! 당신의 이름은 이제부터 name입니다.");
             Console.ReadKey();

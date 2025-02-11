@@ -160,6 +160,8 @@
             Menu.Add("캠 끄기 (휴식)");
             Menu.Add("TIL 작성 (저장)");
             zeroText = "게임 종료";
+
+            AudioManager.Instance.Play(AudioClip.Music_Title);
         }
 
         public override int Update()
