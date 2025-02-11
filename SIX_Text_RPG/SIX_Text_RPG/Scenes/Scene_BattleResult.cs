@@ -2,12 +2,11 @@
 {
     internal class Scene_BattleResult : Scene_Base
     {
-        private bool isVictory = false;
+        private readonly List<Monster> monsters = GameManager.Instance.Monsters;
+        private Player? player = GameManager.Instance.Player;
+        private float totalDamage = GameManager.Instance.TotalDamage;
+        private int currentStage = GameManager.Instance.CurrentStage;
 
-        public Scene_BattleResult(bool isVictory)
-        {
-            this.isVictory = isVictory;
-        }
 
         public override void Awake()
         {
@@ -15,58 +14,108 @@
 
             sceneTitle = "Battle!! - Result";
             sceneInfo = "";
+
+            Utils.CursorMenu.Add(("로비로 돌아가기", () => Program.CurrentScene = new Scene_Lobby()));
         }
 
         public override int Update()
         {
-            switch (base.Update())
-            {
-                case 0:
-                    GameManager.Instance.TotalDamage = 0f;
-                    Program.CurrentScene = new Scene_Title();
-                    Program.PreviousScene = Program.CurrentScene;
-                    break;
-                default:
-                    break;
-            }
+            Utils.DisplayCursorMenu(5, 25);
 
+            base.Update();
+            if (Program.CurrentScene is Scene_LevelUp)
+            {
+                return 0;
+            }
             return 0;
         }
 
         protected override void Display()
         {
-            Player? player = GameManager.Instance.Player;
+
             if (player == null)
             {
                 return;
             }
 
-            //이전 체력 계산
-            Func<float, float, float> beforeHP = (x, y) =>
-                (x + y) > player.Stats.MaxHP ? player.Stats.MaxHP : x + y;
+            Console.SetCursorPosition(0, 5);
+            player.DisplayInfo();
 
-            float oldHP = beforeHP(player.Stats.HP, GameManager.Instance.TotalDamage);
-            float newHP = player.Stats.HP;
+            //이전 체력 계산
+            Func<float, float, float> beforeHP = ((x, y) => (x + y) > player.Stats.MaxHP ? player.Stats.MaxHP : x + y);
+
             //승리 시 
-            if (isVictory)
+            if (monsters.All(monster => monster.IsDead))
             {
-                Utils.WriteColorLine(" Victory", ConsoleColor.Green);
-                Console.WriteLine($"\n\n던전에서 몬스터 {GameManager.Instance.Monsters.Count} 마리를 잡았습니다.");
+                GameManager.Instance.TargetStage++;
+                int rewardEXP = MonsterRewardEXP();
+                int rewardGold = MonsterRewardGold();
+
+                if(rewardEXP < player.Stats.MaxEXP)
+                {
+                    float oldHP = beforeHP(player.Stats.HP, totalDamage);
+                    float newHP = player.Stats.HP;
+                    player.SetStat(Stat.HP, oldHP, false);
+                    player.StatusAnim(Stat.HP, -((int)totalDamage + 1));
+                    player.SetStat(Stat.HP, newHP, false);
+                }
+                else
+                {
+                    //레벨업 씬으로 이동 보여주기
+                    //player.LevelUp();
+                }
+
+                player.StatusAnim(Stat.Gold, rewardGold);
+                player.SetStat(Stat.Gold, rewardGold, true);
             }
 
             //패배 시
             else
             {
                 Utils.WriteColorLine(" You Lose...", ConsoleColor.DarkRed);
+                player.SetStat(Stat.HP, 1, false);
             }
-
-
-            Console.WriteLine($"\n\n Lv.{player.Stats.Level} {player.Stats.Name}");
-            Console.WriteLine($" HP{oldHP} -> {newHP}");
 
             //데이터 초기화
             GameManager.Instance.TotalDamage = 0f;
-            GameManager.Instance.Monsters.Clear();
+            monsters.Clear();
         }
+
+        private void StageReward()
+        {
+            //보상
+            switch (currentStage)
+            {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+            }
+        }
+
+        private int MonsterRewardGold()
+        {
+            int reward = 0;
+            //몬스터 처치 보상
+            foreach (var monster in monsters)
+            {
+                reward += monster.Stats.Gold;
+            }
+            return reward;
+        }
+
+        private int MonsterRewardEXP()
+        {
+            int reward = 0;
+            //몬스터 처치 보상
+            foreach (var monster in monsters)
+            {
+                reward += monster.Stats.EXP;
+            }
+            return reward;
+        }
+
     }
 }
