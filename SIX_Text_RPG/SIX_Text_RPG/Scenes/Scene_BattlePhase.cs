@@ -5,64 +5,29 @@
         public override void Awake()
         {
             hasZero = false;
-            PlayerPhase(monsterIndex);
-            MonsterNext();
         }
 
         public override int Update()
         {
-
-            if (IsAllMonsterDead())
+            if (PlayerPhase(monsterIndex))
             {
+                // 플레이어 승리 로직
                 Program.CurrentScene = new Scene_BattleResult(true);
                 return 0;
             }
-            else
-            {
-                Utils.DisplayCursorMenu(5, CURSORMENU_TOP);
-                if (base.Update() == 0)
-                {
-                    Utils.CursorMenu.Clear();
-                    Utils.ClearLine(0, CURSORMENU_TOP);
-                    return 0;
-                }
-                return 0;
-            }
-        }
 
-        public override void LateStart()
-        {
-            Console.Write(string.Empty);
-        }
-
-        protected override void Display()
-        {
-            base.Display();
-        }
-
-        private void MonsterNext()
-        {
             if (MonsterPhase())
             {
+                // 플레이어 패배 로직
                 Program.CurrentScene = new Scene_BattleResult(false);
+                return 0;
             }
-            else
-            {
-                Utils.CursorMenu.Clear();
-                Utils.CursorMenu.Add(("monster다음", () => Program.CurrentScene = new Scene_BattleLobby()));
-                Utils.DisplayCursorMenu(5, CURSORMENU_TOP);
-                if (base.Update() == 0)
-                {
-                    Utils.CursorMenu.Clear();
-                    Utils.ClearLine(0, CURSORMENU_TOP);
-                }
-            }
+
+            Program.CurrentScene = new Scene_BattleLobby();
+            return 0;
         }
 
-        private bool IsAllMonsterDead()
-        {
-            return monsters.All(monster => monster.IsDead);
-        }
+        public override void LateStart() { }
 
         protected bool PlayerPhase(int selectMonsterNum)
         {
@@ -71,13 +36,14 @@
                 return true;
             }
 
-            //Console.SetCursorPosition(0, 16);
             GameManager.Instance.DisplayBattle_Attack(selectMonsterNum, 6, () =>
             {
                 // 플레이어 공격
-                GameManager.Instance.Monsters[selectMonsterNum].Damaged(CalculateDamage(player.Stats.ATK));
+                float damage = CalculateDamage(player.Stats.ATK);
+                GameManager.Instance.Monsters[selectMonsterNum].Damaged(damage);
             });
 
+            // 몬스터가 1마리라도 살아있으면 false
             foreach (var monster in monsters)
             {
                 if (monster.Stats.HP > 0)
@@ -85,6 +51,8 @@
                     return false;
                 }
             }
+
+            // 플레이어 승리
             return true;
         }
 
@@ -97,31 +65,25 @@
 
             Action[] damageActions = new Action[monsters.Count];
 
-            float damage = 0;
-
-            float beforeHP = player.Stats.HP;
-
             for (int i = 0; i < monsters.Count; i++)
             {
-                beforeHP = player.Stats.HP;
-                damage = CalculateDamage(monsters[i].Stats.ATK);
+                float currentHP = player.Stats.HP;
+                float damage = CalculateDamage(monsters[i].Stats.ATK);
                 damageActions[i] = () => player.Damaged(damage);
+
                 if (player.Stats.HP > 0)
+                {
                     GameManager.Instance.TotalDamage += damage;
+                }
                 else
-                    GameManager.Instance.TotalDamage += beforeHP;
+                {
+                    GameManager.Instance.TotalDamage += currentHP;
+                }
             }
 
             GameManager.Instance.DisplayBattle_Damage(damageActions);
 
-            if (player.Stats.HP <= 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return player.IsDead;
         }
 
 
@@ -139,6 +101,5 @@
             float percent = random.Next(-10, 11);
             return atk + ((atk * percent) / 100.0f);
         }
-
     }
 }

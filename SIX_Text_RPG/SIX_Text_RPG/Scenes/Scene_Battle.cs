@@ -24,7 +24,7 @@
         protected readonly Player? player = GameManager.Instance.Player;
         protected readonly List<Monster> monsters = GameManager.Instance.Monsters;
 
-        protected int monsterIndex;
+        protected static int monsterIndex;
 
         public override void Awake()
         {
