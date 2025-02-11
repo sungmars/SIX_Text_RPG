@@ -46,7 +46,7 @@
             }
 
             int[] startX = new int[attackCount];
-            int endX = Define.MONSTER_SPAWN_X - 2;
+            int endX = Define.MONSTER_SPAWN_X - 3;
             int targetY = Monsters[targetIndex].Position.Y;
             string value = Player.Graphic_Weapon.ToString();
 

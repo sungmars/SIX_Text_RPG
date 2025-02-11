@@ -25,7 +25,7 @@ namespace SIX_Text_RPG
         {
             Console.SetCursorPosition(left, top);
 
-            int width = right > 0 ?  right : Console.WindowWidth - left;
+            int width = right > 0 ? right : Console.WindowWidth - left;
             Console.Write(new string(' ', width));
 
             Console.SetCursorPosition(left, top);
@@ -111,6 +111,14 @@ namespace SIX_Text_RPG
             while (true)
             {
                 ConsoleKeyInfo input = Console.ReadKey(true);
+                switch (input.Key)
+                {
+                    case ConsoleKey.LeftArrow:
+                        return -1;
+                    case ConsoleKey.RightArrow:
+                        return 1;
+                }
+
                 if (input.Key == ConsoleKey.UpArrow)
                 {
                     if (cursorIndex == CursorMenu.Count - 1 && offsetTop > 0)
