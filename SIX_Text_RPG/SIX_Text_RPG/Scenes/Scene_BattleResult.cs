@@ -47,7 +47,10 @@
             //승리 시 
             if (monsters.All(monster => monster.IsDead))
             {
-                GameManager.Instance.TargetStage++;
+                if(currentStage != 5){
+                    //나중에 보스전 추가시 수정
+                    GameManager.Instance.TargetStage++;
+                }
                 int rewardEXP = MonsterRewardEXP();
                 int rewardGold = MonsterRewardGold();
 

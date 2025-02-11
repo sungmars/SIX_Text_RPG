@@ -17,7 +17,8 @@
                 return 0;
             }
 
-            Thread.Sleep(500);
+            // 몬스터 정보 갱신
+            base.Display();
 
             if (MonsterPhase())
             {
@@ -43,6 +44,10 @@
             {
                 // 플레이어 공격
                 float damage = CalculateDamage(player.Stats.ATK);
+                if (Utils.LuckyMethod(15))//15%확률로 크리티컬
+                {
+                    damage = (damage * 160f) / 100f;
+                }
                 GameManager.Instance.Monsters[selectMonsterNum].Damaged(damage);
                 QuestManager.Instance.KillCountPlus(1, (int)GameManager.Instance.Monsters[selectMonsterNum].Type);
             });
@@ -75,18 +80,23 @@
                 float damage = CalculateDamage(monsters[i].Stats.ATK);
                 damageActions[i] = () =>
                 {
+                    if(Utils.LuckyMethod(10))//10%확률로 회피
+                    {
+                        damage = 0;
+                    }
                     player.Damaged(damage);
                     Display_PlayerInfo();
+                    if (player.Stats.HP > 0)
+                    {
+                        GameManager.Instance.TotalDamage += damage;
+                    }
+                    else
+                    {
+                        GameManager.Instance.TotalDamage += currentHP;
+                    }
                 };
 
-                if (player.Stats.HP > 0)
-                {
-                    GameManager.Instance.TotalDamage += damage;
-                }
-                else
-                {
-                    GameManager.Instance.TotalDamage += currentHP;
-                }
+                
             }
 
             GameManager.Instance.DisplayBattle_Damage(damageActions);

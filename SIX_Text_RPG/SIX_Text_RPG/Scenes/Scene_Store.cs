@@ -39,7 +39,6 @@ namespace SIX_Text_RPG.Scenes
         static private bool isTalk_2 = false;
         static private bool isTalk_3 = false;
 
-
         public override void Awake()
         {
             Console.Clear();
@@ -101,6 +100,10 @@ namespace SIX_Text_RPG.Scenes
                     Program.CurrentScene = new Scene_Lobby();
                     break;
 
+                 //테스트용 코드
+                case 9:
+                    GameManager.Instance.Player.SetStat(Stat.Gold, 10000);
+                    break;
             }
             return 0;
         }

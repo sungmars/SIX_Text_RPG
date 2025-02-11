@@ -258,7 +258,21 @@ namespace SIX_Text_RPG
             int index = 1;
             while (amount != 0 && value != 0 && value != maxValue)
             {
-                int delay = (type == Stat.HP || type == Stat.MP) ? 10 : 50;
+                int delay = 0;
+                switch (type)
+                {
+                    case Stat.HP:
+                    case Stat.MP:
+                        delay = 10;
+                        break;
+                    case Stat.Gold:
+                        delay = 2;
+                        break;
+                    default:
+                        delay = 50;
+                        break;
+                }
+
                 Thread.Sleep(delay);
                 Utils.ClearLine(posX, posY);
 
