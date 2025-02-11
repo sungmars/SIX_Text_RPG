@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,12 +52,14 @@ namespace SIX_Text_RPG.Scenes
                         (selectItem.Iteminfo.IsEquip ? "[E]" : "");//장착상태 표시해주기
                     Utils.CursorMenu.Add((displayName, () =>
                     {
-                        Console.Clear();
                         UseItem(Inventory.FindIndex(x=>x.Equals(selectItem)));
                     }
                     ));
                 }
-
+                Utils.CursorMenu.Add(("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓", () =>//구분선 만듬
+                {
+                }
+                ));
                 //소비 아이템 출력할곳
                 for (int i = 0; i < Potion.Count; i++)
                 {
