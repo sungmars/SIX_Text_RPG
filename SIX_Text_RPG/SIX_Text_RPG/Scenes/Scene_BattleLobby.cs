@@ -48,6 +48,10 @@
 
                 Utils.CursorMenu.Clear();
             }
+            else
+            {
+
+            }
 
             return 0;
         }
@@ -56,6 +60,7 @@
         private void SpawnMonster()
         {
             int monsterCount = random.Next(2, 4 + stage/2);
+            int sumLevel;
 
             for (int i = 0; i < monsterCount; i++)
             {
@@ -64,56 +69,46 @@
             }
             switch (stage)
             {
+
                 case 0:
-                    foreach (var monster in monsters)
-                    {
-                        int level = random.Next(1, 4);
-                        monster.SetStat(Stat.Level,level);
-                        monster.SetStat(Stat.ATK, level);
-                        monster.SetStat(Stat.EXP, 0 + level * 2);
-                        monster.SetStat(Stat.Gold, 8 + level * 2);
-                    }
+                    sumLevel = random.Next(4, 8);
                     break;
                 case 1:
-                    foreach (var monster in monsters)
-                    {
-                        int level = random.Next(3, 6);
-                        monster.SetStat(Stat.Level, level);
-                        monster.SetStat(Stat.ATK, level * 2);
-                        monster.SetStat(Stat.EXP, 0 + level * 3);
-                        monster.SetStat(Stat.Gold, 8 + level * 3);
-                    }
+                    sumLevel = random.Next(10, 15);
                     break;
                 case 2:
-                    foreach (var monster in monsters)
-                    {
-                        int level = random.Next(5, 8);
-                        monster.SetStat(Stat.Level, level);
-                        monster.SetStat(Stat.ATK, level * 3);
-                        monster.SetStat(Stat.EXP, 0 + level * 4);
-                        monster.SetStat(Stat.Gold, 8 + level * 4);
-                    }
+                    sumLevel = random.Next(16, 21);
                     break; 
                 case 3:
-                    foreach (var monster in monsters)
-                    {
-                        int level = random.Next(7, 10);
-                        monster.SetStat(Stat.Level, level);
-                        monster.SetStat(Stat.ATK, level * 4);
-                        monster.SetStat(Stat.EXP, 0 + level * 5);
-                        monster.SetStat(Stat.Gold, 8 + level * 5);
-                    }
+                    sumLevel = random.Next(22, 27);
                     break; 
                 case 4:
-                    foreach (var monster in monsters)
-                    {
-                        int level = random.Next(9, 12);
-                        monster.SetStat(Stat.Level, level);
-                        monster.SetStat(Stat.ATK, 3 + level * 5);
-                        monster.SetStat(Stat.EXP, 0 + level * 6);
-                        monster.SetStat(Stat.Gold, 8 + level * 6);
-                    }
+                    sumLevel = random.Next(28, 33);
                     break;
+                default:
+                    sumLevel = 0;
+                    break;
+            }
+
+            foreach (var monster in monsters)
+            {
+                if (monsters.IndexOf(monster) == monsters.Count - 1)
+                {
+                    monster.SetStat(Stat.Level, sumLevel);
+                    monster.SetStat(Stat.ATK, sumLevel);
+                    monster.SetStat(Stat.EXP, 0 + sumLevel * 2);
+                    monster.SetStat(Stat.Gold, 20 + sumLevel * 3);
+                    break;
+                }
+                else
+                {
+                    int level = random.Next(stage + 1, sumLevel-(monsterCount -1)*(stage + 1));
+                    sumLevel -= (level - stage);
+                    monster.SetStat(Stat.Level, level);
+                    monster.SetStat(Stat.ATK, level);
+                    monster.SetStat(Stat.EXP, 0 + level * 2);
+                    monster.SetStat(Stat.Gold, 20 + level * 3);
+                }
             }
         }
     }
