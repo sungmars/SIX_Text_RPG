@@ -110,13 +110,13 @@ namespace SIX_Text_RPG
             var monsters = GameManager.Instance.Monsters;
             if (Program.CurrentScene is Scene_BattleSelect && monsters[0].IsDead)
             {
-                ReadFunc(ConsoleKey.DownArrow);
+                ReadArrowKey(ConsoleKey.DownArrow);
             }
 
             while (true)
             {
                 ConsoleKeyInfo input = Console.ReadKey(true);
-                var result = ReadFunc(input.Key);
+                var result = ReadArrowKey(input.Key);
                 switch (result)
                 {
                     case -2:  // 잘못된 값이 입력됬을 경우
@@ -131,8 +131,10 @@ namespace SIX_Text_RPG
             }
         }
 
-        private static int ReadFunc(ConsoleKey key)
+        // 방향키 입력을 재귀하기 위한 함수 (외부 호출 불가)
+        private static int ReadArrowKey(ConsoleKey key)
         {
+            // 상점 리스트를 좌우로 넘기기 위해 방향값 계산용
             switch (key)
             {
                 case ConsoleKey.LeftArrow:
@@ -159,21 +161,23 @@ namespace SIX_Text_RPG
                 cursorIndex = Math.Max(cursorIndex - 1, 0);
                 if (Program.CurrentScene is Scene_BattleSelect && monsters[cursorIndex].IsDead)
                 {
+                    // 만약 가장 위라면
                     if (cursorIndex == 0)
                     {
+                        // 몬스터 배열을 순회하며 가장 낮은 인덱스의 생존 몬스터를 찾습니다.
                         for (int i = 0; i < monsters.Count; i++)
                         {
                             if (monsters[i].IsDead == false)
                             {
                                 cursorIndex = i - 1;
                                 key = ConsoleKey.DownArrow;
-
                                 break;
                             }
                         }
                     }
 
-                    ReadFunc(key);
+                    // 다음 메뉴로 이동시키기 위함임
+                    ReadArrowKey(key);
                     return -2;
                 }
 
@@ -189,10 +193,11 @@ namespace SIX_Text_RPG
                 cursorIndex = Math.Min(cursorIndex + 1, CursorMenu.Count - 1);
                 if (Program.CurrentScene is Scene_BattleSelect)
                 {
-                    // 나가기 버튼이 아니라면
+                    // 나가기 버튼이 아니고, 아래 버튼 몬스터가 죽었다면
                     if (cursorIndex < monsters.Count && monsters[cursorIndex].IsDead)
                     {
-                        ReadFunc(key);
+                        // 한 번 더 아래로 재귀
+                        ReadArrowKey(key);
                         return -2;
                     }
                 }
