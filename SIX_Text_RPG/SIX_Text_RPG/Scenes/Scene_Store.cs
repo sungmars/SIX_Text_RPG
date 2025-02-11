@@ -246,7 +246,7 @@ namespace SIX_Text_RPG.Scenes
                 Console.Write($"|");
 
                 Console.SetCursorPosition(106, 9 + i);
-                Console.Write($"{item.Iteminfo.Price} Point");
+                Console.Write($"{item.Iteminfo.Price} G");
             }
             Console.SetCursorPosition(2, 16);
             Console.WriteLine("[0] 나가기");
