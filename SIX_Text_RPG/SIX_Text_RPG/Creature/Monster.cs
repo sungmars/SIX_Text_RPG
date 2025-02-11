@@ -65,6 +65,7 @@
 
         public void Render_Hit()
         {
+            AudioManager.Instance.Play(AudioClip.SoundFX_Hit1 + random.Next(0, 3));
             Console.SetCursorPosition(Position.X, Position.Y);
             Utils.WriteColor(graphic_Hit, ConsoleColor.Red);
             Thread.Sleep(200);
