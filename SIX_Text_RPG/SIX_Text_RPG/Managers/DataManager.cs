@@ -21,6 +21,9 @@ namespace SIX_Text_RPG
             FileStream fileStream = new($"{FILE_NAME}.json", FileMode.Create);
             StringBuilder stringBuilder = new();
 
+            // 스테이지 정보 저장하기
+            stringBuilder.Append($"{JsonConvert.SerializeObject(GameManager.Instance.TargetStage)}\n");
+
             // 플레이어 정보 저장하기
             stringBuilder.Append($"{JsonConvert.SerializeObject(player.Type)}\n");
             stringBuilder.Append($"{JsonConvert.SerializeObject(player.Stats)}\n");
@@ -60,17 +63,22 @@ namespace SIX_Text_RPG
             fileStream.Read(data, 0, data.Length);
             fileStream.Close();
 
-            // 플레이어 정보 불러오기
+            // 스테이지 정보 불러오기
             string[] jsonData = Encoding.UTF8.GetString(data).Split('\n');
-            PlayerType playerType = JsonConvert.DeserializeObject<PlayerType>(jsonData[0]);
-            Stats stats = JsonConvert.DeserializeObject<Stats>(jsonData[1]);
+            int currentStage = JsonConvert.DeserializeObject<int>(jsonData[0]);
+            GameManager.Instance.CurrentStage = currentStage;
+            GameManager.Instance.TargetStage = currentStage;
+
+            // 플레이어 정보 불러오기
+            PlayerType playerType = JsonConvert.DeserializeObject<PlayerType>(jsonData[1]);
+            Stats stats = JsonConvert.DeserializeObject<Stats>(jsonData[2]);
             Player player = GameManager.Instance.Player = new(playerType) { Stats = stats };
             Scene_CreatePlayer.PlayerName = player.Stats.Name;
 
             // 아이템 정보 불러오기
             for (int i = 2; i < jsonData.Length - 1; i++)
             {
-                if (i % 2 != 0)
+                if (i % 2 == 0)
                 {
                     continue;
                 }
