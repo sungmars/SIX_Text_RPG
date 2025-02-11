@@ -62,6 +62,8 @@
         {
             Console.SetCursorPosition(Position.X, Position.Y);
             Utils.WriteColor(graphic_Dead, ConsoleColor.DarkGray);
+            Utils.WriteColor($"{Stats.Name} ", ConsoleColor.DarkGray);
+            Display_HPBar();
         }
 
         public void Render_Hit(ConsoleColor color = ConsoleColor.Red)
