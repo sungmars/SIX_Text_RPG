@@ -43,10 +43,9 @@
             {
                 // 플레이어 공격
                 float damage = CalculateDamage(player.Stats.ATK);
-                if (Utils.LuckyMethod(15))
+                if (Utils.LuckyMethod(15))//15%확률로 크리티컬
                 {
-                    //치명타
-                    damage = (damage * 1060f) / 100f;
+                    damage = (damage * 160f) / 100f;
                 }
                 GameManager.Instance.Monsters[selectMonsterNum].Damaged(damage);
                 QuestManager.Instance.KillCountPlus(1, (int)GameManager.Instance.Monsters[selectMonsterNum].Type);
@@ -80,9 +79,8 @@
                 float damage = CalculateDamage(monsters[i].Stats.ATK);
                 damageActions[i] = () =>
                 {
-                    if(Utils.LuckyMethod(50))
+                    if(Utils.LuckyMethod(10))//10%확률로 회피
                     {
-                        //회피
                         damage = 0;
                     }
                     player.Damaged(damage);
