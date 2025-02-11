@@ -107,61 +107,121 @@ namespace SIX_Text_RPG
         // 방향키 입력을 받는 함수 (예외처리 포함)
         public static int ReadArrow()
         {
-            int cursorLeft = contentLeft - 3;
+            var monsters = GameManager.Instance.Monsters;
+            if (Program.CurrentScene is Scene_BattleSelect && monsters[0].IsDead)
+            {
+                ReadArrowKey(ConsoleKey.DownArrow);
+            }
+
             while (true)
             {
                 ConsoleKeyInfo input = Console.ReadKey(true);
-                switch (input.Key)
+                var result = ReadArrowKey(input.Key);
+                switch (result)
                 {
-                    case ConsoleKey.LeftArrow:
+                    case -2:  // 잘못된 값이 입력됬을 경우
+                        break;
+                    case -1:  // 왼쪽 키가 눌린 경우
                         return -1;
-                    case ConsoleKey.RightArrow:
+                    case 0:   // 위, 아래 혹은 엔터 키가 눌린 경우
+                        return 0;
+                    case 1:   // 오른쪽 키가 눌린 경우
                         return 1;
                 }
+            }
+        }
 
-                if (input.Key == ConsoleKey.UpArrow)
-                {
-                    if (cursorIndex == CursorMenu.Count - 1 && offsetTop > 0)
-                    {
-                        Console.SetCursorPosition(cursorLeft, contentTop + offsetTop);
-                    }
-                    else
-                    {
-                        Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
-                    }
-                    Console.Write(' ');
-
-                    cursorIndex = Math.Max(cursorIndex - 1, 0);
-                    Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
-                    WriteColor("▶", ConsoleColor.DarkCyan);
-                }
-
-                else if (input.Key == ConsoleKey.DownArrow)
-                {
-                    Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
-                    Console.Write(' ');
-
-                    cursorIndex = Math.Min(cursorIndex + 1, CursorMenu.Count - 1);
-                    if (cursorIndex == CursorMenu.Count - 1 && offsetTop > 0)
-                    {
-                        Console.SetCursorPosition(cursorLeft, contentTop + offsetTop);
-                    }
-                    else
-                    {
-                        Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
-                    }
-
-                    WriteColor("▶", ConsoleColor.DarkCyan);
-                }
-
-                else if (input.Key == ConsoleKey.Enter)
-                {
-                    CursorMenu[cursorIndex].Item2?.Invoke();
-                    break;
-                }
+        // 방향키 입력을 재귀하기 위한 함수 (외부 호출 불가)
+        private static int ReadArrowKey(ConsoleKey key)
+        {
+            // 상점 리스트를 좌우로 넘기기 위해 방향값 계산용
+            switch (key)
+            {
+                case ConsoleKey.LeftArrow:
+                    return -1;
+                case ConsoleKey.RightArrow:
+                    return 1;
             }
 
-            return 0;
+            var monsters = GameManager.Instance.Monsters;
+            int cursorLeft = contentLeft - 3;
+            if (key == ConsoleKey.UpArrow)
+            {
+                // 나가기 메뉴(마지막 인덱스) 간격 조절 여부에 따라 커서 위치 설정
+                if (cursorIndex == CursorMenu.Count - 1 && offsetTop > 0)
+                {
+                    Console.SetCursorPosition(cursorLeft, contentTop + offsetTop);
+                }
+                else
+                {
+                    Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
+                }
+                Console.Write(' ');
+
+                cursorIndex = Math.Max(cursorIndex - 1, 0);
+                if (Program.CurrentScene is Scene_BattleSelect && monsters[cursorIndex].IsDead)
+                {
+                    // 만약 가장 위라면
+                    if (cursorIndex == 0)
+                    {
+                        // 몬스터 배열을 순회하며 가장 낮은 인덱스의 생존 몬스터를 찾습니다.
+                        for (int i = 0; i < monsters.Count; i++)
+                        {
+                            if (monsters[i].IsDead == false)
+                            {
+                                cursorIndex = i - 1;
+                                key = ConsoleKey.DownArrow;
+                                break;
+                            }
+                        }
+                    }
+
+                    // 다음 메뉴로 이동시키기 위함임
+                    ReadArrowKey(key);
+                    return -2;
+                }
+
+                Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
+                WriteColor("▶", ConsoleColor.DarkCyan);
+            }
+
+            else if (key == ConsoleKey.DownArrow)
+            {
+                Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
+                Console.Write(' ');
+
+                cursorIndex = Math.Min(cursorIndex + 1, CursorMenu.Count - 1);
+                if (Program.CurrentScene is Scene_BattleSelect)
+                {
+                    // 나가기 버튼이 아니고, 아래 버튼 몬스터가 죽었다면
+                    if (cursorIndex < monsters.Count && monsters[cursorIndex].IsDead)
+                    {
+                        // 한 번 더 아래로 재귀
+                        ReadArrowKey(key);
+                        return -2;
+                    }
+                }
+
+                // 나가기 메뉴(마지막 인덱스) 간격 조절 여부에 따라 커서 위치 설정
+                if (cursorIndex == CursorMenu.Count - 1 && offsetTop > 0)
+                {
+                    Console.SetCursorPosition(cursorLeft, contentTop + offsetTop);
+                }
+                else
+                {
+                    Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
+                }
+
+                WriteColor("▶", ConsoleColor.DarkCyan);
+            }
+
+            else if (key == ConsoleKey.Enter)
+            {
+                CursorMenu[cursorIndex].Item2?.Invoke();
+                return 0;
+            }
+
+            return -2;
         }
 
         // 인덱스 입력을 받는 함수 (예외처리 포함)

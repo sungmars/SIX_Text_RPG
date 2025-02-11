@@ -13,13 +13,15 @@ namespace SIX_Text_RPG.Scenes
     internal class Scene_Inventory : Scene_Base
     {
         private List<Item> Inventory => GameManager.Instance.Inventory;
-
+        public List<Item> Potion
+        {
+             get {return Inventory.Where(item => item is IConsumable).ToList(); }
+        }
         public override void Awake()
         {
             base.Awake();
             sceneTitle = "인벤토리";
             sceneInfo = "Enter키를 눌러 장착/해제 가능합니다.";
-            hasZero = false;
         }
         protected override void Display()
         {
@@ -41,9 +43,7 @@ namespace SIX_Text_RPG.Scenes
             {
                 // 장비아이템, 소모아이템 필터링
                 var equipItems = Inventory.Where(item => item is IEquipable).ToList();
-                var consumItems = Inventory.Where(item => item is IConsumable).ToList();
-                //장비 아이템 출력
-                Utils.WriteColorLine("장비가능한 아이템", ConsoleColor.DarkYellow);
+
                 for (int i = 0; i < equipItems.Count; i++)
                 {
                     var selectItem = equipItems[i];
@@ -56,18 +56,31 @@ namespace SIX_Text_RPG.Scenes
                     }
                     ));
                 }
-                Utils.DisplayLine(true, 2);
+
                 //소비 아이템 출력할곳
-                for (int i = 0; i < consumItems.Count; i++)
+                for (int i = 0; i < Potion.Count; i++)
                 {
-                    var selectItem = consumItems[i];
-                    string itemName = consumItems[i].Iteminfo.Name;
-                    int count = consumItems.Count(item => item.Iteminfo.Name == itemName);//중복개수 세기
+                    var selectItem = Potion[i];
+                    string itemName = selectItem.Iteminfo.Name;
+                    // 앞쪽에서 같은 이름의 아이템이 출력되었는지 확인하기 위해 bool선언
+                    bool alreadyPrint = false;
+                    for (int j = 0; j < i; j++)//j는 위의 for문 i까지
+                    {
+                        if (Potion[j].Iteminfo.Name == itemName)
+                        {
+                            alreadyPrint = true;
+                            break;
+                        }
+                    }
+                    if (alreadyPrint)
+                    {
+                        continue;
+                    }//출력됐다면 다음 아이템출력으로 넘어가기하기
+                    int count = Inventory.Count(item => item is IConsumable&&item.Iteminfo.Name == itemName);//중복개수 세기
                     string displayName = selectItem.Iteminfo.Name +
                         (count!=0 ? $" -({count})" : "이게 보인다면 버그입니다.");//아이템 갯수 표시
                     Utils.CursorMenu.Add((displayName, () =>
                     {
-                        Console.Clear();
                         UseItem(Inventory.FindIndex(x => x.Equals(selectItem)));
                     }
                     ));
@@ -84,7 +97,7 @@ namespace SIX_Text_RPG.Scenes
 
             if (consumable != null && consumable.Consume())//소비하는 아이템이라면
             {
-                Inventory.Remove(selectItem);//인벤토리리스트에서 삭제
+                Inventory.Remove(selectItem);//인벤토리 리스트에서 삭제
             }
             else if (equipable != null)//장비하는 아이템이라면
             {
@@ -97,5 +110,4 @@ namespace SIX_Text_RPG.Scenes
             }
         }
     }
-
 }

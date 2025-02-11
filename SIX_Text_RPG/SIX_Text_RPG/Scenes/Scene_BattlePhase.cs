@@ -17,7 +17,8 @@
                 return 0;
             }
 
-            Thread.Sleep(500);
+            // 몬스터 정보 갱신
+            base.Display();
 
             if (MonsterPhase())
             {
