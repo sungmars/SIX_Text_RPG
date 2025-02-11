@@ -28,7 +28,7 @@
                 return;
             }
 
-            Console.SetCursorPosition(0, 15);
+            Console.SetCursorPosition(0, 18);
             DisplayBattle_Ground();
             (int left, int top) = Console.GetCursorPosition();
 
@@ -229,7 +229,9 @@
 
             Console.WriteLine();
             Utils.ClearLine(0, Console.CursorTop);
+            Console.WriteLine();
             Utils.DisplayLine();
+            Console.SetCursorPosition(0, Console.CursorTop-1);
         }
 
         private void DisplayBatte_Monsters()

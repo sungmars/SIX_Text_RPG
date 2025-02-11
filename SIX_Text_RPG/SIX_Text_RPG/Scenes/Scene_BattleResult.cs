@@ -24,6 +24,7 @@
                 case 0:
                     GameManager.Instance.TotalDamage = 0f;
                     Program.CurrentScene = new Scene_Title();
+                    Program.PreviousScene = Program.CurrentScene;
                     break;
                 default:
                     break;

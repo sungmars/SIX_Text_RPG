@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace SIX_Text_RPG.Scenes
 {
@@ -9,66 +11,60 @@ namespace SIX_Text_RPG.Scenes
         private List<Monster> monsters = GameManager.Instance.Monsters;
         private Player? player = GameManager.Instance.Player;
 
+        private int selectMonsterNum;
+
         private int left = 0;
         private int top = 0;
 
 
         public override void Awake()
         {
-            base.Awake();
-            /* hasZero = true;
-
-             for (int i = 0; i < monsters.Count; i++)
-             {
-                 Menu.Add(string.Empty);
-             }
-
-             zeroText = "취소";*/
 
             hasZero = false;
 
+
             for (int i = 0; i < monsters.Count; i++)
             {
-                Utils.CursorMenu.Add((string.Empty, () => selectMonsterNum = i));
+                int index = i;
+                Utils.CursorMenu.Add((string.Empty, () => selectMonsterNum = index));
             }
-            Utils.CursorMenu.Add(("찌르기 취소", () => Program.CurrentScene = new Scene_BattleLobby()));
+            Utils.CursorMenu.Add(("찌르기 취소", () => selectMonsterNum = monsters.Count));
 
-            isPlayAnim = true;
 
         }
         public override void LateStart()
         {
-            base.LateStart();
         }
         public override int Update()
         {
-            /*int selectNum = base.Update();
-            switch (selectNum)
+
+            Utils.DisplayCursorMenu(78, 16);
+            if (base.Update() == 0)
             {
-                case 0:
-                    Program.CurrentScene = new Scene_BattleLobby();
-                    return 0;
-                default:
-                    selectMonsterNum = selectNum - 1;
-                    Program.CurrentScene = new Scene_BattlePhase();
-                    return 0;
-            }*/
+                for(int i = 0; i <= monsters.Count; i++)
+                {
+                    Utils.ClearLine(74, 15 + i);
+                }
+                Utils.CursorMenu.Clear();
+                GameManager.Instance.DisplayBattle();
+            }
 
-            Utils.DisplayCursorMenu(79, 13);
-
-            base.Update();
-
-            if (Program.CurrentScene == new Scene_BattleLobby())
+            if (monsters.Count == selectMonsterNum)
             {
+                Program.CurrentScene = new Scene_BattleLobby();
                 return 0;
             }
-            else if (selectMonsterNum >= 0)
+            else
             {
+                PlayerPhase(selectMonsterNum);
                 Program.CurrentScene = new Scene_BattlePhase();
                 return 0;
             }
             return 0;
 
         }
+
+        
+
     }
 }
