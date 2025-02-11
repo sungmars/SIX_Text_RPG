@@ -3,6 +3,6 @@
     //소모품 할때 쓸 인터페이스
     internal interface IConsumable
     {
-        protected bool Consume();
+        public bool Consume();
     }
 }
