@@ -43,8 +43,7 @@ namespace SIX_Text_RPG.Scenes
             {
                 // 장비아이템, 소모아이템 필터링
                 var equipItems = Inventory.Where(item => item is IEquipable).ToList();
-                //장비 아이템 출력
-                Utils.WriteColorLine("장비가능한 아이템", ConsoleColor.DarkYellow);
+
                 for (int i = 0; i < equipItems.Count; i++)
                 {
                     var selectItem = equipItems[i];
@@ -57,7 +56,7 @@ namespace SIX_Text_RPG.Scenes
                     }
                     ));
                 }
-                Utils.DisplayLine(true, 2);
+
                 //소비 아이템 출력할곳
                 for (int i = 0; i < Potion.Count; i++)
                 {
@@ -87,7 +86,7 @@ namespace SIX_Text_RPG.Scenes
                     ));
                 }
                 Utils.CursorMenu.Add(("나가기", () => { Program.CurrentScene = new Scene_Lobby(); }));
-                Utils.DisplayCursorMenu(5, 7,300);
+                Utils.DisplayCursorMenu(5, 7);
             }
         }
         public void UseItem(int j)
