@@ -12,6 +12,7 @@
                 base.Awake();
             }
 
+            Utils.ClearBuffer();
             Utils.CursorMenu.Add(("질문시작", () => Program.CurrentScene = new Scene_BattleSelect()));
             Utils.CursorMenu.Add(("돌아가기", () =>
             {
@@ -47,9 +48,10 @@
                 }
 
                 Utils.CursorMenu.Clear();
+                return 0;
             }
 
-            return 0;
+            return -1;
         }
 
         // 랜덤 2-4명의 몬스터 생성

@@ -7,6 +7,7 @@ namespace SIX_Text_RPG
     {
         Music_Title,
         Music_Battle,
+        Music_LevelUp,
 
         SoundFX_Appear,
         SoundFX_Click,
@@ -22,7 +23,7 @@ namespace SIX_Text_RPG
         SoundFX_Hit2,
         SoundFX_Hit3,
         SoundFX_Landed,
-        Music_LevelUp,
+        SoundFX_Poison,
         SoundFX_TaskDone,
         SoundFX_WriteAnim,
 
