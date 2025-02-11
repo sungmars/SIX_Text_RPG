@@ -22,6 +22,10 @@ using System.Numerics;
         public string Name { get; set; }
         public string Description { get; set; }
 
+        public ConsoleColor Color { get; set; }
+
+        public char Graphic { get; set; }
+
         public float HP { get; set; }
         public float MaxHP { get; set; }
         public float MP { get; set; }
