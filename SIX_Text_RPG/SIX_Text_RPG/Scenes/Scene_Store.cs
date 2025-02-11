@@ -1,4 +1,5 @@
 ﻿using SIX_Text_RPG;
+using SIX_Text_RPG.Managers;
 using SIX_Text_RPG.Scenes;
 using System;
 using System.Runtime.ConstrainedExecution;
@@ -35,10 +36,6 @@ namespace SIX_Text_RPG.Scenes
             "여기는 어쩐 일이실까요?"
         };
 
-        static private bool isTalk_1 = false;
-        static private bool isTalk_2 = false;
-        static private bool isTalk_3 = false;
-
         public override void Awake()
         {
             Console.Clear();
@@ -62,34 +59,34 @@ namespace SIX_Text_RPG.Scenes
             {
                 //아이템 구매
                 case 1:
-                    if (!isTalk_1)
+                    if (!ItemManager.Instance.Istalk_1)
                     {
                         Talking(talkBuy);
-                        isTalk_1 = true;
+                        ItemManager.Instance.SetBool(1, true);
                     }
                     Program.CurrentScene = new Scene_Store_Buy();
-                    break;
+                    return 0;
 
                 //아이템 판매
                 case 2:
-                    if (!isTalk_2)
+                    if (!ItemManager.Instance.Istalk_2)
                     {
                         Talking(talkSell);
-                        isTalk_2 = true;
+                        ItemManager.Instance.SetBool(2, true);
                     }
                     Program.CurrentScene = new Scene_Store_Sell();
-                    break;
+                    return 0;
 
                 //골드 도박
                 case 3:
-                    if (!isTalk_3)
+                    if (!ItemManager.Instance.Istalk_2)
                     {
                         Talking(talkGambling);
-                        isTalk_3 = true;
+                        ItemManager.Instance.SetBool(3, true);
                     }
                     //Program.CurrentScene = new Scene_Store_Gambling();
-                    break;
-                
+                    return 0;
+
 
                 //골드돈복사 (삭제할 예정)
                 //case 4:
@@ -98,14 +95,9 @@ namespace SIX_Text_RPG.Scenes
 
                 case 0:
                     Program.CurrentScene = new Scene_Lobby();
-                    break;
-
-                 //테스트용 코드
-                case 9:
-                    GameManager.Instance.Player.SetStat(Stat.Gold, 10000);
-                    break;
+                    return 0;
             }
-            return 0;
+            return -1;
         }
 
         protected override void Display()

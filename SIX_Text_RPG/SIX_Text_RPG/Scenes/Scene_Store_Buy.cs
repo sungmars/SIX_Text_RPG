@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SIX_Text_RPG.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +10,15 @@ namespace SIX_Text_RPG.Scenes
 {
     internal class Scene_Store_Buy : Scene_Base
     {
-        //상점 아이템 리스트
-        List<List<Item>> storeItem = new List<List<Item>>();
+        private List<List<Item>> storeItem = ItemManager.Instance.StoreItem;
 
         private int page = 0;
 
         public override void Awake()
         {
             ItemInfo[,] iteminfo = Define.ITEM_INFOS;
-            //상점에 아이템추가\
+
+            //상점에 아이템추가
             if (iteminfo.Length > storeItem.Count)
             {
                 for (int i = 0; i < iteminfo.Length; i++)
