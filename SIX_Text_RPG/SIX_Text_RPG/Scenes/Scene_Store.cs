@@ -4,14 +4,6 @@ using System;
 using System.Runtime.ConstrainedExecution;
 namespace SIX_Text_RPG.Scenes
 {
-    public enum ItemType
-    {
-        Armor,
-        Accessory,
-        Potion,
-        Weapon
-    };
-
     internal class Scene_Store : Scene_Base
     {
         private static readonly string[] talkBuy =
@@ -40,21 +32,26 @@ namespace SIX_Text_RPG.Scenes
         private static readonly string[] talkFirst =
         {
             "오 name 님 안녕하세요~",
-            "여기는 어쩐 일이실가요?"
+            "여기는 어쩐 일이실까요?"
         };
 
-
+        //상점 아이템 리스트
         List<List<Item>> storeItem = new List<List<Item>>();
-        List<String> itemType = [];
+        
+        //아이템 속성 리스트(아머, 악세, 포션, 웨폰) 
+        List<string> itemType = new List<string>();
 
         private int left;
         private int top;
 
-        private bool isTalk = true;
+        private bool isTalk = false;
+
 
         public override void Awake()
         {
             Console.Clear();
+
+            ItemInfo[,] iteminfo = Define.ITEM_INFOS; 
 
             //메뉴추가 
             Menu.Add("아이템 사기");
@@ -62,13 +59,47 @@ namespace SIX_Text_RPG.Scenes
             Menu.Add("도?박");
 
             //아이템 종류 메뉴
-            itemType.Add("방어구");
-            itemType.Add("장신구");
-            itemType.Add("포션");
-            itemType.Add("무기");
+            {
+                itemType.Add("방어구");
+                itemType.Add("장신구");
+                itemType.Add("포션");
+                itemType.Add("무기");
+            }
 
 
+            //상점에 아이템추가
+            for (int i = 0; i < iteminfo.Length; i++)
+            {
+                storeItem.Add(new List<Item>());
+                for (int j = 0; j < iteminfo.GetLength(1); j++)
+                {
+                    int num;
+                    switch (i)
+                    {
+                        case (int)ItemType.Armor:
+                            num = (int)ItemType.Armor;
+                            storeItem[num].Add(new Armor(iteminfo[i, j]));
+                            break;
 
+                        case (int)ItemType.Accessory:
+                            num = (int)ItemType.Accessory;
+                            storeItem[num].Add(new Accessory(iteminfo[i, j]));
+                            break;
+
+                        case (int)ItemType.Potion:
+                            num = (int)ItemType.Potion;
+                            storeItem[num].Add(new Potion(iteminfo[i, j]));
+                            break;
+
+                        case (int)ItemType.Weapon:
+                            num = (int)ItemType.Weapon;
+                            storeItem[num].Add(new Weapon(iteminfo[i, j]));
+                            break;
+                    }
+                }
+            }
+
+            //씬 타이틀 인포
             sceneTitle = "수상한 매니저님 방";
             sceneInfo = "수상한..? 아! 자세히보니 수상한이 아니라 송승환 매니저님이라 적혀있습니다...";
         }
@@ -142,18 +173,20 @@ namespace SIX_Text_RPG.Scenes
                 isTalk = true;
             }
 
-            int flag = -1;
+            int flag = -9;
+
             do
             {
                 for (int i = 0; i < storeItem.Count; i++)
                 {
-                    ShowItem(i);
-                    flag = base.Update();
-                    if (flag == 0) break;
-                    else if  ((flag > 0) && (flag < storeItem[i].Count + 1))
+                    for (int j = 0; j < storeItem[i].Count; j++)
                     {
-                        Purchase(storeItem[i], flag);
+                        //상점 커서기능
+                        Utils.CursorMenu.Add(($"[{j+1}]", () => Purchase(storeItem[i], flag)));
                     }
+                    Utils.CursorMenu.Add((" 이제 그만 살게요.", () => flag = 0));
+                    ShowItem(i);
+                    if (flag == 0) break;
                 }
             }
             while (flag != 0);
@@ -164,9 +197,11 @@ namespace SIX_Text_RPG.Scenes
         private void ShowItem(int num)
         {
             Clear(7, 20);
+            Utils.DisplayCursorMenu(4, 9);
             Console.SetCursorPosition(1, 7);
-
             switch (num)
+
+                
             {
                 case (int)ItemType.Armor:
                     Console.WriteLine($" [방어구]");
@@ -186,42 +221,50 @@ namespace SIX_Text_RPG.Scenes
             }
             Console.WriteLine();
 
+            
             for (int i = 0; i < storeItem[num].Count; i++)
             {
                 Item item = storeItem[num][i];
 
-                Console.SetCursorPosition(1, 9 + i);
-                Console.Write($" [{i + 1}] ");
-
-                Console.SetCursorPosition(6, 9 + i);
+                
+                Console.SetCursorPosition(8, 9 + i);
                 Console.Write($"{item.Iteminfo.Name}");
 
-                Console.SetCursorPosition(25, 9 + i);
+                Console.SetCursorPosition(27, 9 + i);
                 Console.Write($"|");
 
-                Console.SetCursorPosition(27, 9 + i);
+                Console.SetCursorPosition(29, 9 + i);
                 Console.Write($"{item.Iteminfo.Description}");
 
-                Console.SetCursorPosition(76, 9 + i);
+                Console.SetCursorPosition(78, 9 + i);
                 Console.Write($"|");
 
-                Console.SetCursorPosition(78, 9 + i);
+                Console.SetCursorPosition(80, 9 + i);
                 Console.Write($"공격력 +{item.Iteminfo.ATK}");
 
-                Console.SetCursorPosition(88, 9 + i);
+                Console.SetCursorPosition(90, 9 + i);
                 Console.Write($"|");
 
-                Console.SetCursorPosition(90, 9 + i);
+                Console.SetCursorPosition(92, 9 + i);
                 Console.Write($"방어력 +{item.Iteminfo.DEF}");
 
-                Console.SetCursorPosition(104, 9 + i);
+                Console.SetCursorPosition(106, 9 + i);
                 Console.Write($"|");
 
-                Console.SetCursorPosition(106, 9 + i);
-                Console.Write($"{item.Iteminfo.Price} G");
+                Console.SetCursorPosition(108, 9 + i);
+                if (item.Iteminfo.IsSold)
+                {
+                    Utils.WriteColor(" 판매완료!", ConsoleColor.Green);
+                }
+                else
+                {
+                    Console.Write($"{item.Iteminfo.Price} G");
+                }
+                
             }
             Console.SetCursorPosition(2, 16);
-            Console.WriteLine("[0] 나가기");
+            Console.WriteLine("  나가기");
+            Console.WriteLine("  다음으로 넘기기");
         }
 
         //상점 아이템 구매후 인벤토리에 추가해주기
@@ -234,11 +277,12 @@ namespace SIX_Text_RPG.Scenes
 
             if (item.Iteminfo.Price > player.Stats.Gold)
             {
-                Utils.WriteColorLine("Gold 가 부족합니다...", ConsoleColor.DarkRed);
+                Utils.WriteColorLine(" Gold 가 부족합니다...", ConsoleColor.DarkRed);
                 return;
             }
             else
             {
+                Utils.WriteColorLine(" 아이템을 구매했습니다 !", ConsoleColor.DarkGreen);
                 GameManager.Instance.Inventory.Add(item);
             }
             section.RemoveAt(index);

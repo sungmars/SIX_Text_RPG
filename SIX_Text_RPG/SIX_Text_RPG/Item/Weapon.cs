@@ -3,7 +3,7 @@
     internal class Weapon : Item, IEquipable
     {
 
-        public Weapon(ItemInfo iteminfo, char graphic) : base(iteminfo)
+        public Weapon(ItemInfo iteminfo) : base(iteminfo)
         {
             this.Type = ItemType.Accessory;
         }
