@@ -30,7 +30,7 @@ namespace SIX_Text_RPG.Scenes
 
         public override int Update()
         {
-            Utils.DisplayCursorMenu(5, 25);
+            Utils.DisplayCursorMenu(5, 22);
 
             base.Update();
             if (Program.CurrentScene is Scene_LevelUp)
@@ -81,7 +81,9 @@ namespace SIX_Text_RPG.Scenes
                 player.StatusAnim(Stat.Gold, rewardGold);
                 player.SetStat(Stat.Gold, rewardGold, true);
 
+                Console.WriteLine();
                 RewardItems();
+                Utils.DisplayLine();
 
             }
 
@@ -182,15 +184,15 @@ namespace SIX_Text_RPG.Scenes
 
             if (rewardItme.Iteminfo.Name.Contains("체력"))
             {
-                Utils.WriteColor($"{rewardItme.Iteminfo.Name}", ConsoleColor.Red);
+                Utils.WriteColor($" {rewardItme.Iteminfo.Name}", ConsoleColor.Red);
             }
             else if (rewardItme.Iteminfo.Name.Contains("마나"))
             {
-                Utils.WriteColor($"{rewardItme.Iteminfo.Name}", ConsoleColor.Blue);
+                Utils.WriteColor($" {rewardItme.Iteminfo.Name}", ConsoleColor.Blue);
             }
             else if (rewardItme.Iteminfo.Name.Contains("회복약"))
             {
-                Utils.WriteColor($"{rewardItme.Iteminfo.Name}", ConsoleColor.Yellow);
+                Utils.WriteColor($" {rewardItme.Iteminfo.Name}", ConsoleColor.Yellow);
             }
         }
     }
