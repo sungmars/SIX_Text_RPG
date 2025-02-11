@@ -57,14 +57,13 @@ namespace SIX_Text_RPG.Scenes
             //메뉴추가 
             if (Utils.CursorMenu.Count < storeItem[page].Count )
             {
-                for (int i = 1; i <= storeItem[page].Count; i++)
+                for (int i = 0; i < storeItem[page].Count; i++)
                 {
-                    Utils.CursorMenu.Add(($"[{i}]", () => Purchase(storeItem[page], i)));
+                    int index = i;
+                    Utils.CursorMenu.Add(($"[{i + 1}]", () => Purchase(storeItem[page], index)));
                 }
-                Utils.CursorMenu.Add((" 이제 그만 살게요.", () => Program.CurrentScene = new Scene_Store()));
+                Utils.CursorMenu.Add(("이제 그만 살게요.", () => Program.CurrentScene = new Scene_Store()));
             }
-
-            
 
             //씬 타이틀 인포
             sceneTitle = "송승환 매니저님 방";
@@ -147,7 +146,7 @@ namespace SIX_Text_RPG.Scenes
                     page--;
                     if (page < 0)
                     {
-                        page = storeItem[page].Count-1;
+                        page = 3;
                     }
                     break;
                 //오른쪽
@@ -171,7 +170,6 @@ namespace SIX_Text_RPG.Scenes
             if (GameManager.Instance.Player == null) return;
             Player player = GameManager.Instance.Player;
 
-
             if (item.Iteminfo.Price > player.Stats.Gold)
             {
                 Utils.WriteColorLine(" Gold 가 부족합니다...", ConsoleColor.DarkRed);
@@ -179,10 +177,20 @@ namespace SIX_Text_RPG.Scenes
             }
             else
             {
-                Utils.WriteColorLine(" 아이템을 구매했습니다 !", ConsoleColor.DarkGreen);
-                GameManager.Instance.Inventory.Add(item);
+                if (!item.Iteminfo.IsSold)
+                {
+                    Utils.WriteColorLine(" 아이템을 구매했습니다 !", ConsoleColor.DarkGreen);
+                    GameManager.Instance.Player.SetStat(Stat.Gold, - item.Iteminfo.Price, true);
+                    GameManager.Instance.Inventory.Add(item);
+
+                    if (item.Type != ItemType.Potion)
+                    {
+                        item.Sale();
+                    }
+                    
+                }
             }
-            section.RemoveAt(index);
+            
         }
 
         //창지우기
