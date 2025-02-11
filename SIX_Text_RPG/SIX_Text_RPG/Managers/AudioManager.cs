@@ -8,6 +8,7 @@ namespace SIX_Text_RPG
         Music_Title,
         Music_Battle,
 
+        SoundFX_Appear,
         SoundFX_Click,
         SoundFX_ClockTicking,
         SoundFX_Confirm,
@@ -20,6 +21,8 @@ namespace SIX_Text_RPG
         SoundFX_Hit1,
         SoundFX_Hit2,
         SoundFX_Hit3,
+        SoundFX_Landed,
+        Music_LevelUp,
         SoundFX_TaskDone,
         SoundFX_WriteAnim,
 

@@ -124,7 +124,7 @@
             }
         }
 
-        public void DisplayBattle_Damage(params Action[] onDamage)
+        public void DisplayBattle_Damage(Action[] onDamage)
         {
             if (Player == null)
             {
@@ -205,8 +205,6 @@
 
                 Thread.Sleep(5);
             }
-
-            onDamage[0]?.Invoke();
         }
 
         private void DisplayBattle_Ground()

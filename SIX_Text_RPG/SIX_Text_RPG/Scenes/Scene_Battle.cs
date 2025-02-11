@@ -23,6 +23,7 @@
         protected readonly Random random = new();
         protected readonly Player? player = GameManager.Instance.Player;
         protected readonly List<Monster> monsters = GameManager.Instance.Monsters;
+        protected readonly int stage = GameManager.Instance.CurrentStage;
 
         protected static int monsterIndex;
 
@@ -48,13 +49,17 @@
             if (HasAnim)
             {
                 AudioManager.Instance.Play(AudioClip.Music_Battle);
-                Thread.Sleep(500);
+                Thread.Sleep(1000);
             }
 
             // 플레이어 정보 출력
             Display_PlayerInfo();
 
-            if (HasAnim) Thread.Sleep(500);
+            if (HasAnim)
+            {
+                AudioManager.Instance.Play(AudioClip.SoundFX_Landed);
+                Thread.Sleep(1000);
+            }
 
             // 현재 커서위치 저장
             (int left, int top) = Console.GetCursorPosition();
@@ -66,12 +71,19 @@
                 Utils.WriteColorLine(VERSUS_TEXT[i], i > 2 ? ConsoleColor.DarkRed : ConsoleColor.Red);
             }
 
+            if (HasAnim)
+            {
+                AudioManager.Instance.Play(AudioClip.SoundFX_Landed);
+                Thread.Sleep(1000);
+            }
+
             // 모든 몬스터 정보 출력
             for (int i = 0; i < monsters.Count; i++)
             {
                 if (HasAnim)
                 {
-                    Thread.Sleep(500);
+                    Thread.Sleep(200);
+                    AudioManager.Instance.Play(AudioClip.SoundFX_Appear);
                 }
 
                 Console.SetCursorPosition(MONSTER_LEFT, VERSUS_TOP + 6 - i);

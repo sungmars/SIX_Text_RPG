@@ -9,19 +9,21 @@ internal class Scene_Quest : Scene_Base
     {
         quest = QuestManager.Instance.QuestFind(questId);
     }
-    //인코딩 테스트
     
     public override void Awake()
     {
         base.Awake();
-        sceneTitle = "Quest!!";
+        sceneTitle = "스파게티 스크럼";
         switch (quest.Id)
         {
             case 0 :
-                sceneInfo = $" {quest.Name} test(튜터님들 몇명 쓰러트린지)";
+                sceneInfo = $" {quest.Name} ";
                 break;
             case 1 :
-                sceneInfo = $" {quest.Name}  test오늘의 찌르기왕 (특수 아이템 장비 확인?)";
+                sceneInfo = $" {quest.Name}  ";
+                break;
+            case 2 :
+                sceneInfo = $" {quest.Name}  ";
                 break;
         }
         
@@ -48,20 +50,27 @@ internal class Scene_Quest : Scene_Base
             case 1:
                 if (quest.Status == QuestStatus.Completed)
                 {
-                    Utils.WriteAnim("이미 퀘스트 완료 o");
-                    // GameManager.Instance.Inventory + quest.Reward; 보상
-
+                    Utils.WriteAnim("이미 퀘스트 완료했습니다");
                 }
                 else if (quest.Status == QuestStatus.InProgress)
                 {
                     quest.CompleteQuest();
                     if (quest.Status == QuestStatus.InProgress)
                     {
-                        Utils.WriteAnim("퀘스트 완료 x");
+                        Utils.WriteAnim("퀘스트 조건을 만족하지 못했습니다");
                     }
                     else if(quest.Status == QuestStatus.Completed)
                     {
-                        Utils.WriteAnim("퀘스트 완료 o");
+                        Utils.WriteAnim("퀘스트를 완료했습니다");
+                        
+                        // 퀘스트 보상 넣기
+                        if (GameManager.Instance.Player != null)
+                            QuestManager.Instance.QuestReward(GameManager.Instance.Player, quest.Id);
+                        if (quest.GoldReward > 0)
+                        {
+                            GameManager.Instance.Player.DisplayInfo_Gold();
+                            GameManager.Instance.Player.StatusAnim(Stat.Gold, quest.GoldReward);
+                        }
                     }
                 }
                 else if(quest.Status == QuestStatus.NotStarted)
@@ -82,17 +91,24 @@ internal class Scene_Quest : Scene_Base
     
     protected override void Display()
     {
-        
-        Console.WriteLine("퀘스트 내용");
         foreach (var questInfo in quest.QuestInfo)
         {
             Utils.WriteColorLine(questInfo,ConsoleColor.Green);
         }
-        Console.WriteLine("퀘스트 완료조건");
+        Console.WriteLine("\n 퀘스트 완료조건");
         Utils.WriteAnim($"{quest.GoalInfo} ({quest.CurrentProgress}/{quest.Goal})",ConsoleColor.Yellow);
-        Console.WriteLine("");
         
-        Console.WriteLine("보상");
+        if(quest.Id == 1)
+            for (int i = 0; i < (int)MonsterType.Count; i++)
+            {
+                string name = Enum.GetName(typeof(MonsterType), i);
+                Utils.WriteAnim($"{name,5}",ConsoleColor.Yellow);
+                Console.SetCursorPosition(8,14+i);
+                Utils.WriteColorLine($"{QuestManager.Instance.killCount[i],30}",
+                    (QuestManager.Instance.killCount[i] ? ConsoleColor.Blue : ConsoleColor.Red));
+            }
+        
+        Console.WriteLine("\n 보상");
         Utils.WriteColor($"{quest.ItemReward.Iteminfo.Name}  ",ConsoleColor.Cyan);
         if(quest.GoldReward > 0)
             Utils.WriteColor($"{quest.GoldReward}G  ",ConsoleColor.Cyan);

@@ -147,7 +147,7 @@
             " 퇴근 시간에 찾아오면 범죄인거 아시죠?"
         };
 
-        private int currentTime;
+        public int currentTime;
 
         public override void Awake()
         {
@@ -157,6 +157,7 @@
             Menu.Add("가방 보기");
             Menu.Add("매니저님 찾아가기 (상점)");
             Menu.Add("튜터님 찾아가기 (전투)");
+            Menu.Add("일일 스크럼 (퀘스트)");
             Menu.Add("캠 끄기 (휴식)");
             Menu.Add("TIL 작성 (저장)");
             zeroText = "게임 종료";
@@ -168,16 +169,16 @@
         {
             switch (base.Update())
             {
-                case 1:
-                    Program.CurrentScene = new Scene_LevelUp();
+                case 1: // 상태 보기
+                    Program.CurrentScene = new Scene_PlayerInfo();
                     break;
-                case 2:
+                case 2: // 가방 보기
                     Program.CurrentScene = new Scene_Inventory();
                     break;
-                case 3:
+                case 3: // 상점
                     Program.CurrentScene = new Scene_Store();
                     break;
-                case 4:
+                case 4: // 전투
                     // TODO: 팀 스크럼때, 주석 해제
                     //Utils.WriteAnim($"튜터님께 걸어가는 중...");
                     //Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
@@ -186,10 +187,16 @@
                     //Utils.WriteAnim("뚜벅. 뚜벅. 뚜벅. 뚜벅.");
                     Program.CurrentScene = new Scene_BattleLobby();
                     break;
-                case 5:
+                case 5: // 퀘스트
+                    Program.CurrentScene = new Scene_QuestTable();
                     break;
-                case 6:
+                case 6: // 휴식
+                    break;
+                case 7: // 저장
+                    AudioManager.Instance.Play(AudioClip.SoundFX_Confirm);
                     DataManager.Instance.SaveData();
+                    Console.WriteLine("저장이 완료되었습니다.");
+                    Console.ReadKey();
                     break;
                 case 0:
                     Utils.Quit();
@@ -204,11 +211,11 @@
             Console.SetCursorPosition(1, 1);
             Utils.WriteColorLine(Define.GAME_TITLE, ConsoleColor.DarkYellow);
 
-            Console.SetCursorPosition(1, 3);
+            currentTime = Define.TIMES[Math.Max(GameManager.Instance.CurrentStage, 0)];
             int targetStage = GameManager.Instance.TargetStage;
-            Utils.WriteColorLine("현재 시간: ", targetStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkGreen);
 
-            currentTime = Define.TIMES[targetStage];
+            Console.SetCursorPosition(1, 3);
+            Utils.WriteColorLine("현재 시간: ", targetStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkGreen);
             Display_Clock(targetStage == 4 ? ConsoleColor.Red : ConsoleColor.Green);
 
             if (targetStage == GameManager.Instance.CurrentStage)

@@ -9,8 +9,8 @@ namespace SIX_Text_RPG
 
         public static Dictionary<int, Quest> Quests { get; set; } = new Dictionary<int, Quest>();
 
-        // 튜터님들 한명씩 검사?
-        public List<bool> killCount = new List<bool>(new bool[(int)MonsterType.Count]);
+        // 튜터님들 한명씩 검사
+        public readonly List<bool> killCount = new List<bool>(new bool[(int)MonsterType.Count]);
 
         public static void AddQuest(Quest quest)
         {
@@ -46,12 +46,16 @@ namespace SIX_Text_RPG
             return null;
         }
 
-        public bool KillCountPlus(int MonsterTypeCount)
+        public bool KillCountPlus(int questId, int MonsterTypeCount)
         {
-            if (!killCount[MonsterTypeCount])
+            if (Quests.ContainsKey(questId))
             {
-                killCount[MonsterTypeCount] = true;
-                return true;
+                if (!killCount[MonsterTypeCount] && Quests[questId].Status == QuestStatus.InProgress)
+                {
+                    UpdateQuestProgress(questId,1);
+                    killCount[MonsterTypeCount] = true;
+                    return true;
+                }
             }
 
             return false;
@@ -62,7 +66,7 @@ namespace SIX_Text_RPG
             if (Quests.ContainsKey(questId))
             {
                 // 플레이어한테 아이템보상
-                //Quests[questId].ItemReward = null;
+                GameManager.Instance.Inventory.Add(Quests[questId].ItemReward);
                 
                 // Gold 보상
                 var playerStats = player.Stats;

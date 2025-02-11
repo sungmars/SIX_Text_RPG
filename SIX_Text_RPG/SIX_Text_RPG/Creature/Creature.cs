@@ -1,6 +1,4 @@
-﻿using SIX_Text_RPG;
-
-namespace SIX_Text_RPG
+﻿namespace SIX_Text_RPG
 {
     public enum Stat
     {
@@ -56,9 +54,19 @@ namespace SIX_Text_RPG
             Stats = stats;
         }
 
-        public virtual void Display_EXPBar() => Display_StatusBar(Stats.EXP / Stats.MaxEXP, ConsoleColor.DarkGreen);
-        public virtual void Display_HPBar() => Display_StatusBar(Stats.HP / Stats.MaxHP, ConsoleColor.DarkRed);
-        public virtual void Display_MPBar() => Display_StatusBar(Stats.MP / Stats.MaxMP, ConsoleColor.Blue);
+        public virtual void Display_EXPBar()
+        {
+            if (Stats.MaxEXP == 0)
+            {
+                Display_StatusBar(0.0f, ConsoleColor.DarkGreen);
+                return;
+            }
+
+            Display_StatusBar(MathF.Min(Stats.EXP / Stats.MaxEXP, 1.0f), ConsoleColor.DarkGreen);
+        }
+
+        public virtual void Display_HPBar() => Display_StatusBar(MathF.Min(Stats.HP / Stats.MaxHP, 1.0f), ConsoleColor.DarkRed);
+        public virtual void Display_MPBar() => Display_StatusBar(MathF.Min(Stats.MP / Stats.MaxMP, 1.0f), ConsoleColor.Blue);
 
         private void Display_StatusBar(float percentage, ConsoleColor color)
         {

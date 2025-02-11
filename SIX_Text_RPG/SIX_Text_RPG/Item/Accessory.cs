@@ -2,7 +2,7 @@
 {
     internal class Accessory : Item, IEquipable
     {
-        public Accessory(ItemInfo iteminfo, char graphic) : base(iteminfo)
+        public Accessory(ItemInfo iteminfo) : base(iteminfo)
         {
             this.Type = ItemType.Accessory;
         }
