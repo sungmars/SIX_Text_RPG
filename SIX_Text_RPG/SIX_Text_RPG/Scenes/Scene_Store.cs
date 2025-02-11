@@ -84,7 +84,7 @@ namespace SIX_Text_RPG.Scenes
                         Talking(talkGambling);
                         ItemManager.Instance.SetBool(3, true);
                     }
-                    //Program.CurrentScene = new Scene_Store_Gambling();
+                    Program.CurrentScene = new Scene_Store_Gambling();
                     return 0;
 
 
