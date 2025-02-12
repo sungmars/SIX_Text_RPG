@@ -2,10 +2,6 @@
 {
     internal class ItemManager
     {
-        public static ItemManager Instance { get; private set; } = new();
-
-        public List<List<Item>> StoreItem = new List<List<Item>>();
-
         public ItemManager()
         {
             ItemInfo[,] iteminfo = Define.ITEM_INFOS;
@@ -33,9 +29,6 @@
                             break;
                     }
                 }
-            else if (num == 3)
-            {
-                Istalk_3 = value;
             }
         }
 
