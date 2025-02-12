@@ -217,6 +217,11 @@
                     Console.ReadKey();
                     break;
                 case 0:
+                    if (GameManager.Instance.CurrentStage == 5)
+                    {
+                        Program.CurrentScene = new Scene_EndingCredit();
+                        return 0;
+                    }
                     Utils.Quit();
                     break;
             }
