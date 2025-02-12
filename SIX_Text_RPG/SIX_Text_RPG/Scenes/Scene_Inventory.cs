@@ -30,7 +30,7 @@ namespace SIX_Text_RPG.Scenes
             Console.SetCursorPosition(0, 10);
             if (Inventory.Count == 0)//아이템이 없다면 아무것도 없다는 문장과 엔터키를 누르면 나가는 기능
             {
-                Utils.WriteColorLine("     현재 가방에 있는 것: 공기", ConsoleColor.DarkGray);
+                GagCode();
                 Utils.CursorMenu.Add((
                         "나가려면 Enter키를 누르세요.", // 메뉴에 출력될 아이템 이름
                         () =>
@@ -113,5 +113,23 @@ namespace SIX_Text_RPG.Scenes
                 Console.ReadKey(); // 대기
             }
         }
+
+        public void GagCode()
+        {
+            string[] gags = new string[]
+            {
+               "     [현재 가방에 있는 것: 공기]",
+               "     [설마 아이템이 있을거라 생각한건 아니죠?]",
+               "     [이곳엔 Bug밖에 없는것 같다...]",
+               "     [하드웨어 : 사람이 발로 걷어찰 수 있는 컴퓨터의 부분  -Jeff Pesis, 프로그래머-]",
+               "     [있었는데, 없었습니다.]",
+               "     [아니 그냥 없어요.]"
+            };
+
+            Random random = new Random();
+            int randomGag = random.Next(gags.Length);
+            Utils.WriteColorLine(gags[randomGag],ConsoleColor.DarkGray);
+        }
+        
     }
 }
