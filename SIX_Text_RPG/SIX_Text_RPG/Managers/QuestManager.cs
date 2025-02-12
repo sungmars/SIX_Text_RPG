@@ -22,7 +22,7 @@ namespace SIX_Text_RPG
 
         private readonly Item legendItem = new Weapon(info);
         private readonly Item potion = new Potion(Define.ITEM_INFOS[2, 1]);
-        private static Item equipQuestItem = new Weapon(Define.ITEM_INFOS[3,3]);  // 장착 아이템 퀘스트 define에서 하나 골라서 넣을것
+        public static Item equipQuestItem = new Weapon(Define.ITEM_INFOS[3,3]);  // 장착 아이템 퀘스트 define에서 하나 골라서 넣을것
         
         private static readonly string[] questDetail_1 =
         {

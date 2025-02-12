@@ -49,8 +49,8 @@ internal class Scene_QuestTable : Scene_Base
     }
     public void QuestItemCheck()
     {
-        var quest = QuestManager.Instance.QuestFind(2);
-        var item = inventory.Find(x => (x.Iteminfo.Name == $"{quest.ItemReward.Iteminfo.Name}"));
+        // var quest = QuestManager.Instance.QuestFind(2);
+        var item = inventory.Find(x => (x.Iteminfo.Name == $"{QuestManager.equipQuestItem.Iteminfo.Name}"));
         
         if (item is { Iteminfo.IsEquip: true })
         {
