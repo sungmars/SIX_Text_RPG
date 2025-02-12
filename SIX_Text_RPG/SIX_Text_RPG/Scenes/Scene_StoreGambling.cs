@@ -2,12 +2,9 @@
 {
     internal class Scene_StoreGambling : Scene_Base
     {
-        private int cursorX = 1;
-        private int cursorY = 7;
+        public static int resultIndex = -1;
 
-        private int resultIndex = -1;
-
-        private float bet;
+        public static float bet;
 
         private string[] roulette =
         {
@@ -20,7 +17,6 @@
             " 베팅금의 \"두 배\" 획득"
         };
 
-
         public override void Awake()
         {
             base.Awake();
@@ -28,62 +24,49 @@
             sceneTitle = "수상한..매니저님 방 - 룰렛";
             sceneInfo = "카지노 아닙니다.";
 
-            Menu.Add("베팅하기");
+            Utils.CursorMenu.Add(("베팅하기", () =>
+            {
+                Gambling();
+                Program.CurrentScene = new Scene_StoreGamblingResult();
+            }
+            ));
+            
+            Utils.CursorMenu.Add(("결과창 나가기", () => Program.CurrentScene = new Scene_Store()));
         }
-
+        
         protected override void Display()
         {
-
-            Scene_Store.Scripting(ScriptType.StoreGamble);
-
             if (GameManager.Instance.Player == null) return;
             Player player = GameManager.Instance.Player;
 
-            Console.SetCursorPosition(0, 10);
             player.DisplayInfo_Gold();
 
+            Utils.DisplayCursorMenu(5, 10);
         }
 
         public override int Update()
         {
-            switch (base.Update())
-            {
-                //나가기
-                case 0:
-                    Program.CurrentScene = new Scene_Store();
-                    break;
-
-                //업데이트
-                case 1:
-                    UpdateContent();
-                    break;
-            }
+            base.Update();
             return 0;
         }
 
-        private void UpdateContent()
+        private void Gambling()
         {
             if (GameManager.Instance.Player == null) return;
             Player player = GameManager.Instance.Player;
-            for (int i = 7; i < 13; i++)
-            {
-                if (i == 10) continue;
-
-                Utils.ClearLine(0, i);
-            }
 
             Console.Write(" 베팅금액을 입력해주세요: ");
+
+            //실수값으로 입력
             bool isValid = float.TryParse(Console.ReadLine(), out bet);
+            //잘못 입력했을 시 
             if (!isValid || (bet > player.Stats.Gold))
             {
                 Console.WriteLine("잘못된 입력입니다.");
                 Console.ReadKey();
                 return;
             }
-
             resultIndex = Roulette();
-            Console.SetCursorPosition(cursorX, cursorY);
-            SetResult();
         }
 
         private int Roulette()
@@ -96,54 +79,6 @@
                 }
             }
             return 6;
-        }
-
-        //룰렛결과 적용
-        private void SetResult()
-        {
-            float value = 0;
-            switch (resultIndex)
-            {
-                case 0:
-                    value = -1f;
-                    break;
-
-                case 1:
-                    value = -0.5f;
-                    break;
-
-                case 2:
-                    value = -0.3f;
-                    break;
-
-                case 3:
-                    value = 0f;
-                    break;
-
-                case 4:
-                    value = 0.3f;
-                    break;
-
-                case 5:
-                    value = 1.5f;
-                    break;
-
-                case 6:
-                    value = 2f;
-                    break;
-            }
-            if (GameManager.Instance.Player == null) return;
-            Player player = GameManager.Instance.Player;
-            float gold = value * bet;
-
-            //출력
-            Console.SetCursorPosition(1, 7);
-            Console.WriteLine("[게임 결과]");
-            Console.WriteLine(roulette[resultIndex]);
-
-            player.StatusAnim(Stat.Gold, (int)gold);
-            player.SetStat(Stat.Gold, (int)gold, true);
-            Console.ReadKey();
         }
     }
 }
