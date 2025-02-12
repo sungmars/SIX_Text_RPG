@@ -64,6 +64,8 @@
             int monsterCount = random.Next(2, 4 + stage / 2);
             int sumLevel;
 
+            Stats monsterStats;
+
             for (int i = 0; i < monsterCount; i++)
             {
                 MonsterType type = (MonsterType)random.Next(1, Define.MONSTERS_STATS.Length);
@@ -73,19 +75,19 @@
             {
 
                 case 0:
-                    sumLevel = random.Next(3, 9);
+                    sumLevel = random.Next(5, 8);
                     break;
                 case 1:
-                    sumLevel = random.Next(10, 16);
+                    sumLevel = random.Next(11, 14);
                     break;
                 case 2:
-                    sumLevel = random.Next(17, 23);
+                    sumLevel = random.Next(17, 20);
                     break;
                 case 3:
-                    sumLevel = random.Next(24, 30);
+                    sumLevel = random.Next(23, 26);
                     break;
                 case 4:
-                    sumLevel = random.Next(31, 37);
+                    sumLevel = random.Next(29, 32);
                     break;
                 default:
                     sumLevel = 0;
@@ -96,25 +98,31 @@
             {
                 if (monsters.IndexOf(monster) == monsters.Count - 1)
                 {
+                    monsterStats =monster.Stats;
                     sumLevel = Math.Max(stage + 1, sumLevel);
-                    monster.SetStat(Stat.Level, sumLevel);
-                    monster.SetStat(Stat.ATK, sumLevel);
-                    monster.SetStat(Stat.EXP, 0 + sumLevel * 2);
-                    monster.SetStat(Stat.Gold, 20 + sumLevel * 3);
-                    monster.SetStat(Stat.MaxHP, 100 + sumLevel * 20);
-                    monster.SetStat(Stat.HP, 100 + sumLevel * 20);
+                    monsterStats.Level = sumLevel;
+                    monsterStats.ATK = sumLevel;
+                    monsterStats.DEF = sumLevel / 2f;
+                    monsterStats.EXP = sumLevel * 3;
+                    monsterStats.Gold = 50 + sumLevel * 5;
+                    monsterStats.MaxHP = sumLevel * 10;
+                    monsterStats.HP = monsterStats.MaxHP;
+                    monster.Stats = monsterStats;
                     break;
                 }
                 else
                 {
+                    monsterStats = monster.Stats;
                     int level = random.Next(stage + 1, Math.Max(stage + 2, sumLevel - 1 - stage));
                     sumLevel -= level;
-                    monster.SetStat(Stat.Level, level);
-                    monster.SetStat(Stat.ATK, level);
-                    monster.SetStat(Stat.EXP, 0 + level * 2);
-                    monster.SetStat(Stat.Gold, 20 + level * 3);
-                    monster.SetStat(Stat.MaxHP, 100 + sumLevel * 20);
-                    monster.SetStat(Stat.HP, 100 + sumLevel * 20);
+                    monsterStats.Level = level;
+                    monsterStats.ATK = level;
+                    monsterStats.DEF = level / 2f;
+                    monsterStats.EXP = level * 3;
+                    monsterStats.Gold = 50 + level * 5;
+                    monsterStats.MaxHP = level * 10;
+                    monsterStats.HP = monsterStats.MaxHP;
+                    monster.Stats = monsterStats;
                 }
             }
         }

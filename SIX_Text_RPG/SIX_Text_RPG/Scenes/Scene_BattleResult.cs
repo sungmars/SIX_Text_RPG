@@ -20,24 +20,46 @@ namespace SIX_Text_RPG.Scenes
             sceneTitle = "Battle!! - Result";
             sceneInfo = "";
 
-            Utils.CursorMenu.Add(("로비로 돌아가기", () => Program.CurrentScene = new Scene_Lobby()));
+
+            if(player != null && player.Stats.EXP + MonsterRewardEXP() >= player.Stats.MaxEXP)
+            {
+                Utils.CursorMenu.Add(("레벨 업!", () => {
+                    GameManager.Instance.TotalDamage = 0f;
+                    monsters.Clear();
+                }
+                ));
+            }
+            else
+            {
+                Utils.CursorMenu.Add(("로비로 돌아가기", () => {
+                    GameManager.Instance.TotalDamage = 0f;
+                    monsters.Clear();
+                }
+                ));
+            }
+
 
             for (int i = 0; i < 5; i++)
             {
                 rewardItemList.Add(new Potion(Define.ITEM_INFOS[(int)ItemType.Potion, i]));
             }
+
         }
 
         public override int Update()
         {
-            Utils.DisplayCursorMenu(5, 23);
-
             base.Update();
-            if (Program.CurrentScene is Scene_LevelUp)
+
+            if (player != null && player.Stats.EXP >= player.Stats.MaxEXP)
             {
-                return 0;
+                Program.CurrentScene = new Scene_LevelUp();
+            }
+            else
+            {
+                Program.CurrentScene = new Scene_Lobby();
             }
             return 0;
+
         }
 
         protected override void Display()
@@ -64,18 +86,30 @@ namespace SIX_Text_RPG.Scenes
                 int rewardEXP = MonsterRewardEXP();
                 int rewardGold = MonsterRewardGold();
 
-                if (rewardEXP < player.Stats.MaxEXP)
+
+                float oldHP = beforeHP(player.Stats.HP, totalDamage);
+                float newHP = player.Stats.HP;
+                player.SetStat(Stat.HP, oldHP, false);
+                player.StatusAnim(Stat.HP, -((int)totalDamage + 1));
+                player.SetStat(Stat.HP, newHP, false);
+
+                if(player.Stats.MP != player.Stats.MaxMP)// MP 애니메이션(토탈 MP필요 수정필요)
                 {
-                    float oldHP = beforeHP(player.Stats.HP, totalDamage);
-                    float newHP = player.Stats.HP;
-                    player.SetStat(Stat.HP, oldHP, false);
-                    player.StatusAnim(Stat.HP, -((int)totalDamage + 1));
-                    player.SetStat(Stat.HP, newHP, false);
+                    float beforeMP = player.Stats.MP;
+                    player.SetStat(Stat.MP, player.Stats.MaxMP, false);
+                    player.StatusAnim(Stat.MP,(int)player.Stats.MaxMP - (int)beforeMP);
+                    player.SetStat(Stat.MP, beforeMP, false);
+                }
+
+                if (player.Stats.EXP + rewardEXP < player.Stats.MaxEXP)
+                {
+                    player.StatusAnim(Stat.EXP, rewardEXP);
+                    player.SetStat(Stat.EXP, rewardEXP, true);
                 }
                 else
                 {
-                    //레벨업 씬으로 이동 보여주기
-                    //player.LevelUp();
+                    player.StatusAnim(Stat.EXP, rewardEXP);
+                    player.SetStat(Stat.EXP, rewardEXP, true);
                 }
 
                 player.StatusAnim(Stat.Gold, rewardGold);
@@ -87,6 +121,7 @@ namespace SIX_Text_RPG.Scenes
                 Console.WriteLine();
                 RewardItems();
                 Utils.DisplayLine();
+
 
             }
 
@@ -102,9 +137,8 @@ namespace SIX_Text_RPG.Scenes
                 player.SetStat(Stat.HP, 1, false);
             }
 
-            //데이터 초기화
-            GameManager.Instance.TotalDamage = 0f;
-            monsters.Clear();
+            Utils.DisplayCursorMenu(5, 23);
+
         }
 
 
