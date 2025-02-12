@@ -130,6 +130,8 @@
                 Console.SetCursorPosition(1, 8);
                 Utils.WriteAnim(script[i]);
             }
+
+            Utils.ClearBuffer();
         }
 
         public static void ClearContent()
