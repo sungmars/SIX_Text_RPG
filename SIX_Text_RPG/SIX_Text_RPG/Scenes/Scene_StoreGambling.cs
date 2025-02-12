@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SIX_Text_RPG.Scenes
+﻿namespace SIX_Text_RPG.Scenes
 {
     internal class Scene_StoreGambling : Scene_Base
     {
@@ -14,7 +6,7 @@ namespace SIX_Text_RPG.Scenes
         private int cursorY = 7;
 
         private int resultIndex = -1;
-        
+
         private float bet;
 
         private string[] roulette =
@@ -27,7 +19,7 @@ namespace SIX_Text_RPG.Scenes
             " 베팅금의 50% 획득 !",
             " 베팅금의 \"두 배\" 획득"
         };
-        
+
 
         public override void Awake()
         {
@@ -54,7 +46,7 @@ namespace SIX_Text_RPG.Scenes
 
         public override int Update()
         {
-            switch(base.Update())
+            switch (base.Update())
             {
                 //나가기
                 case 0:
@@ -68,7 +60,7 @@ namespace SIX_Text_RPG.Scenes
             }
             return 0;
         }
-        
+
         private void UpdateContent()
         {
             if (GameManager.Instance.Player == null) return;
@@ -79,7 +71,7 @@ namespace SIX_Text_RPG.Scenes
 
                 Utils.ClearLine(0, i);
             }
-            
+
             Console.Write(" 베팅금액을 입력해주세요: ");
             bool isValid = float.TryParse(Console.ReadLine(), out bet);
             if (!isValid || (bet > player.Stats.Gold))
@@ -96,9 +88,9 @@ namespace SIX_Text_RPG.Scenes
 
         private int Roulette()
         {
-            for (int i =0; i< roulette.Length; i++)
+            for (int i = 0; i < roulette.Length; i++)
             {
-                if (!Utils.LuckyMethod(60-(10*i)))
+                if (!Utils.LuckyMethod(60 - (10 * i)))
                 {
                     return i;
                 }
