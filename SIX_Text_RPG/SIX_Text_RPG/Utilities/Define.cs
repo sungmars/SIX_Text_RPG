@@ -66,7 +66,7 @@
         {
             //Armor
             {
-                new() { Name = "손가락골무", Description = "찌르는 손가락이 아프지 않도록 지켜주세요.",ATK = 5, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 700, Graphic = '☞', Color = ConsoleColor.Magenta },
+                new() { Name = "손가락골무", Description = "찌르는 손가락이 아프지 않도록 지켜주세요.",ATK = 0, DEF = 5, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 700, Graphic = '☞', Color = ConsoleColor.Magenta },
                 new() { Name = "말랑한 정신", Description = "생각이 말랑해야 정신이 건강합니다...",ATK = 0, DEF = 10, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 1500, Graphic = '♣', Color = ConsoleColor.DarkGreen },
                 new() { Name = "초랭이", Description = "수생거북 초랭이입니다. 곁에만 있어도 든든합니다.",ATK = 0, DEF = 17, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 2500, Graphic = '¤', Color = ConsoleColor.Green },
                 new() { Name = "상어옷", Description = "놀랍도록 파랗습니다.. 피부까지도...",ATK = 0, DEF = 30, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 4000,Graphic = 'δ', Color = ConsoleColor.Blue },
