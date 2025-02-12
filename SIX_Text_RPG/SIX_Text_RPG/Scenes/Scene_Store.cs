@@ -40,7 +40,7 @@
 
         public override void Awake()
         {
-            Console.Clear();
+            base.Awake();
 
             // 메뉴 추가
             Menu.Add("아이템 \'사기\'");
