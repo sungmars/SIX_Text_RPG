@@ -99,6 +99,8 @@ namespace SIX_Text_RPG.Scenes
                 Utils.CursorMenu.Add(("나가기", () => { Program.CurrentScene = new Scene_Lobby(); }));
                 Utils.DisplayCursorMenu(5, 7, Inventory.Count + 2,delay:150);
             }
+            Console.SetCursorPosition(0, 7);
+            GameManager.Instance.Player.DisplayInfo(75);
         }
         public void UseItem(int j)
         {
