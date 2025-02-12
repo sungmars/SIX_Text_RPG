@@ -43,6 +43,7 @@ namespace SIX_Text_RPG
         public PlayerType Type { get; private set; }
         public Stats EquipStats { get; private set; }
         public char Graphic_Weapon { get; private set; } = 'つ';
+        public ConsoleColor Color_Weapon { get; private set; } = ConsoleColor.Yellow;
 
         public void DisplayInfo(int startX = 0)
         {
@@ -146,6 +147,7 @@ namespace SIX_Text_RPG
             if (equipment is Weapon weapon)
             {
                 Graphic_Weapon = weapon.Iteminfo.Graphic;
+                Color_Weapon = weapon.Iteminfo.Color;
             }
 
             // 아이템 스탯 적용 해제
