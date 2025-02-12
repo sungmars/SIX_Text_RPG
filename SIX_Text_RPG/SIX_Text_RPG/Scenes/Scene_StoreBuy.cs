@@ -212,6 +212,7 @@
             }
 
             // 아이템을 구매했습니다.
+            AudioManager.Instance.Play(AudioClip.SoundFX_Cashier);
             player.SetStat(Stat.Gold, -item.Iteminfo.Price, true);
             GameManager.Instance.Inventory.Add(item);
 
