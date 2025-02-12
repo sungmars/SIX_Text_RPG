@@ -94,8 +94,13 @@ internal class Scene_Quest : Scene_Base
                 string name = Enum.GetName(typeof(MonsterType), i);
                 Utils.WriteAnim($"{name,5}",ConsoleColor.Yellow);
                 Console.SetCursorPosition(8,14+i);
-                Utils.WriteColorLine($"{QuestManager.Instance.killCount[i],30}",
-                    (QuestManager.Instance.killCount[i] ? ConsoleColor.Blue : ConsoleColor.Red));
+                if(QuestManager.Instance.killCount[i])
+                    Utils.WriteColorLine($"     잡았다요놈",ConsoleColor.Blue);
+                else
+                {
+                    Utils.WriteColorLine($"     꼭꼭숨어라",ConsoleColor.Red);
+                }
+               
             }
         
         Console.WriteLine("\n 보상");
