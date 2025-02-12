@@ -1,4 +1,6 @@
-﻿namespace SIX_Text_RPG
+﻿using SIX_Text_RPG.Others;
+
+namespace SIX_Text_RPG
 {
     public enum Stat
     {
@@ -74,13 +76,20 @@
 
     internal abstract class Creature
     {
+        public Creature()
+        {
+            Skills.Add(new Skill_Avoid());
+        }
+
         public Vector2 Position { get; set; }
         public Stats Stats { get; set; }
         public bool IsDead { get { return Stats.HP == 0; } }
 
+        public readonly List<ISkill> Skills = new();
+
         protected Random random = new();
 
-        public void Damaged(float damage)
+        public virtual void Damaged(float damage)
         {
             Stats stats = Stats;
             float hp = stats.HP - damage;
@@ -93,7 +102,7 @@
 
             Stats = stats;
         }
-        
+
         public void ResumeMp(float resume)
         {
             Stats stats = Stats;

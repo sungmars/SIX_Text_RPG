@@ -91,10 +91,7 @@
                     // 투사체가 목표지점에 도달할 경우
                     if (startX[i] == endX)
                     {
-                        // Hit 애니메이션과 onHit 콜백을 호출합니다.
-                        Monster targetMonster = Monsters[targetIndex];
                         onHit?.Invoke();
-                        targetMonster.Render_Hit();
                     }
 
                     // 이전 투사체 잔흔을 지웁니다.
@@ -124,7 +121,7 @@
             }
         }
 
-        public void DisplayBattle_Damage(Action[] onDamage)
+        public void DisplayBattle_Damage(Action?[] onDamage)
         {
             if (Player == null)
             {
@@ -176,13 +173,14 @@
                     if (startX[i] == endX)
                     {
                         // Hit 애니메이션과 onDamage 콜백을 호출합니다.
-                        if (onDamage == null)
+                        if (onDamage[i] == null)
                         {
                             AudioManager.Instance.Play(AudioClip.SoundFX_Avoid);
+                            Player.Render_Avoid();
                         }
                         else
                         {
-                            onDamage[i].Invoke();
+                            onDamage[i]?.Invoke();
                             Player.Render_Hit();
                         }
                     }

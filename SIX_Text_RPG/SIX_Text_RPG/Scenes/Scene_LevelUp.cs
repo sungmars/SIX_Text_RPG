@@ -44,6 +44,7 @@ namespace SIX_Text_RPG
 
             // 상태바 갱신을 위한 스탯 적용
             player.Stats = stats;
+            Thread.Sleep(1000);
 
             // 상태바 갱신
             Console.SetCursorPosition(0, 5);
