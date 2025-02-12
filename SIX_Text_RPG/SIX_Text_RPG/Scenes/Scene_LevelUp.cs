@@ -57,12 +57,12 @@ namespace SIX_Text_RPG
             // 공격력 증가
             float atkAmount = levelAmount * 2.0f;
             player.StatusAnim(Stat.ATK, (int)atkAmount);
-            stats.ATK = atkAmount;
+            stats.ATK += atkAmount;
 
             // 방어력 증가
             float defAmount = levelAmount * 1.5f;
             player.StatusAnim(Stat.DEF, (int)defAmount);
-            stats.DEF = defAmount;
+            stats.DEF += defAmount;
 
             // 스탯 적용
             player.Stats = stats;

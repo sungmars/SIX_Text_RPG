@@ -4,8 +4,8 @@
     {
         private readonly List<Monster> monsters = GameManager.Instance.Monsters;
         private Player? player = GameManager.Instance.Player;
-        private float totalDamage = GameManager.Instance.TotalDamage;
-        private float totalUsedMP = GameManager.Instance.TotalUsedMP;
+        private float battleBeforeHP = GameManager.Instance.BattleBeforeHP;
+        private float battleBeforeMP = GameManager.Instance.BattleBeforeMP;
         private int currentStage = GameManager.Instance.CurrentStage;
         private List<Item> rewardItemList = new List<Item>();
         private Random random = new Random();
@@ -22,7 +22,8 @@
             if (player != null && player.Stats.EXP + MonsterRewardEXP() >= player.Stats.MaxEXP)
             {
                 Utils.CursorMenu.Add(("레벨 업!", () => {
-                    GameManager.Instance.TotalDamage = 0f;
+                    GameManager.Instance.BattleBeforeMP = 0f;
+                    GameManager.Instance.BattleBeforeHP = 0f;
                     monsters.Clear();
                 }
                 ));
@@ -30,7 +31,8 @@
             else
             {
                 Utils.CursorMenu.Add(("로비로 돌아가기", () => {
-                    GameManager.Instance.TotalDamage = 0f;
+                    GameManager.Instance.BattleBeforeMP = 0f;
+                    GameManager.Instance.BattleBeforeHP = 0f;
                     monsters.Clear();
                 }
                 ));
@@ -70,14 +72,10 @@
             }
 
             //이전 체력 계산
-            Func<float, float, float> beforeHP = ((x, y) => (x + y) > player.Stats.MaxHP ? player.Stats.MaxHP : x + y);
-            Func<float, float, float> beforeMP = ((x, y) => (x + y) > player.Stats.MaxMP ? player.Stats.MaxMP : x + y);
-            float oldHP = beforeHP(player.Stats.HP, totalDamage);
             float newHP = player.Stats.HP;
-            float oldMP = beforeMP(player.Stats.MP, totalUsedMP);
             float newMP = player.Stats.MP;
-            player.SetStat(Stat.HP, oldHP, false);
-            player.SetStat(Stat.MP, oldMP, false);
+            player.SetStat(Stat.HP, battleBeforeHP, false);
+            player.SetStat(Stat.MP, battleBeforeMP, false);
 
 
             int rewardEXP = MonsterRewardEXP();
@@ -100,10 +98,10 @@
                 player.SetStat(Stat.EXP, rewardEXP, true);
 
 
-                player.StatusAnim(Stat.HP, -((int)totalDamage));
+                player.StatusAnim(Stat.HP, (int)(newHP - battleBeforeHP));
                 player.SetStat(Stat.HP, newHP, false);
 
-                player.StatusAnim(Stat.MP, -((int)totalUsedMP));
+                player.StatusAnim(Stat.MP, (int)(newMP - battleBeforeMP));
                 player.SetStat(Stat.MP, newMP, false);
 
                 player.StatusAnim(Stat.Gold, rewardGold);

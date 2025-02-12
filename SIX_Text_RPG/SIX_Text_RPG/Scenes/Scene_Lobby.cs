@@ -185,6 +185,11 @@
                     //Utils.WriteAnim("탈것이 없어 시간이 지체되는 중...");
                     //Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
                     //Utils.WriteAnim("뚜벅. 뚜벅. 뚜벅. 뚜벅.");
+                    if(GameManager.Instance.Player != null)
+                    {
+                        GameManager.Instance.BattleBeforeHP = GameManager.Instance.Player.Stats.HP;
+                        GameManager.Instance.BattleBeforeMP = GameManager.Instance.Player.Stats.MP;
+                    }
                     Program.CurrentScene = new Scene_BattleLobby();
                     break;
                 case 5: // 퀘스트

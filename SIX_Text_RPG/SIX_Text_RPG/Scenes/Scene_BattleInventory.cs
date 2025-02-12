@@ -96,46 +96,15 @@
                 playerInventory.Remove(selectItem);//인벤토리 리스트에서 삭제
                 if (selectItem.Iteminfo.Name.Contains("체력"))//체력포션을 사용했다면
                 {
-                    if (player.Stats.MaxHP != player.Stats.HP)
-                    {
-                        GameManager.Instance.TotalDamage -= 20;
-                    }
-                    else
-                    {
-                        GameManager.Instance.TotalDamage -= (player.Stats.MaxHP - beforeHP);
-                    }
-
+                    AudioManager.Instance.Play(AudioClip.SoundFX_Potion);
                 }
                 else if (selectItem.Iteminfo.Name.Contains("마나"))//마나포션을 사용했다면
                 {
-                    if (player.Stats.MaxMP != player.Stats.MP)
-                    {
-                        GameManager.Instance.TotalUsedMP -= 20;
-                    }
-                    else
-                    {
-                        GameManager.Instance.TotalDamage -= (player.Stats.MaxMP - beforeMP);
-                    }
-
+                    AudioManager.Instance.Play(AudioClip.SoundFX_Potion);
                 }
                 else if (selectItem.Iteminfo.Name.Contains("회복약"))//회복약을 사용했다면
                 {
-                    if (player.Stats.MaxHP != player.Stats.HP)
-                    {
-                        GameManager.Instance.TotalDamage -= 20;
-                    }
-                    else
-                    {
-                        GameManager.Instance.TotalDamage -= (player.Stats.MaxHP - beforeHP);
-                    }
-                    if (player.Stats.MaxMP != player.Stats.MP)
-                    {
-                        GameManager.Instance.TotalUsedMP -= 20;
-                    }
-                    else
-                    {
-                        GameManager.Instance.TotalDamage -= (player.Stats.MaxMP - beforeMP);
-                    }
+                    AudioManager.Instance.Play(AudioClip.SoundFX_Potion);
                 }
             }
             else
