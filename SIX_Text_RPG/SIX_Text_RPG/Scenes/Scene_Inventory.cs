@@ -118,6 +118,7 @@ namespace SIX_Text_RPG.Scenes
             if (consumable != null && consumable.Consume())//소비하는 아이템이라면
             {
                 Inventory.Remove(selectItem);//인벤토리 리스트에서 삭제
+                AudioManager.Instance.Play(AudioClip.SoundFX_Potion);
             }
             // 장비 아이템 처리
             else if (equipable != null)
