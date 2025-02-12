@@ -30,7 +30,8 @@ namespace SIX_Text_RPG
         SoundFX_Potion,
         SoundFX_TaskDone,
         SoundFX_WriteAnim,
-
+        SoundFX_Equip,
+        SoundFX_Cashier,
         Count
     }
 
