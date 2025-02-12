@@ -50,6 +50,7 @@ namespace SIX_Text_RPG
             {
                 case PlayerType.마계조단:
                     Skills.Add(new Skill_StrangeAttack());
+                    Skills.Add(new Skill_WideAttack());
                     break;
                 case PlayerType.천계조단:
                     Skills.Add(new Skill_DoubleAttack());

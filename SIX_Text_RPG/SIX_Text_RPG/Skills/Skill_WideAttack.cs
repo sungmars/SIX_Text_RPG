@@ -1,10 +1,10 @@
-﻿namespace SIX_Text_RPG
+﻿namespace SIX_Text_RPG.Skills
 {
-    internal class Skill_DoubleAttack : ISkill
+    internal class Skill_WideAttack : ISkill
     {
-        public string Name { get; set; } = "두번 찌르기";
-        public string Description { get; set; } = "튜터님을 두번 찔러 봅니다. 이 찌르기는 회피할 수 없습니다!";
-        public int Mana { get; set; } = 10;
+        public string Name { get; set; } = "광역 찌르기\t";
+        public string Description { get; set; } = "여기저기 찌르며 희열을 느낍니다. 피해량에 따라 회복량이 증가합니다.";
+        public int Mana { get; set; } = 35;
 
         public bool Skill()
         {

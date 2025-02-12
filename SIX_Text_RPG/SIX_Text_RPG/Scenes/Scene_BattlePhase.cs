@@ -1,4 +1,6 @@
-﻿namespace SIX_Text_RPG.Scenes
+﻿using SIX_Text_RPG.Skills;
+
+namespace SIX_Text_RPG.Scenes
 {
     internal class Scene_BattlePhase : Scene_Battle
     {
@@ -47,11 +49,20 @@
                 base.Display();
             }
 
+            if (reservedSkill is Skill_WideAttack)
+            {
+                selectMonsterNum = -1;
+            }
+
+            int totalCount = attackCount;
             GameManager.Instance.DisplayBattle_Attack(selectMonsterNum, attackCount, () =>
             {
+                int monsterIndex = selectMonsterNum == -1 ? Math.Abs(attackCount - totalCount) / 2 : selectMonsterNum;
+                attackCount--;
+
                 // 플레이어 공격
                 float damage = CalculateDamage(player.Stats.ATK);
-                damage -= monsters[selectMonsterNum].Stats.DEF;
+                damage -= monsters[monsterIndex].Stats.DEF;
                 if (damage <= 1)
                 {
                     damage = 1;
@@ -61,16 +72,24 @@
                 if (reservedSkill == null)
                 {
                     // 몬스터 회피
-                    var avoid = monsters[selectMonsterNum].Skills.Find(x => x.GetType() == typeof(Skill_Avoid));
+                    var avoid = monsters[monsterIndex].Skills.Find(x => x.GetType() == typeof(Skill_Avoid));
                     if (avoid != null && avoid.Skill())
                     {
                         damage = 0;
                     }
                 }
 
+                // 피흡이 가능한 스킬이라면
+                if (reservedSkill is Skill_StrangeAttack || reservedSkill is Skill_WideAttack)
+                {
+                    player.SetStat(Stat.HP, damage * 0.1f, true);
+                    player.Render_Heal();
+                    base.Display();
+                }
+
                 // 데미지 및 퀘스트 갱신
-                GameManager.Instance.Monsters[selectMonsterNum].Damaged(damage);
-                QuestManager.Instance.KillCountPlus(1, (int)GameManager.Instance.Monsters[selectMonsterNum].Type);
+                GameManager.Instance.Monsters[monsterIndex].Damaged(damage);
+                QuestManager.Instance.KillCountPlus(1, (int)GameManager.Instance.Monsters[monsterIndex].Type);
             });
 
             // 몬스터가 1마리라도 살아있으면 false
