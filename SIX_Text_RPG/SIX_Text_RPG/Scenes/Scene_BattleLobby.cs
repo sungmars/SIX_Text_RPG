@@ -83,7 +83,31 @@
 
             for (int i = 0; i < monsterCount; i++)
             {
+                bool isSame = true;
                 MonsterType type = (MonsterType)random.Next(1, Define.MONSTERS_STATS.Length);
+                while (isSame)
+                {
+                    type = (MonsterType)random.Next(1, Define.MONSTERS_STATS.Length);
+                    if (monsters.Count != 0)
+                    {
+                        foreach (var monster in monsters)
+                        {
+                            if (monster.Type == type)
+                            {
+                                isSame = true;
+                                break;
+                            }
+                            else
+                            {
+                                isSame = false;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        isSame = false;
+                    }
+                }
                 monsters.Add(new Monster(type));
             }
             switch (stage)
