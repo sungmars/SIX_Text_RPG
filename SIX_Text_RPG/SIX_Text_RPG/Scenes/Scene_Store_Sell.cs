@@ -85,6 +85,7 @@ namespace SIX_Text_RPG.Scenes
             Player player = GameManager.Instance.Player;
 
             float value = (float)item.Iteminfo.Price * 0.8f;
+            item.SetBool(ItemBool.IsSold);
 
             inven.Remove(inven[index]);
             Utils.CursorMenu.Remove(Utils.CursorMenu[index]);

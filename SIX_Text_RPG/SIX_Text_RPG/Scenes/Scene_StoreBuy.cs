@@ -208,7 +208,7 @@
 
             if (item.Type != ItemType.Potion)
             {
-                item.Sale();
+                item.SetBool(ItemBool.IsSold);
             }
 
             // 아이템을 구매했습니다.

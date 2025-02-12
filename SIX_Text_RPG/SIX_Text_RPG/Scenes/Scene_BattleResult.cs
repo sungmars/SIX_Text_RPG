@@ -70,11 +70,15 @@ namespace SIX_Text_RPG.Scenes
                 return;
             }
 
+            //이전 체력 계산
+            Func<float, float, float> beforeHP = ((x, y) => (x + y) > player.Stats.MaxHP ? player.Stats.MaxHP : x + y);
+            float oldHP = beforeHP(player.Stats.HP, totalDamage);
+            float newHP = player.Stats.HP;
+            player.SetStat(Stat.HP, oldHP, false);
+
             Console.SetCursorPosition(0, 5);
             player.DisplayInfo();
 
-            //이전 체력 계산
-            Func<float, float, float> beforeHP = ((x, y) => (x + y) > player.Stats.MaxHP ? player.Stats.MaxHP : x + y);
 
             //승리 시 
             if (monsters.All(monster => monster.IsDead))
@@ -86,11 +90,11 @@ namespace SIX_Text_RPG.Scenes
                 int rewardEXP = MonsterRewardEXP();
                 int rewardGold = MonsterRewardGold();
 
+                player.StatusAnim(Stat.EXP, rewardEXP);
+                player.SetStat(Stat.EXP, rewardEXP, true);
 
-                float oldHP = beforeHP(player.Stats.HP, totalDamage);
-                float newHP = player.Stats.HP;
-                player.SetStat(Stat.HP, oldHP, false);
-                player.StatusAnim(Stat.HP, -((int)totalDamage + 1));
+
+                player.StatusAnim(Stat.HP, -((int)totalDamage));
                 player.SetStat(Stat.HP, newHP, false);
 
                 if(player.Stats.MP != player.Stats.MaxMP)// MP 애니메이션(토탈 MP필요 수정필요)
@@ -99,17 +103,6 @@ namespace SIX_Text_RPG.Scenes
                     player.SetStat(Stat.MP, player.Stats.MaxMP, false);
                     player.StatusAnim(Stat.MP,(int)player.Stats.MaxMP - (int)beforeMP);
                     player.SetStat(Stat.MP, beforeMP, false);
-                }
-
-                if (player.Stats.EXP + rewardEXP < player.Stats.MaxEXP)
-                {
-                    player.StatusAnim(Stat.EXP, rewardEXP);
-                    player.SetStat(Stat.EXP, rewardEXP, true);
-                }
-                else
-                {
-                    player.StatusAnim(Stat.EXP, rewardEXP);
-                    player.SetStat(Stat.EXP, rewardEXP, true);
                 }
 
                 player.StatusAnim(Stat.Gold, rewardGold);

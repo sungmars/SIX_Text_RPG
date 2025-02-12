@@ -8,12 +8,18 @@
         {
             if (HasAnim)
             {
+                if(Program.PreviousScene is not Scene_BattleInventory)
+                {
+                    Console.Clear();
+                    base.Awake();
+                }
                 Console.Clear();
                 base.Awake();
             }
 
             Utils.ClearBuffer();
             Utils.CursorMenu.Add(("질문시작", () => Program.CurrentScene = new Scene_BattleSelect()));
+            Utils.CursorMenu.Add(("가방 살펴보기", () => Program.CurrentScene = new Scene_BattleInventory()));
             Utils.CursorMenu.Add(("돌아가기", () =>
             {
                 monsters.Clear();
@@ -46,6 +52,15 @@
                 {
                     Utils.ClearLine(0, CURSOR_TOP + i);
                 }
+                if (Program.CurrentScene is Scene_BattleInventory)
+                {
+                    Console.SetCursorPosition(4, CURSOR_TOP);
+                    Utils.WriteColorLine("질문시작", ConsoleColor.Gray);
+                    Console.SetCursorPosition(4, CURSOR_TOP + 1);
+                    Utils.WriteColorLine("가방 살펴보기", ConsoleColor.Gray);
+                    Console.SetCursorPosition(4, CURSOR_TOP + 2);
+                    Utils.WriteColorLine("돌아가기", ConsoleColor.DarkGray);
+                }
 
                 Utils.CursorMenu.Clear();
                 return 0;
@@ -68,7 +83,31 @@
 
             for (int i = 0; i < monsterCount; i++)
             {
+                bool isSame = true;
                 MonsterType type = (MonsterType)random.Next(1, Define.MONSTERS_STATS.Length);
+                while (isSame)
+                {
+                    type = (MonsterType)random.Next(1, Define.MONSTERS_STATS.Length);
+                    if (monsters.Count != 0)
+                    {
+                        foreach (var monster in monsters)
+                        {
+                            if (monster.Type == type)
+                            {
+                                isSame = true;
+                                break;
+                            }
+                            else
+                            {
+                                isSame = false;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        isSame = false;
+                    }
+                }
                 monsters.Add(new Monster(type));
             }
             switch (stage)

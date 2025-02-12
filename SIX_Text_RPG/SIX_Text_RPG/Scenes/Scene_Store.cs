@@ -46,7 +46,6 @@
             Menu.Add("아이템 \'사기\'");
             Menu.Add("아이템 팔기");
             Menu.Add("도?박");
-            Menu.Add("돈복사");
 
             //씬 타이틀 인포
             sceneTitle = "수상한 매니저님 방";
@@ -76,18 +75,8 @@
                 case 0:
                     Program.CurrentScene = new Scene_Lobby();
                     break;
-
-                //테스트용 코드
-                case 4:
-                    GameManager.Instance.Player.SetStat(Stat.Gold, 1000000);
-                    break;
             }
-
             return 0;
-
-
-
-
         }
 
         protected override void Display()

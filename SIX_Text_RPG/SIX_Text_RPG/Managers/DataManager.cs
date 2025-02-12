@@ -6,15 +6,6 @@ namespace SIX_Text_RPG
 {
     internal class DataManager
     {
-        public DataManager()
-        {
-            for (int i = 0; i < Define.PLAYER_EXP_TABLE.Length; i++)
-            {
-                float @base = 10.0f;
-                Define.PLAYER_EXP_TABLE[i] = (int)(@base + i);
-            }
-        }
-
         private readonly string FILE_NAME = "dat";
 
         public static readonly DataManager Instance = new();
@@ -32,6 +23,9 @@ namespace SIX_Text_RPG
 
             // 스테이지 정보 저장하기
             stringBuilder.Append($"{JsonConvert.SerializeObject(GameManager.Instance.TargetStage)}\n");
+
+            // 대화 정보 저장하기
+            stringBuilder.Append($"{JsonConvert.SerializeObject(Scene_Store.ScriptToggles)}\n");
 
             // 플레이어 정보 저장하기
             stringBuilder.Append($"{JsonConvert.SerializeObject(player.Type)}\n");
@@ -78,16 +72,23 @@ namespace SIX_Text_RPG
             GameManager.Instance.CurrentStage = currentStage;
             GameManager.Instance.TargetStage = currentStage;
 
+            // 대화 정보 불러오기
+            bool[]? scriptToggles = JsonConvert.DeserializeObject<bool[]>(jsonData[1]);
+            if (scriptToggles != null)
+            {
+                Scene_Store.ScriptToggles = scriptToggles;
+            }
+
             // 플레이어 정보 불러오기
-            PlayerType playerType = JsonConvert.DeserializeObject<PlayerType>(jsonData[1]);
-            Stats stats = JsonConvert.DeserializeObject<Stats>(jsonData[2]);
+            PlayerType playerType = JsonConvert.DeserializeObject<PlayerType>(jsonData[2]);
+            Stats stats = JsonConvert.DeserializeObject<Stats>(jsonData[3]);
             Player player = GameManager.Instance.Player = new(playerType) { Stats = stats };
             Scene_CreatePlayer.PlayerName = player.Stats.Name;
 
             // 아이템 정보 불러오기
-            for (int i = 2; i < jsonData.Length - 1; i++)
+            for (int i = 4; i < jsonData.Length - 1; i++)
             {
-                if (i % 2 == 0)
+                if (i % 2 != 0)
                 {
                     continue;
                 }
@@ -123,6 +124,7 @@ namespace SIX_Text_RPG
                 }
 
                 GameManager.Instance.Inventory.Add(item);
+                ItemManager.Instance.SetBool_StoreItem(itemType, item);
             }
 
             return true;

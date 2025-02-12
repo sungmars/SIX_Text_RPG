@@ -35,5 +35,12 @@
         public static ItemManager Instance { get; private set; } = new();
 
         public readonly List<Item>[] StoreItems = new List<Item>[(int)ItemType.Count];
+
+        public void SetBool_StoreItem(ItemType type, Item item)
+        {
+            var storeItems = StoreItems[(int)type];
+            var storItem = storeItems.Find(x => x.Iteminfo.Name.Equals(item.Iteminfo.Name));
+            storItem?.SetBool(ItemBool.IsSold);
+        }
     }
 }
