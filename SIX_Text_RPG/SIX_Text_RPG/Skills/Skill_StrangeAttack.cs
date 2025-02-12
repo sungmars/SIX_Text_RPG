@@ -2,7 +2,7 @@
 {
     internal class Skill_StrangeAttack : ISkill
     {
-        public string Name { get; set; } = "어딘가 이상한 찌르기";
+        public string Name { get; set; } = "수상한 찌르기";
         public string Description { get; set; } = "의도가 담긴 찌르기입니다. 상대방이 괴로워할수록 회복량이 증가합니다.";
         public int Mana { get; set; } = 10;
 

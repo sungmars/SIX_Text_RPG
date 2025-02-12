@@ -21,7 +21,8 @@
 
             if (player != null && player.Stats.EXP + MonsterRewardEXP() >= player.Stats.MaxEXP)
             {
-                Utils.CursorMenu.Add(("레벨 업!", () => {
+                Utils.CursorMenu.Add(("레벨 업!", () =>
+                {
                     GameManager.Instance.BattleBeforeMP = 0f;
                     GameManager.Instance.BattleBeforeHP = 0f;
                     monsters.Clear();
@@ -30,7 +31,8 @@
             }
             else
             {
-                Utils.CursorMenu.Add(("로비로 돌아가기", () => {
+                Utils.CursorMenu.Add(("로비로 돌아가기", () =>
+                {
                     GameManager.Instance.BattleBeforeMP = 0f;
                     GameManager.Instance.BattleBeforeHP = 0f;
                     monsters.Clear();
@@ -59,8 +61,8 @@
                     Program.CurrentScene = new Scene_Lobby();
                 }
             }
-            return 1;
 
+            return 0;
         }
 
         protected override void Display()

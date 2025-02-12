@@ -2,7 +2,7 @@
 {
     internal class Skill_WideAttack : ISkill
     {
-        public string Name { get; set; } = "광역 찌르기\t";
+        public string Name { get; set; } = "광역 찌르기";
         public string Description { get; set; } = "여기저기 찌르며 희열을 느낍니다. 피해량에 따라 회복량이 증가합니다.";
         public int Mana { get; set; } = 35;
 
