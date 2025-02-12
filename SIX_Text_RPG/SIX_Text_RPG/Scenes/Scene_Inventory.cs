@@ -52,18 +52,26 @@ namespace SIX_Text_RPG.Scenes
             {
                 // 장비아이템, 소모아이템 필터링
                 var equipItems = Inventory.Where(item => item is IEquipable).ToList();
+                
+                List<int> indices = Inventory
+                    .Select((item, index) => new { item, index }) // 아이템과 인덱스를 매핑
+                    .Where(x => x.item is IEquipable) // 조건 만족하는 요소 필터링
+                    .Select(x => x.index) // 인덱스만 추출
+                    .ToList();
 
-                for (int i = 0; i < equipItems.Count; i++)
+                for (int i = 0; i < indices.Count; i++)
                 {
-                    var selectItem = equipItems[i];
+                    var selectItem = Inventory[i];
                     string displayName = selectItem.Iteminfo.Name +
-                        (selectItem.Iteminfo.IsEquip ? "[E]" : "");//장착상태 표시해주기
+                                         (selectItem.Iteminfo.IsEquip ? "[E]" : "");//장착상태 표시해주기
+                    var i1 = i;
                     Utils.CursorMenu.Add((displayName, () =>
-                    {
-                        UseItem(Inventory.FindIndex(x => x.Equals(selectItem)));
-                    }
-                    ));
+                            {
+                                UseItem(i1);
+                            }
+                        ));
                 }
+                
                 Utils.CursorMenu.Add(("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓", () =>//구분선 만듬
                 {
                     Console.WriteLine("이거 누르지 마세욧");

@@ -39,8 +39,10 @@
             {
                 return true;
             }
+            
+            int attackCount = (player.skillOn && player.Type == PlayerType.천계조단) ? 6 : 1;
 
-            GameManager.Instance.DisplayBattle_Attack(selectMonsterNum, 6, () =>
+            GameManager.Instance.DisplayBattle_Attack(selectMonsterNum, attackCount, () =>
             {
                 // 플레이어 공격
                 float damage = CalculateDamage(player.Stats.ATK);
@@ -54,6 +56,14 @@
                     damage = 3;
                 }
                 GameManager.Instance.Monsters[selectMonsterNum].Damaged(damage);
+                if (player.skillOn && player.Type == PlayerType.마계조단)
+                {
+                    player.ResumeMp(3);
+                    player.Damaged(-damage/2);
+                    Display_PlayerInfo();
+                }
+                    
+                
                 QuestManager.Instance.KillCountPlus(1, (int)GameManager.Instance.Monsters[selectMonsterNum].Type);
             });
 
