@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SIX_Text_RPG.Scenes
 {
-    internal class Scene_Store_Gambling : Scene_Base
+    internal class Scene_StoreGambling : Scene_Base
     {
         private int index = 0;
         private float bet;
@@ -26,7 +26,7 @@ namespace SIX_Text_RPG.Scenes
 
         public override void Awake()
         {
-            Console.Clear();
+            base.Awake();
             if (GameManager.Instance.Player == null) return;
             Player player = GameManager.Instance.Player;
 
@@ -80,7 +80,6 @@ namespace SIX_Text_RPG.Scenes
             }
 
             index = Roulette();
-            Console.WriteLine(roulette[index]);
             SetResult(index);
         }
 
@@ -88,6 +87,7 @@ namespace SIX_Text_RPG.Scenes
         {
             Console.SetCursorPosition(1, 7);
             UpdateContent();
+            Console.WriteLine(roulette[index]);
             SetResult(index);
         }
 
