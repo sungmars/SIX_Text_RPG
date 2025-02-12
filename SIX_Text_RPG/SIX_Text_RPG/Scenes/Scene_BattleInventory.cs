@@ -100,12 +100,29 @@
             IConsumable? consumable = selectItem as IConsumable;
             float beforeHP = player.Stats.HP;
 
+
             if (consumable != null && consumable.Consume())//소비하는 아이템이라면
             {
                 playerInventory.Remove(selectItem);//인벤토리 리스트에서 삭제
-                if (beforeHP != player.Stats.MaxHP && beforeHP != player.Stats.HP)
+                if (selectItem.Iteminfo.Name.Contains("체력"))//체력포션을 사용했다면
                 {
-                    if (player.Stats.MaxHP - player.Stats.HP > 20)
+                    if (player.Stats.MaxHP != player.Stats.HP)
+                    {
+                        GameManager.Instance.TotalDamage -= 20;
+                    }
+                    else
+                    {
+                        GameManager.Instance.TotalDamage -= (player.Stats.MaxHP - beforeHP);
+                    }
+                    
+                }
+                else if(selectItem.Iteminfo.Name.Contains("마나"))//마나포션을 사용했다면
+                {
+
+                }
+                else if(selectItem.Iteminfo.Name.Contains("회복약"))//회복약을 사용했다면
+                {
+                    if (player.Stats.MaxHP != player.Stats.HP)
                     {
                         GameManager.Instance.TotalDamage -= 20;
                     }
