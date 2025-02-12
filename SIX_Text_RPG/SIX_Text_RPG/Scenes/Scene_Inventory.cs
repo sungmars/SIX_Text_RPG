@@ -13,6 +13,7 @@ namespace SIX_Text_RPG.Scenes
 
     internal class Scene_Inventory : Scene_Base
     {
+        private string displayType;
         private List<Item> Inventory => GameManager.Instance.Inventory;
         public List<Item> Potion
         {
@@ -93,7 +94,8 @@ namespace SIX_Text_RPG.Scenes
                 {
                     var selectItem = equipItems[i];
                     string itemGraphic = selectItem.Iteminfo.Graphic.ToString();
-                    string displayName = $"{itemGraphic} {selectItem.Iteminfo.Name}" +
+                    DisplayType(selectItem);
+                    string displayName = $"{itemGraphic} {selectItem.Iteminfo.Name} {displayType}" +
                         (selectItem.Iteminfo.IsEquip ? "[E]" : "");//장착상태 표시해주기
                     Utils.CursorMenu.Add((displayName, () =>
                     {
@@ -159,6 +161,22 @@ namespace SIX_Text_RPG.Scenes
             Random random = new Random();
             int randomGag = random.Next(gags.Length);
             Utils.WriteColorLine(gags[randomGag], ConsoleColor.DarkGray);
+        }
+
+        public void DisplayType(Item x)//타입 표시필드 내용 정하는 메서드
+        {
+            if(x.Type == ItemType.Armor)
+            {
+                displayType = "<방어구>";
+            }
+            else if(x.Type == ItemType.Accessory)
+            {
+                displayType = "<장신구>";
+            }
+            else if(x.Type == ItemType.Weapon)
+            {
+                displayType = "< 무기 >";
+            }
         }
 
     }

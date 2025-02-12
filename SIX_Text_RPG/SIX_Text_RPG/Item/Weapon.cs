@@ -5,7 +5,7 @@
 
         public Weapon(ItemInfo iteminfo) : base(iteminfo)
         {
-            this.Type = ItemType.Accessory;
+            this.Type = ItemType.Weapon;
         }
 
         public void Equip()
