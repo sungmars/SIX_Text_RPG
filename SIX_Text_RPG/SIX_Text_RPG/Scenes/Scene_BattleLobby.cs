@@ -28,6 +28,32 @@
                 SpawnMonster();
             }
         }
+        public override int Update()
+        {
+            if (base.Update() == 0)
+            {
+                if (Program.CurrentScene is Scene_BattleInventory || Program.CurrentScene is Scene_BattleSkill)//가방 살펴보기에 들어갈때 배틀 로비 메뉴가 출력되도록
+                {
+                    Console.SetCursorPosition(0, CURSOR_TOP);
+                    Utils.WriteColorLine("    일반 질문", ConsoleColor.Gray);
+                    Console.SetCursorPosition(0, CURSOR_TOP + 1);
+                    Utils.WriteColorLine("    이상한 질문", ConsoleColor.Gray);
+                    Console.SetCursorPosition(0, CURSOR_TOP + 2);
+                    Utils.WriteColorLine("    가방 살펴보기", ConsoleColor.Gray);
+                    Console.SetCursorPosition(0, CURSOR_TOP + 3);
+                    Utils.WriteColorLine("    돌아가기", ConsoleColor.DarkGray);
+                }
+
+                Utils.CursorMenu.Clear();
+                return 0;
+            }
+            else
+            {
+
+            }
+
+            return -1;
+        }
 
         protected override void Display()
         {

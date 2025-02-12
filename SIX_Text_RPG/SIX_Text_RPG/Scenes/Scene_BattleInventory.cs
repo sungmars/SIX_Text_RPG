@@ -55,9 +55,9 @@
             // 가방 닫기시 메뉴 다 지우고 로비로 돌아가기
             Utils.CursorMenu.Add(("가방 닫기", () =>
             {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < Utils.CursorMenu.Count; i++)
                 {
-                    Utils.ClearLine(0, CURSOR_MENU_Y + i);
+                    Utils.ClearLine(CURSOR_MENU_X - 3, CURSOR_MENU_Y + i);
                 }
                 
                 Utils.CursorMenu.Clear();
