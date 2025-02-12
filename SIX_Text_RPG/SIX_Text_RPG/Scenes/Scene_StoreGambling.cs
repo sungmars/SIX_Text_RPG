@@ -27,9 +27,8 @@
             Utils.CursorMenu.Add(("베팅하기", () =>
             {
                 Gambling();
-                Program.CurrentScene = new Scene_StoreGamblingResult();
-            }
-            ));
+                if (bet != 0) Program.CurrentScene = new Scene_StoreGamblingResult();
+            }));
             
             Utils.CursorMenu.Add(("결과창 나가기", () => Program.CurrentScene = new Scene_Store()));
         }
@@ -60,9 +59,10 @@
             //실수값으로 입력
             bool isValid = float.TryParse(Console.ReadLine(), out bet);
             //잘못 입력했을 시 
-            if (!isValid || (bet > player.Stats.Gold))
+            if (!isValid || (bet > player.Stats.Gold)|| (bet < 0))
             {
                 Console.WriteLine("잘못된 입력입니다.");
+                bet = 0;
                 Console.ReadKey();
                 return;
             }
