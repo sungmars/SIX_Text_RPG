@@ -30,7 +30,7 @@
                 if (bet != 0) Program.CurrentScene = new Scene_StoreGamblingResult();
             }));
             
-            Utils.CursorMenu.Add(("결과창 나가기", () => Program.CurrentScene = new Scene_Store()));
+            Utils.CursorMenu.Add(("나가기", () => Program.CurrentScene = new Scene_Store()));
             AudioManager.Instance.Play(AudioClip.Music_Gamble);
         }
         
