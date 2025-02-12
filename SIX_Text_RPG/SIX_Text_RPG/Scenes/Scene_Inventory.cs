@@ -14,9 +14,10 @@ namespace SIX_Text_RPG.Scenes
     internal class Scene_Inventory : Scene_Base
     {
         private List<Item> Inventory => GameManager.Instance.Inventory;
+        private int totalcount;
         public List<Item> Potion
         {
-             get {return Inventory.Where(item => item is IConsumable).ToList(); }
+            get { return Inventory.Where(item => item is IConsumable).ToList(); }
         }
         public override void Awake()
         {
@@ -59,7 +60,7 @@ namespace SIX_Text_RPG.Scenes
                         (selectItem.Iteminfo.IsEquip ? "[E]" : "");//장착상태 표시해주기
                     Utils.CursorMenu.Add((displayName, () =>
                     {
-                        UseItem(Inventory.FindIndex(x=>x.Equals(selectItem)));
+                        UseItem(Inventory.FindIndex(x => x.Equals(selectItem)));
                     }
                     ));
                 }
@@ -87,17 +88,18 @@ namespace SIX_Text_RPG.Scenes
                     {
                         continue;
                     }//출력됐다면 다음 아이템출력으로 넘어가기하기
-                    int count = Inventory.Count(item => item is IConsumable&&item.Iteminfo.Name == itemName);//중복개수 세기
+                    int count = Inventory.Count(item => item is IConsumable && item.Iteminfo.Name == itemName);//중복개수 세기
                     string displayName = selectItem.Iteminfo.Name +
-                        (count!=0 ? $" -({count})" : "이게 보인다면 버그입니다.");//아이템 갯수 표시
+                        (count != 0 ? $" -({count})" : "이게 보인다면 버그입니다.");//아이템 갯수 표시
                     Utils.CursorMenu.Add((displayName, () =>
                     {
                         UseItem(Inventory.FindIndex(x => x.Equals(selectItem)));
                     }
                     ));
+                    totalcount = count;
                 }
                 Utils.CursorMenu.Add(("나가기", () => { Program.CurrentScene = new Scene_Lobby(); }));
-                Utils.DisplayCursorMenu(5, 7, Inventory.Count + 2,delay:150);
+                Utils.DisplayCursorMenu(5, 7, Inventory.Count - Potion.Count + totalcount + 6, delay: 150);
             }
             Console.SetCursorPosition(0, 7);
             GameManager.Instance.Player.DisplayInfo(75);
@@ -137,8 +139,8 @@ namespace SIX_Text_RPG.Scenes
 
             Random random = new Random();
             int randomGag = random.Next(gags.Length);
-            Utils.WriteColorLine(gags[randomGag],ConsoleColor.DarkGray);
+            Utils.WriteColorLine(gags[randomGag], ConsoleColor.DarkGray);
         }
-        
+
     }
 }
