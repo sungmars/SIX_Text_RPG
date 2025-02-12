@@ -77,6 +77,7 @@
         }*/
 
 
+
         public void UseItem(int j)
         {
             if (player == null)
@@ -87,6 +88,7 @@
             var selectItem = playerInventory[j];//캡쳐 방지
             IConsumable? consumable = selectItem as IConsumable;
             float beforeHP = player.Stats.HP;
+            float beforeMP = player.Stats.MP;
 
 
             if (consumable != null && consumable.Consume())//소비하는 아이템이라면
@@ -103,11 +105,18 @@
                         GameManager.Instance.TotalDamage -= (player.Stats.MaxHP - beforeHP);
                     }
 
-                    player.Render_Heal(true, ConsoleColor.Green);
                 }
                 else if (selectItem.Iteminfo.Name.Contains("마나"))//마나포션을 사용했다면
                 {
-                    player.Render_Heal(true, ConsoleColor.Blue);
+                    if (player.Stats.MaxMP != player.Stats.MP)
+                    {
+                        GameManager.Instance.TotalUsedMP -= 20;
+                    }
+                    else
+                    {
+                        GameManager.Instance.TotalDamage -= (player.Stats.MaxMP - beforeMP);
+                    }
+
                 }
                 else if (selectItem.Iteminfo.Name.Contains("회복약"))//회복약을 사용했다면
                 {
@@ -119,8 +128,14 @@
                     {
                         GameManager.Instance.TotalDamage -= (player.Stats.MaxHP - beforeHP);
                     }
-
-                    player.Render_Heal(true, ConsoleColor.DarkMagenta);
+                    if (player.Stats.MaxMP != player.Stats.MP)
+                    {
+                        GameManager.Instance.TotalUsedMP -= 20;
+                    }
+                    else
+                    {
+                        GameManager.Instance.TotalDamage -= (player.Stats.MaxMP - beforeMP);
+                    }
                 }
             }
             else
