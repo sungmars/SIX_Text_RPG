@@ -190,7 +190,14 @@
                         GameManager.Instance.BattleBeforeHP = GameManager.Instance.Player.Stats.HP;
                         GameManager.Instance.BattleBeforeMP = GameManager.Instance.Player.Stats.MP;
                     }
-                    Program.CurrentScene = new Scene_BattleLobby();
+                    if (GameManager.Instance.TargetStage == 4)
+                    {
+                        Program.CurrentScene = new Scene_LastStage();
+                    }
+                    else
+                    {
+                        Program.CurrentScene = new Scene_BattleLobby();
+                    }
                     break;
                 case 5: // 퀘스트
                     Program.CurrentScene = new Scene_QuestTable();
