@@ -10,6 +10,7 @@ namespace SIX_Text_RPG
         Music_LevelUp,
         Music_BossLobby,
         Music_BossBattle,
+        Music_Manager,
 
         SoundFX_Appear,
         SoundFX_Avoid,
@@ -32,6 +33,7 @@ namespace SIX_Text_RPG
         SoundFX_WriteAnim,
         SoundFX_Equip,
         SoundFX_Cashier,
+
         Count
     }
 

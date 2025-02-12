@@ -11,7 +11,7 @@ namespace SIX_Text_RPG.Managers
 
         private bool isRunning;
 
-        public void Play(string fileName, int startPosX, int startPosY)
+        public void Play(string fileName, int startPosX, int startPosY, int delay = 100, int size = 40)
         {
             isRunning = true;
             string filePath = $"Video/{fileName}.mp4";
@@ -29,7 +29,7 @@ namespace SIX_Text_RPG.Managers
                         capturer.Read(frame);
                         if (frame.Empty()) break; // 비디오 끝
 
-                        string asciiArt = ConvertToAscii(frame);
+                        string asciiArt = ConvertToAscii(frame, size);
                         string[] asciiArray = asciiArt.Split('\n');
 
                         lock (ConsoleLock)
@@ -41,7 +41,7 @@ namespace SIX_Text_RPG.Managers
                             }
                         }
 
-                        Thread.Sleep(100);
+                        Thread.Sleep(delay);
                     }
                 }
             });
@@ -52,13 +52,13 @@ namespace SIX_Text_RPG.Managers
             isRunning = false;
         }
 
-        private string ConvertToAscii(Mat image)
+        private string ConvertToAscii(Mat image, int size)
         {
             // ASCII 문자 목록 (밝기 순서대로)
             string chars = "@%#*+=-:. ";
 
             // 해상도 축소
-            int width = 40;
+            int width = size;
             int height = (int)(image.Rows / (image.Cols / (double)width) / 2);
             Mat resized = new();
             Cv2.Resize(image, resized, new(width, height));

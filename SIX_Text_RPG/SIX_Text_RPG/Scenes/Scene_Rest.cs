@@ -12,7 +12,7 @@ namespace SIX_Text_RPG.Scenes
             base.Awake();
 
             sceneTitle = "캠 끄기 (휴식)";
-            sceneInfo = "화장실을 간다며 캠을끄고 침대로 향합니다. 체력이 모두 회복되면 기분이 좋아집니다.";
+            sceneInfo = "화장실을 간다며 캠을 끄고 침대로 향합니다. 곧 기분이 좋아지며 춤을 춥니다.";
         }
 
         public override int Update()
@@ -46,8 +46,6 @@ namespace SIX_Text_RPG.Scenes
             player.DisplayInfo_Status();
 
             // 체력 회복 애니메이션
-            player.Damaged(50);
-
             player.StatusAnim(Stat.HP, 100);
             player.SetStat(Stat.HP, player.Stats.MaxHP);
 
