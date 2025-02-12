@@ -179,13 +179,12 @@
                     Program.CurrentScene = new Scene_Store();
                     break;
                 case 4: // 전투
-                    // TODO: 팀 스크럼때, 주석 해제
-                    //Utils.WriteAnim($"튜터님께 걸어가는 중...");
-                    //Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
-                    //Utils.WriteAnim("탈것이 없어 시간이 지체되는 중...");
-                    //Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
-                    //Utils.WriteAnim("뚜벅. 뚜벅. 뚜벅. 뚜벅.");
-                    if(GameManager.Instance.Player != null)
+                    Utils.WriteAnim($"튜터님께 걸어가는 중...");
+                    Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
+                    Utils.WriteAnim("탈것이 없어 시간이 지체되는 중...");
+                    Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
+                    Utils.WriteAnim("뚜벅. 뚜벅. 뚜벅. 뚜벅.");
+                    if (GameManager.Instance.Player != null)
                     {
                         GameManager.Instance.BattleBeforeHP = GameManager.Instance.Player.Stats.HP;
                         GameManager.Instance.BattleBeforeMP = GameManager.Instance.Player.Stats.MP;
