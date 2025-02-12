@@ -48,6 +48,11 @@
                 {
                     damage = (damage * 160f) / 100f;
                 }
+                damage -= monsters[selectMonsterNum].Stats.DEF;
+                if (damage <= 3)
+                {
+                    damage = 3;
+                }
                 GameManager.Instance.Monsters[selectMonsterNum].Damaged(damage);
                 QuestManager.Instance.KillCountPlus(1, (int)GameManager.Instance.Monsters[selectMonsterNum].Type);
             });
@@ -80,7 +85,12 @@
                 float damage = CalculateDamage(monsters[i].Stats.ATK);
                 damageActions[i] = () =>
                 {
-                    if(Utils.LuckyMethod(10))//10%확률로 회피
+                    damage -= player.Stats.DEF;
+                    if(damage <= 1)
+                    {
+                        damage = 1;
+                    }
+                    if (Utils.LuckyMethod(10))//10%확률로 회피
                     {
                         damage = 0;
                     }
