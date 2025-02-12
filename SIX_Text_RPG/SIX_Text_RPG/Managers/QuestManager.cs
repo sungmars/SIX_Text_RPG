@@ -66,12 +66,13 @@ namespace SIX_Text_RPG
             if (Quests.ContainsKey(questId))
             {
                 // 플레이어한테 아이템보상
-                GameManager.Instance.Inventory.Add(Quests[questId].ItemReward);
+                for (int i = 0; i < Quests[questId].ItemRewardCount; i++)
+                {
+                    GameManager.Instance.Inventory.Add(Quests[questId].ItemReward);
+                }
                 
                 // Gold 보상
-                var playerStats = player.Stats;
-                playerStats.Gold += Quests[questId].GoldReward;
-                player.Stats = playerStats;
+                player.SetStat(Stat.Gold,Quests[questId].GoldReward, true);
 
             }
         }

@@ -13,6 +13,7 @@ namespace SIX_Text_RPG.Scenes
 
         public override void Awake()
         {
+            base.Awake();
             Console.Clear();
             //메뉴추가 
             if (Utils.CursorMenu.Count<= inven.Count)
@@ -20,7 +21,10 @@ namespace SIX_Text_RPG.Scenes
                 for (int i = 0; i < inven.Count; i++)
                 {
                     int index = i;
-                    Utils.CursorMenu.Add(($"[{index + 1}]", () => Resell(index)));
+                    if(inven[i].Iteminfo.Price > 0)
+                        Utils.CursorMenu.Add(($"[{index + 1}]", () => Resell(index)));
+                    else
+                        Utils.CursorMenu.Add(($"[{index + 1}]", NotSell));
                 }
                 Utils.CursorMenu.Add(("[0] 나가기 ", () => Program.CurrentScene = new Scene_Store()));
             }
@@ -52,7 +56,10 @@ namespace SIX_Text_RPG.Scenes
                 Console.Write($"|");
 
                 Console.SetCursorPosition(80, 9 + i);
-                Console.Write($"{(float)item.Iteminfo.Price * 0.8f} G");
+                if((float)item.Iteminfo.Price * 0.8f > 0)
+                    Console.Write($"{(float)item.Iteminfo.Price * 0.8f} G ");
+                else
+                    Utils.WriteColor("판매불가",ConsoleColor.Red);
             }
         }
 
@@ -82,6 +89,11 @@ namespace SIX_Text_RPG.Scenes
             inven.Remove(inven[index]);
             Utils.CursorMenu.Remove(Utils.CursorMenu[index]);
             player.SetStat(Stat.Gold, value, true);
+        }
+
+        private void NotSell()
+        {
+            
         }
     }
 }
