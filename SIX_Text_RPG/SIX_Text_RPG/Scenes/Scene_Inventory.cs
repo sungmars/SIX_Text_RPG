@@ -50,7 +50,8 @@ namespace SIX_Text_RPG.Scenes
             }
             else
             {
-
+                Console.SetCursorPosition(0, 7);
+                GameManager.Instance.Player.DisplayInfo(75);
                 // 장비아이템, 소모아이템 필터링
                 var equipItems = Inventory.Where(item => item is IEquipable).ToList();
 
@@ -107,8 +108,6 @@ namespace SIX_Text_RPG.Scenes
                 Utils.CursorMenu.Add(("나가기", () => { Program.CurrentScene = new Scene_Lobby(); }));
                 Utils.DisplayCursorMenu(5, 7, Inventory.Count - Potion.Count +7, delay: 100);
             }
-            Console.SetCursorPosition(0, 7);
-            GameManager.Instance.Player.DisplayInfo(75);
         }
         public void UseItem(int j)
         {
