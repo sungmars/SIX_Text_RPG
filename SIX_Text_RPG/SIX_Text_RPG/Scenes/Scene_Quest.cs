@@ -96,11 +96,11 @@ internal class Scene_Quest : Scene_Base
             for (int i = 0; i < (int)MonsterType.Count; i++)
             {
                 string name = Enum.GetName(typeof(MonsterType), i);
-                string tf = QuestManager.Instance.killCount[i] ? "잡았다요놈" : "꼭꼭숨어라";
+                string tf = QuestManager.Instance.QuestFind(quest.Id).killCount[i] ? "잡았다요놈" : "꼭꼭숨어라";
                 Console.SetCursorPosition((i % 3) * 20, 12 + j);
                 Utils.WriteColor($"{name,5} ", ConsoleColor.White);
                 Console.SetCursorPosition(10 + (i % 3) * 20, 12 + j);
-                Utils.WriteColor($"{tf,5}", QuestManager.Instance.killCount[i] ? ConsoleColor.Blue : ConsoleColor.Red);
+                Utils.WriteColor($"{tf,5}", QuestManager.Instance.QuestFind(quest.Id).killCount[i] ? ConsoleColor.Blue : ConsoleColor.Red);
                 if (i % 3 == 2 || i == (int)MonsterType.Count - 1)
                 {
                     Console.WriteLine("");

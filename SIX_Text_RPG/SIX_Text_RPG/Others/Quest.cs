@@ -19,9 +19,11 @@ namespace SIX_Text_RPG.Others
         public Item ItemReward { get; set; }
         public int ItemRewardCount { get; set; }
         public int GoldReward { get; set; }
+        
+        public readonly List<bool> killCount = new List<bool>(new bool[(int)MonsterType.Count]);
 
         public Quest(int id, string name, string[] questInfo, string goalInfo, int goal, 
-            Item itemReward,int itemRewardCount, int goldReward)
+            Item itemReward,int itemRewardCount, int goldReward, List<bool>killcount)
         {
             Id = id;
             Name = name;
@@ -33,6 +35,7 @@ namespace SIX_Text_RPG.Others
             ItemReward = itemReward;
             ItemRewardCount = itemRewardCount;
             GoldReward = goldReward;
+            killCount = killcount;
         }
 
         public void QuestStart()

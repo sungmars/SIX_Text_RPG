@@ -10,9 +10,8 @@ namespace SIX_Text_RPG
         public static Dictionary<int, Quest> Quests { get; set; } = new Dictionary<int, Quest>();
 
         // 튜터님들 한명씩 검사
-        public readonly List<bool> killCount = new List<bool>(new bool[(int)MonsterType.Count]);
-        
-        
+
+
         //test용 퀘스트아이템
         private static readonly ItemInfo info = new()
         {
@@ -22,7 +21,7 @@ namespace SIX_Text_RPG
 
         private readonly Item legendItem = new Weapon(info);
         private readonly Item potion = new Potion(Define.ITEM_INFOS[2, 1]);
-        private static Item equipQuestItem = new Weapon(Define.ITEM_INFOS[3,3]);  // 장착 아이템 퀘스트 define에서 하나 골라서 넣을것
+        public static Item equipQuestItem = new Weapon(Define.ITEM_INFOS[3,3]);  // 장착 아이템 퀘스트 define에서 하나 골라서 넣을것
         
         private static readonly string[] questDetail_1 =
         {
@@ -83,10 +82,10 @@ namespace SIX_Text_RPG
         {
             if (Quests.ContainsKey(questId))
             {
-                if (!killCount[MonsterTypeCount] && Quests[questId].Status == QuestStatus.InProgress)
+                if (!Quests[questId].killCount[MonsterTypeCount] && Quests[questId].Status == QuestStatus.InProgress)
                 {
                     UpdateQuestProgress(questId,1);
-                    killCount[MonsterTypeCount] = true;
+                    Quests[questId].killCount[MonsterTypeCount] = true;
                     return true;
                 }
             }
@@ -113,10 +112,11 @@ namespace SIX_Text_RPG
         public void QuestInitialize()
         {
             Quest quest1 = new Quest(0, "노려라 오늘의 질문왕", questDetail_1,
-                "튜터님들 5명에게 질문공세로 혼을 쏙 빼놓아라", 5, legendItem,1, 500);
-            Quest quest2 = new Quest(1, "찌르기 벨튀",questDetail_2,"다른 튜터님들 8명 찔러보기", 8, potion,4,0);
+                "튜터님들 5명에게 질문공세로 혼을 쏙 빼놓아라", 5, legendItem,1, 500, null);
+            Quest quest2 = new Quest(1, "찌르기 벨튀",questDetail_2,"다른 튜터님들 8명 찔러보기", 8, potion,
+                4,0, new List<bool>(new bool[(int)MonsterType.Count]));
             Quest quest3 = new Quest(2, "찌르기 장착해보기",questDetail_3,$"장비 \"{equipQuestItem.Iteminfo.Name}\" " +
-                                                                  $"장착해보기", 1, potion,2,500);
+                                                                  $"장착해보기", 1, potion,2,500,null);
             QuestManager.AddQuest(quest1);
             QuestManager.AddQuest(quest2);
             QuestManager.AddQuest(quest3);

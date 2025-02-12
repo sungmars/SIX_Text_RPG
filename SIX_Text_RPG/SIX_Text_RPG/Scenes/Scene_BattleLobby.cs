@@ -124,13 +124,10 @@
                     sumLevel = random.Next(11, 14);
                     break;
                 case 2:
-                    sumLevel = random.Next(17, 20);
+                    sumLevel = random.Next(18, 20);
                     break;
                 case 3:
-                    sumLevel = random.Next(23, 26);
-                    break;
-                case 4:
-                    sumLevel = random.Next(29, 32);
+                    sumLevel = random.Next(25, 28);
                     break;
                 default:
                     sumLevel = 0;
@@ -144,11 +141,11 @@
                     monsterStats =monster.Stats;
                     sumLevel = Math.Max(stage + 1, sumLevel);
                     monsterStats.Level = sumLevel;
-                    monsterStats.ATK = sumLevel;
-                    monsterStats.DEF = sumLevel / 2f;
-                    monsterStats.EXP = sumLevel * 3;
-                    monsterStats.Gold = 50 + sumLevel * 5;
-                    monsterStats.MaxHP = sumLevel * 10;
+                    monsterStats.ATK = sumLevel * 2f;
+                    monsterStats.DEF = sumLevel /1.5f;
+                    monsterStats.EXP = sumLevel * 4;
+                    monsterStats.Gold = 50+ sumLevel * 200;
+                    monsterStats.MaxHP = sumLevel * 15;
                     monsterStats.HP = monsterStats.MaxHP;
                     monster.Stats = monsterStats;
                     break;
@@ -159,11 +156,11 @@
                     int level = random.Next(stage + 1, Math.Max(stage + 2, sumLevel - 1 - stage));
                     sumLevel -= level;
                     monsterStats.Level = level;
-                    monsterStats.ATK = level;
-                    monsterStats.DEF = level / 2f;
-                    monsterStats.EXP = level * 3;
-                    monsterStats.Gold = 50 + level * 5;
-                    monsterStats.MaxHP = level * 10;
+                    monsterStats.ATK = level * 2f;
+                    monsterStats.DEF = level / 1.5f;
+                    monsterStats.EXP = level * 4;
+                    monsterStats.Gold = 50 + level * 200;
+                    monsterStats.MaxHP = level * 15;
                     monsterStats.HP = monsterStats.MaxHP;
                     monster.Stats = monsterStats;
                 }
