@@ -14,7 +14,7 @@ internal class Scene_Quest : Scene_Base
     {
         base.Awake();
         sceneTitle = "스파게티 스크럼";
-        sceneInfo = $" {quest.Name} ";
+        sceneInfo = $"{quest.Name} ";
         hasZero = false;
         
         // 퀘스트 받지 않았을때
@@ -81,30 +81,36 @@ internal class Scene_Quest : Scene_Base
     
     protected override void Display()
     {
+        Console.SetCursorPosition(1, 7);
+        
         foreach (var questInfo in quest.QuestInfo)
         {
             Utils.WriteColorLine(questInfo,ConsoleColor.Green);
         }
         Console.WriteLine("\n 퀘스트 완료조건");
-        Utils.WriteAnim($"{quest.GoalInfo} ({quest.CurrentProgress}/{quest.Goal})",ConsoleColor.Yellow);
-        
-        if(quest.Id == 1)
+        Utils.WriteAnim($"  {quest.GoalInfo} ({quest.CurrentProgress}/{quest.Goal})",ConsoleColor.Yellow);
+
+        if (quest.Id == 1)
+        {
+            int j = 0;
             for (int i = 0; i < (int)MonsterType.Count; i++)
             {
                 string name = Enum.GetName(typeof(MonsterType), i);
-                Utils.WriteAnim($"{name,5}",ConsoleColor.Yellow);
-                Console.SetCursorPosition(8,14+i);
-                if(QuestManager.Instance.killCount[i])
-                    Utils.WriteColorLine($"     잡았다요놈",ConsoleColor.Blue);
-                else
+                string tf = QuestManager.Instance.killCount[i] ? "잡았다요놈" : "꼭꼭숨어라";
+                Console.SetCursorPosition((i % 3) * 20, 12 + j);
+                Utils.WriteColor($"{name,5} ", ConsoleColor.White);
+                Console.SetCursorPosition(10 + (i % 3) * 20, 12 + j);
+                Utils.WriteColor($"{tf,5}", QuestManager.Instance.killCount[i] ? ConsoleColor.Blue : ConsoleColor.Red);
+                if (i % 3 == 2 || i == (int)MonsterType.Count - 1)
                 {
-                    Utils.WriteColorLine($"     꼭꼭숨어라",ConsoleColor.Red);
+                    Console.WriteLine("");
+                    j++;
                 }
-               
             }
-        
+        }
+
         Console.WriteLine("\n 보상");
-        Utils.WriteColor($"{quest.ItemReward.Iteminfo.Name}",ConsoleColor.Cyan);
+        Utils.WriteColor($"  {quest.ItemReward.Iteminfo.Name}",ConsoleColor.Cyan);
         if(quest.ItemRewardCount > 1)
             Utils.WriteColor($"x{quest.ItemRewardCount}  ",ConsoleColor.Cyan);
         if(quest.GoldReward > 0)

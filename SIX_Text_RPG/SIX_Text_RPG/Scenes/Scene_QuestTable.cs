@@ -19,21 +19,21 @@ internal class Scene_QuestTable : Scene_Base
     private static readonly string[] questDetail_1 =
     {
         $"안녕하세요 (신조차 모독하는 사상 최강의 {GameManager.Instance.Player.Type}인 {GameManager.Instance.Player.Stats.Name})",
-        "질문이 있는데요 (이제부터 내 질문을 답하는데 애로사항이 꽃필 것이다!)",
-        "또 오류가 났어요 (할수있다 나라면!)",
-        "내가 하늘에 서겠다. (머지가 머지)"
+        " 질문이 있는데요 (이제부터 내 질문을 답하는데 애로사항이 꽃필 것이다!)",
+        " 또 오류가 났어요 (할수있다 나라면!)",
+        " 내가 하늘에 서겠다. (머지가 머지)"
     };
     
     private static readonly string[] questDetail_2 =
     {
         "과제 때문에... 힘이 빠진다...",
-        "히히히 세상은 다 똥이야 찌르기 발사!"
+        " 히히히 세상은 다 똥이야 찌르기 발사!"
     };
     
     private static readonly string[] questDetail_3 =
     {
         "아아 이런데서 쓰고 싶지 않았는데",
-        $"똑똑히 봐둬라 그리고 아무한테도 말하지 마라 {equipQuestItem.Iteminfo.Name}!"
+        $" 똑똑히 봐둬라 그리고 아무한테도 말하지 마라 {equipQuestItem.Iteminfo.Name}!"
     };
     
 
@@ -41,10 +41,10 @@ internal class Scene_QuestTable : Scene_Base
     {
         base.Awake();
         sceneTitle = "스파게티 스크럼";
-        sceneInfo = $" {GameManager.Instance.Player.Stats.Name}의 학습공간  ";
+        sceneInfo = $"{GameManager.Instance.Player.Stats.Name}의 학습공간  ";
        
         Quest quest1 = new Quest(0, "노려라 오늘의 질문왕", questDetail_1,
-            "튜터님들 5명에게 질문공세로 혼을 쏙 빼놓아라", 0, item,5, 500);
+            "튜터님들 5명에게 질문공세로 혼을 쏙 빼놓아라", 5, item,5, 500);
         Quest quest2 = new Quest(1, "찌르기 벨튀",questDetail_2,"다른 튜터님들 8명 찔러보기", 8, potion,4,0);
         Quest quest3 = new Quest(2, "찌르기 장착해보기",questDetail_3,$"장비 \"{equipQuestItem.Iteminfo.Name}\" " +
                                                               $"장착해보기", 1, potion,2,500);
@@ -82,6 +82,8 @@ internal class Scene_QuestTable : Scene_Base
     
     protected override void Display()
     {
+        Console.SetCursorPosition(1, 7);
+        
     }
     public void QuestItemCheck()
     {
