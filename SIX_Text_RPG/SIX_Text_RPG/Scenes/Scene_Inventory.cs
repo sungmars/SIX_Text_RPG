@@ -32,7 +32,14 @@ namespace SIX_Text_RPG.Scenes
             {
                 GagCode();
                 Utils.CursorMenu.Add((
-                        "나가려면 Enter키를 누르세요.", // 메뉴에 출력될 아이템 이름
+                        "매니저님께 가보자",
+                        () =>
+                        {
+                            Program.CurrentScene = new Scene_Store();
+                        }
+                ));
+                Utils.CursorMenu.Add((
+                        "나가기",
                         () =>
                         {
                             Program.CurrentScene = new Scene_Lobby();
