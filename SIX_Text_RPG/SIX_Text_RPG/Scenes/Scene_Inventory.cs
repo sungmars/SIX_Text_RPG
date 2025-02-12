@@ -56,7 +56,8 @@ namespace SIX_Text_RPG.Scenes
                 for (int i = 0; i < equipItems.Count; i++)
                 {
                     var selectItem = equipItems[i];
-                    string displayName = selectItem.Iteminfo.Name +
+                    string itemGraphic = selectItem.Iteminfo.Graphic.ToString();
+                    string displayName = $"{itemGraphic} {selectItem.Iteminfo.Name}" +
                         (selectItem.Iteminfo.IsEquip ? "[E]" : "");//장착상태 표시해주기
                     Utils.CursorMenu.Add((displayName, () =>
                     {
@@ -74,6 +75,7 @@ namespace SIX_Text_RPG.Scenes
                 {
                     var selectItem = Potion[i];
                     string itemName = selectItem.Iteminfo.Name;
+                    string itemGraphic = selectItem.Iteminfo.Graphic.ToString();
                     // 앞쪽에서 같은 이름의 아이템이 출력되었는지 확인하기 위해 bool선언
                     bool alreadyPrint = false;
                     for (int j = 0; j < i; j++)//j는 위의 for문 i까지
@@ -89,7 +91,7 @@ namespace SIX_Text_RPG.Scenes
                         continue;
                     }//출력됐다면 다음 아이템출력으로 넘어가기하기
                     int count = Inventory.Count(item => item is IConsumable && item.Iteminfo.Name == itemName);//중복개수 세기
-                    string displayName = selectItem.Iteminfo.Name +
+                    string displayName = $"{itemGraphic} {selectItem.Iteminfo.Name}" +
                         (count != 0 ? $" -({count})" : "이게 보인다면 버그입니다.");//아이템 갯수 표시
                     Utils.CursorMenu.Add((displayName, () =>
                     {
