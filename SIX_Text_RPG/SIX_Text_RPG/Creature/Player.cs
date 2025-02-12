@@ -1,4 +1,5 @@
-﻿using SIX_Text_RPG.Scenes;
+﻿using SIX_Text_RPG.Managers;
+using SIX_Text_RPG.Scenes;
 using SIX_Text_RPG.Skills;
 
 namespace SIX_Text_RPG
@@ -308,123 +309,126 @@ namespace SIX_Text_RPG
                 return;
             }
 
-            (int left, int top) = Console.GetCursorPosition();
-
-            // type에 따라 현재값과 최대값을 설정합니다.
-            int posX = 0;
-            int posY = 0;
-            float currentValue = 0;
-            float maxValue = 0;
-            switch (type)
+            lock (RenderManager.Instance.ConsoleLock)
             {
-                case Stat.Level:
-                    posX = STATUS_LEVEL_X;
-                    posY = levelY;
-                    currentValue = player.Stats.Level;
-                    maxValue = int.MaxValue;
-                    break;
-                case Stat.ATK:
-                    posX = STATUS_POWER_X;
-                    posY = atkY;
-                    currentValue = player.Stats.ATK;
-                    maxValue = int.MaxValue;
-                    break;
-                case Stat.DEF:
-                    posX = STATUS_POWER_X;
-                    posY = defY;
-                    currentValue = player.Stats.DEF;
-                    maxValue = int.MaxValue;
-                    break;
-                case Stat.EXP:
-                    posX = STATUS_BAR_X;
-                    posY = expY;
-                    currentValue = player.Stats.EXP;
-                    maxValue = int.MaxValue;
-                    break;
-                case Stat.HP:
-                    posX = STATUS_BAR_X;
-                    posY = hpY;
-                    currentValue = player.Stats.HP;
-                    maxValue = player.Stats.MaxHP;
-                    break;
-                case Stat.MP:
-                    posX = STATUS_BAR_X;
-                    posY = mpY;
-                    currentValue = player.Stats.MP;
-                    maxValue = player.Stats.MaxMP;
-                    break;
-                case Stat.Gold:
-                    posX = STATUS_GOLD_X;
-                    posY = goldY;
-                    currentValue = player.Stats.Gold;
-                    maxValue = int.MaxValue;
-                    break;
-            }
+                // 커서를 원래 위치로 돌려놓습니다.
+                (int left, int top) = Console.GetCursorPosition();
 
-            // value가 이미 maxVlaue라면 종료합니다.
-            int direction = amount > 0 ? 1 : -1;
-            if (direction == 1 && currentValue == maxValue)
-            {
-                return;
-            }
-
-            // direction에 따라 애니메이션 텍스트 색상을 지정합니다.
-            int value = direction;
-            ConsoleColor color = direction == 1 ? ConsoleColor.Green : ConsoleColor.Red;
-
-            // amount를 모두 회복하거나, value가 0 미만이거나, maxValue 만큼 회복하면 종료합니다.
-            int index = 1;
-            while (amount != 0 && value != 0 && value != maxValue)
-            {
-                int delay = 0;
-                switch (type)
-                {
-                    case Stat.HP:
-                    case Stat.MP:
-                        delay = 10;
-                        break;
-                    case Stat.Gold:
-                        delay = 2;
-                        break;
-                    default:
-                        delay = 50;
-                        break;
-                }
-
-                Thread.Sleep(delay);
-                Utils.ClearLine(posX, posY);
-
+                // type에 따라 현재값과 최대값을 설정합니다.
+                int posX = 0;
+                int posY = 0;
+                float currentValue = 0;
+                float maxValue = 0;
                 switch (type)
                 {
                     case Stat.Level:
-                        Console.Write($"{currentValue:00} ");
+                        posX = STATUS_LEVEL_X;
+                        posY = levelY;
+                        currentValue = player.Stats.Level;
+                        maxValue = int.MaxValue;
+                        break;
+                    case Stat.ATK:
+                        posX = STATUS_POWER_X;
+                        posY = atkY;
+                        currentValue = player.Stats.ATK;
+                        maxValue = int.MaxValue;
+                        break;
+                    case Stat.DEF:
+                        posX = STATUS_POWER_X;
+                        posY = defY;
+                        currentValue = player.Stats.DEF;
+                        maxValue = int.MaxValue;
+                        break;
+                    case Stat.EXP:
+                        posX = STATUS_BAR_X;
+                        posY = expY;
+                        currentValue = player.Stats.EXP;
+                        maxValue = int.MaxValue;
+                        break;
+                    case Stat.HP:
+                        posX = STATUS_BAR_X;
+                        posY = hpY;
+                        currentValue = player.Stats.HP;
+                        maxValue = player.Stats.MaxHP;
+                        break;
+                    case Stat.MP:
+                        posX = STATUS_BAR_X;
+                        posY = mpY;
+                        currentValue = player.Stats.MP;
+                        maxValue = player.Stats.MaxMP;
                         break;
                     case Stat.Gold:
-                        Utils.WriteColor($"{Stats.Gold:N0}G ", ConsoleColor.Yellow);
+                        posX = STATUS_GOLD_X;
+                        posY = goldY;
+                        currentValue = player.Stats.Gold;
+                        maxValue = int.MaxValue;
                         break;
-                    default:
-                        Console.Write($"{currentValue:f0} ");
-                        break;
                 }
 
-                Utils.WriteColor("-> ", ConsoleColor.DarkYellow);
-
-                value = (int)(currentValue + index * direction);
-                if (type == Stat.Gold)
+                // value가 이미 maxVlaue라면 종료합니다.
+                int direction = amount > 0 ? 1 : -1;
+                if (direction == 1 && currentValue == maxValue)
                 {
-                    Utils.WriteColor($"{value:N0}G", ConsoleColor.Yellow);
-                }
-                else
-                {
-                    Utils.WriteColor(value, color);
+                    return;
                 }
 
-                amount -= direction;
-                index++;
+                // direction에 따라 애니메이션 텍스트 색상을 지정합니다.
+                int value = direction;
+                ConsoleColor color = direction == 1 ? ConsoleColor.Green : ConsoleColor.Red;
+
+                // amount를 모두 회복하거나, value가 0 미만이거나, maxValue 만큼 회복하면 종료합니다.
+                int index = 1;
+                while (amount != 0 && value != 0 && value != maxValue)
+                {
+                    int delay = 0;
+                    switch (type)
+                    {
+                        case Stat.HP:
+                        case Stat.MP:
+                            delay = 10;
+                            break;
+                        case Stat.Gold:
+                            delay = 2;
+                            break;
+                        default:
+                            delay = 50;
+                            break;
+                    }
+
+                    Thread.Sleep(delay);
+                    Utils.ClearLine(posX, posY);
+
+                    switch (type)
+                    {
+                        case Stat.Level:
+                            Console.Write($"{currentValue:00} ");
+                            break;
+                        case Stat.Gold:
+                            Utils.WriteColor($"{Stats.Gold:N0}G ", ConsoleColor.Yellow);
+                            break;
+                        default:
+                            Console.Write($"{currentValue:f0} ");
+                            break;
+                    }
+
+                    Utils.WriteColor("-> ", ConsoleColor.DarkYellow);
+
+                    value = (int)(currentValue + index * direction);
+                    if (type == Stat.Gold)
+                    {
+                        Utils.WriteColor($"{value:N0}G", ConsoleColor.Yellow);
+                    }
+                    else
+                    {
+                        Utils.WriteColor(value, color);
+                    }
+
+                    amount -= direction;
+                    index++;
+                }
+
+                Console.SetCursorPosition(left, top);
             }
-
-            // 커서를 원래 위치로 돌려놓습니다.
-            Console.SetCursorPosition(left, top);
         }
 
         //public void SkillSet()

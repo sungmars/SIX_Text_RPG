@@ -1,55 +1,69 @@
+using SIX_Text_RPG.Managers;
+
 namespace SIX_Text_RPG.Scenes
 {
     internal class Scene_Rest : Scene_Base
     {
-        private Player? player = GameManager.Instance.Player;
-        private int cursorX = 50;       // ì‚¬ì§„ê°™ì€ê±° ë„ìš°ë©´ ë„ìš¸ ìœ„ì¹˜
-        private int cursorY = 8;       // ì •ë³´ì°½ ë„ìš¸ ìœ„ì¹˜
-        
+        private readonly int cursorX = 50;
+        private readonly int cursorY = 7;
+
         public override void Awake()
         {
             base.Awake();
-            sceneTitle = "ì•„ ê°œê¿€ì ";
-            sceneInfo = "ì•„ ê°œê¿€ì ";
+
+            sceneTitle = "Ä· ²ô±â (ÈŞ½Ä)";
+            sceneInfo = "È­Àå½ÇÀ» °£´Ù¸ç Ä·À»²ô°í Ä§´ë·Î ÇâÇÕ´Ï´Ù. Ã¼·ÂÀÌ ¸ğµÎ È¸º¹µÇ¸é ±âºĞÀÌ ÁÁ¾ÆÁı´Ï´Ù.";
         }
+
         public override int Update()
         {
             switch (base.Update())
             {
-                case 0 :
+                default:
                     Program.CurrentScene = new Scene_Lobby();
                     break;
             }
+
             return 0;
+        }
+
+        public override void LateStart()
+        {
+            base.LateStart();
+            RenderManager.Instance.Play("Rest", cursorX, cursorY - 1);
         }
 
         protected override void Display()
         {
-            // ê·¸ë¦¼ ê·¸ë¦¬ë©´ ê·¸ë¦¼ìœ„ì¹˜? ì•ˆì“°ë©´ ì§€ìš°ê¸°
-            Console.SetCursorPosition(cursorX ,cursorY);
-            Console.Write("ê·¸ë¦¼ê·¸ë¦¬ë©´ ìœ„ì¹˜ í…ŒìŠ¤íŠ¸");
-            Console.SetCursorPosition(1, Console.CursorTop);
-            //
-            
-            //í…ŒìŠ¤íŠ¸ìš© í…ŒìŠ¤íŠ¸ ëë‚˜ê³  ì§€ìš¸ê²ƒ
+            Player? player = GameManager.Instance.Player;
+            if (player == null)
+            {
+                return;
+            }
+
+            // Ã¼·Â È¸º¹ Àü
+            Console.SetCursorPosition(1, cursorY + 4);
+            player.DisplayInfo_Status();
+
+            // Ã¼·Â È¸º¹ ¾Ö´Ï¸ŞÀÌ¼Ç
             player.Damaged(50);
-            
-            
+
+            player.StatusAnim(Stat.HP, 100);
+            player.SetStat(Stat.HP, player.Stats.MaxHP);
+
+            // Ã¼·Â È¸º¹ ÈÄ »óÅÂÃ¢ °»½Å
+            Console.SetCursorPosition(1, cursorY + 4);
+            player.DisplayInfo_Status();
+
+            // Ã¼·ÂÀ» ¸ğµÎ È¸º¹ÇßÀ» ¶§
+            Console.SetCursorPosition(1, Console.CursorTop);
             if (player.Stats.MaxHP == player.Stats.HP)
             {
-                Console.SetCursorPosition(1, cursorY+7);
-                Utils.WriteColor("ë‚˜ëŠ”ì•¼ ì ë§Œë³´ í’€í”¼ì—¬ë„ ì ë§Œ ë•Œë¦¬ì§€",ConsoleColor.DarkCyan);
+                Console.SetCursorPosition(1, cursorY + 11);
+                Utils.WriteColor("Ã¼·ÂÀÌ ¸ğµÎ È¸º¹µÇ¾ú½À´Ï´Ù.", ConsoleColor.DarkCyan);
             }
-            
-            Console.SetCursorPosition(1 ,cursorY);
-            player.DisplayInfo_Status();                        // â–  â–  â–  â– [][][][] 
-            player.StatusAnim(Stat.HP, 100);
-            player.SetStat(Stat.HP, 100, true);
-            Console.SetCursorPosition(1 ,cursorY);
-            player.DisplayInfo_Status();                        // â–  â–  â–  â–  â–  â–  â–  â– 
-            
+
+            Console.SetCursorPosition(1, cursorY + 15);
         }
-        
-        
     }
 }

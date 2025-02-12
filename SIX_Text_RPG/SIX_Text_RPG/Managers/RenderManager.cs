@@ -7,7 +7,9 @@ namespace SIX_Text_RPG.Managers
     {
         public static RenderManager Instance { get; private set; } = new();
 
-        private static bool isRunning;
+        public object ConsoleLock { get; private set; } = new();
+
+        private bool isRunning;
 
         public void Play(string fileName, int startPosX, int startPosY)
         {
@@ -28,9 +30,17 @@ namespace SIX_Text_RPG.Managers
                         if (frame.Empty()) break; // 비디오 끝
 
                         string asciiArt = ConvertToAscii(frame);
+                        string[] asciiArray = asciiArt.Split('\n');
 
-                        Console.SetCursorPosition(startPosX, startPosY);
-                        Console.WriteLine(asciiArt);
+                        lock (ConsoleLock)
+                        {
+                            for (int i = 0; i < asciiArray.Length; i++)
+                            {
+                                Console.SetCursorPosition(startPosX, startPosY + i);
+                                Console.WriteLine(asciiArray[i]);
+                            }
+                        }
+
                         Thread.Sleep(100);
                     }
                 }
