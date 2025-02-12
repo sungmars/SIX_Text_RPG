@@ -102,7 +102,7 @@
                 return;
             }
 
-            Display_StatusBar(MathF.Min(Stats.EXP / Stats.MaxEXP, 1.0f), ConsoleColor.DarkGreen);
+            Display_StatusBar(MathF.Min((float)Stats.EXP / Stats.MaxEXP, 1.0f), ConsoleColor.DarkGreen);
         }
 
         public virtual void Display_HPBar() => Display_StatusBar(MathF.Min(Stats.HP / Stats.MaxHP, 1.0f), ConsoleColor.DarkRed);

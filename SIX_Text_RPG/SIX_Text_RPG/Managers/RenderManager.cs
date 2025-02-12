@@ -1,4 +1,5 @@
-﻿using OpenCvSharp;
+﻿using System.Data;
+using OpenCvSharp;
 
 namespace SIX_Text_RPG.Managers
 {
@@ -6,19 +7,39 @@ namespace SIX_Text_RPG.Managers
     {
         public static RenderManager Instance { get; private set; } = new();
 
-        public void Render(string fileName)
+        private static bool isRunning;
+
+        public void Play(string fileName, int startPosX, int startPosY)
         {
+            isRunning = true;
             string filePath = $"Video/{fileName}.mp4";
-            using var capturer = new VideoCapture(filePath);
 
-            Mat frame = new();
-            while (true)
+            Task.Run(() =>
             {
-                capturer.Read(frame);
-                if (frame.Empty()) break; // 비디오 끝
+                using VideoCapture capturer = new(filePath);
+                while (isRunning)
+                {
+                    capturer.Set(VideoCaptureProperties.PosFrames, 0);
+                    Mat frame = new();
 
-                string asciiArt = ConvertToAscii(frame);
-            }
+                    while (isRunning)
+                    {
+                        capturer.Read(frame);
+                        if (frame.Empty()) break; // 비디오 끝
+
+                        string asciiArt = ConvertToAscii(frame);
+
+                        Console.SetCursorPosition(startPosX, startPosY);
+                        Console.WriteLine(asciiArt);
+                        Thread.Sleep(100);
+                    }
+                }
+            });
+        }
+
+        public void Stop()
+        {
+            isRunning = false;
         }
 
         private string ConvertToAscii(Mat image)
@@ -27,7 +48,7 @@ namespace SIX_Text_RPG.Managers
             string chars = "@%#*+=-:. ";
 
             // 해상도 축소
-            int width = 80;
+            int width = 40;
             int height = (int)(image.Rows / (image.Cols / (double)width) / 2);
             Mat resized = new();
             Cv2.Resize(image, resized, new(width, height));
@@ -42,7 +63,7 @@ namespace SIX_Text_RPG.Managers
             {
                 for (int x = 0; x < width; x++)
                 {
-                    byte pixel = gray.At<byte>(x, y);
+                    byte pixel = gray.At<byte>(y, x);
                     int index = pixel * (chars.Length - 1) / 255;
                     ascii[y * width + x] = chars[index];
                 }

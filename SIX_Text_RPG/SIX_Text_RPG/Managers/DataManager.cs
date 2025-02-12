@@ -6,15 +6,6 @@ namespace SIX_Text_RPG
 {
     internal class DataManager
     {
-        public DataManager()
-        {
-            for (int i = 0; i < Define.PLAYER_EXP_TABLE.Length; i++)
-            {
-                float @base = 10.0f;
-                Define.PLAYER_EXP_TABLE[i] = (int)(@base + i);
-            }
-        }
-
         private readonly string FILE_NAME = "dat";
 
         public static readonly DataManager Instance = new();

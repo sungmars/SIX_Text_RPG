@@ -143,6 +143,11 @@ namespace SIX_Text_RPG
                 return;
             }
 
+            if (equipment is Weapon weapon)
+            {
+                Graphic_Weapon = weapon.Iteminfo.Graphic;
+            }
+
             // 아이템 스탯 적용 해제
             Stats -= EquipStats;
 

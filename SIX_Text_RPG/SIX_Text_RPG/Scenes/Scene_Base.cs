@@ -1,4 +1,6 @@
-﻿namespace SIX_Text_RPG
+﻿using SIX_Text_RPG.Managers;
+
+namespace SIX_Text_RPG
 {
     internal abstract class Scene_Base
     {
@@ -14,7 +16,9 @@
         public virtual void Awake()
         {
             Menu.Clear();
+
             Console.Clear();
+            RenderManager.Instance.Stop();
             Utils.CursorMenu.Clear();
         }
 
