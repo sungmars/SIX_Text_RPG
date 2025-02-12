@@ -229,8 +229,8 @@
             Console.SetCursorPosition(1, 1);
             Utils.WriteColorLine(Define.GAME_TITLE, ConsoleColor.DarkYellow);
 
-            int index = Math.Max(GameManager.Instance.CurrentStage, 0);
-            index = Math.Min(GameManager.Instance.CurrentStage, 4);
+            GameManager.Instance.CurrentStage = Math.Max(GameManager.Instance.CurrentStage, 0);
+            int index = Math.Min(GameManager.Instance.CurrentStage, 4);
             currentTime = Define.TIMES[index];
             int targetStage = GameManager.Instance.TargetStage;
 

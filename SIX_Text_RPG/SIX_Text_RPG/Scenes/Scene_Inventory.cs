@@ -185,7 +185,11 @@ namespace SIX_Text_RPG.Scenes
         public override void LateStart()
         {
             base.LateStart();
-            RenderManager.Instance.Play("CodingBird", 75, 7, 50);
+
+            if (isEmpty)
+            {
+                RenderManager.Instance.Play("CodingBird", 75, 7, 50);
+            }
         }
     }
 }
