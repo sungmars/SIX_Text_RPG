@@ -17,9 +17,11 @@ namespace SIX_Text_RPG.Others
         public int CurrentProgress { get; private set; } // 현재 진행도
         public int Goal { get; set; } // 목표 진행도
         public Item ItemReward { get; set; }
+        public int ItemRewardCount { get; set; }
         public int GoldReward { get; set; }
 
-        public Quest(int id, string name, string[] questInfo, string goalInfo, int goal, Item itemReward, int goldReward)
+        public Quest(int id, string name, string[] questInfo, string goalInfo, int goal, 
+            Item itemReward,int itemRewardCount, int goldReward)
         {
             Id = id;
             Name = name;
@@ -29,6 +31,7 @@ namespace SIX_Text_RPG.Others
             CurrentProgress = 0;
             Goal = goal;
             ItemReward = itemReward;
+            ItemRewardCount = itemRewardCount;
             GoldReward = goldReward;
         }
 

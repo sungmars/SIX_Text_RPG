@@ -14,19 +14,7 @@ internal class Scene_Quest : Scene_Base
     {
         base.Awake();
         sceneTitle = "스파게티 스크럼";
-        switch (quest.Id)
-        {
-            case 0 :
-                sceneInfo = $" {quest.Name} ";
-                break;
-            case 1 :
-                sceneInfo = $" {quest.Name}  ";
-                break;
-            case 2 :
-                sceneInfo = $" {quest.Name}  ";
-                break;
-        }
-        
+        sceneInfo = $" {quest.Name} ";
         hasZero = false;
         
         // 퀘스트 받지 않았을때
@@ -63,14 +51,16 @@ internal class Scene_Quest : Scene_Base
                     {
                         Utils.WriteAnim("퀘스트를 완료했습니다");
                         
-                        // 퀘스트 보상 넣기
-                        if (GameManager.Instance.Player != null)
-                            QuestManager.Instance.QuestReward(GameManager.Instance.Player, quest.Id);
                         if (quest.GoldReward > 0)
                         {
                             GameManager.Instance.Player.DisplayInfo_Gold();
                             GameManager.Instance.Player.StatusAnim(Stat.Gold, quest.GoldReward);
                         }
+                        
+                        // 퀘스트 보상 넣기
+                        if (GameManager.Instance.Player != null)
+                            QuestManager.Instance.QuestReward(GameManager.Instance.Player, quest.Id);
+                       
                     }
                 }
                 else if(quest.Status == QuestStatus.NotStarted)
@@ -109,9 +99,11 @@ internal class Scene_Quest : Scene_Base
             }
         
         Console.WriteLine("\n 보상");
-        Utils.WriteColor($"{quest.ItemReward.Iteminfo.Name}  ",ConsoleColor.Cyan);
+        Utils.WriteColor($"{quest.ItemReward.Iteminfo.Name}",ConsoleColor.Cyan);
+        if(quest.ItemRewardCount > 1)
+            Utils.WriteColor($"x{quest.ItemRewardCount}  ",ConsoleColor.Cyan);
         if(quest.GoldReward > 0)
-            Utils.WriteColor($"{quest.GoldReward}G  ",ConsoleColor.Cyan);
+            Utils.WriteColor($"    {quest.GoldReward}G  ",ConsoleColor.Cyan);
         Console.WriteLine("");
     }
 }
