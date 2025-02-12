@@ -44,10 +44,11 @@ namespace SIX_Text_RPG
         public Stats EquipStats { get; private set; }
         public char Graphic_Weapon { get; private set; } = 'つ';
 
-        public void DisplayInfo()
+        public void DisplayInfo(int startX = 0)
         {
-            DisplayInfo_Status();
+            DisplayInfo_Status(startX);
 
+            Console.SetCursorPosition(startX, Console.CursorTop);
             atkY = Console.CursorTop;
             Console.Write($" 공격력: {Stats.ATK} ");
             if (EquipStats.ATK > 0)
@@ -59,6 +60,7 @@ namespace SIX_Text_RPG
                 Console.WriteLine();
             }
 
+            Console.SetCursorPosition(startX, Console.CursorTop);
             defY = Console.CursorTop;
             Console.Write($" 방어력: {Stats.DEF} ");
             if (EquipStats.DEF > 0)
@@ -70,27 +72,35 @@ namespace SIX_Text_RPG
                 Console.WriteLine("\n");
             }
 
+            Console.SetCursorPosition(startX, Console.CursorTop);
             DisplayInfo_Gold();
         }
 
-        public void DisplayInfo_Status()
+        public void DisplayInfo_Status(int startX = 0)
         {
             levelY = Console.CursorTop;
+
+            Console.SetCursorPosition(startX, Console.CursorTop);
             Console.WriteLine($" Lv.{Stats.Level:00}");
+
+            Console.SetCursorPosition(startX, Console.CursorTop);
             Utils.WriteColor($" {Type}", ConsoleColor.DarkCyan);
             Utils.WriteColorLine($" {Stats.Name}\n", ConsoleColor.DarkYellow);
 
-            Utils.ClearLine(0, Console.CursorTop, 50);
+            Utils.ClearLine(startX, Console.CursorTop, 50);
+            Console.SetCursorPosition(startX, Console.CursorTop);
             Console.Write($" 경험치: ");
             Display_EXPBar();
             Console.WriteLine($" {Stats.EXP}/{Stats.MaxEXP}");
 
-            Utils.ClearLine(0, Console.CursorTop, 50);
+            Utils.ClearLine(startX, Console.CursorTop, 50);
+            Console.SetCursorPosition(startX, Console.CursorTop);
             Console.Write($" 체  력: ");
             Display_HPBar();
             Console.WriteLine($" {Stats.HP:F0}/{Stats.MaxHP:F0}");
 
-            Utils.ClearLine(0, Console.CursorTop, 50);
+            Utils.ClearLine(startX, Console.CursorTop, 50);
+            Console.SetCursorPosition(startX, Console.CursorTop);
             Console.Write($" 마  력: ");
             Display_MPBar();
             Console.WriteLine($" {Stats.MP:F0}/{Stats.MaxMP:F0}\n");
