@@ -20,6 +20,7 @@
             Utils.ClearBuffer();
             Utils.CursorMenu.Add(("질문시작", () => Program.CurrentScene = new Scene_BattleSelect()));
             Utils.CursorMenu.Add(("가방 살펴보기", () => Program.CurrentScene = new Scene_BattleInventory()));
+            Utils.CursorMenu.Add(("스킬", () => player?.SkillSet()));
             Utils.CursorMenu.Add(("돌아가기", () =>
             {
                 monsters.Clear();

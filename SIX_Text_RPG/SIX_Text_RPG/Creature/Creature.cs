@@ -93,6 +93,20 @@
 
             Stats = stats;
         }
+        
+        public void ResumeMp(float resume)
+        {
+            Stats stats = Stats;
+            float mp = stats.MP - resume;
+
+            // 체력이 0 미만으로 설정되지 않습니다.
+            stats.MP = MathF.Max(mp, 0);
+
+            // 체력이 최대 체력 이상으로 설정되지 않습니다.
+            stats.MP = MathF.Min(stats.MP, Stats.MaxMP);
+
+            Stats = stats;
+        }
 
         public virtual void Display_EXPBar()
         {

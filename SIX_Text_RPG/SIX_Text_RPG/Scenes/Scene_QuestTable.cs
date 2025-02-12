@@ -44,7 +44,7 @@ internal class Scene_QuestTable : Scene_Base
         sceneInfo = $" {GameManager.Instance.Player.Stats.Name}의 학습공간  ";
        
         Quest quest1 = new Quest(0, "노려라 오늘의 질문왕", questDetail_1,
-            "튜터님들 5명에게 질문공세로 혼을 쏙 빼놓아라", 5, item,1, 500);
+            "튜터님들 5명에게 질문공세로 혼을 쏙 빼놓아라", 0, item,5, 500);
         Quest quest2 = new Quest(1, "찌르기 벨튀",questDetail_2,"다른 튜터님들 8명 찔러보기", 8, potion,4,0);
         Quest quest3 = new Quest(2, "찌르기 장착해보기",questDetail_3,$"장비 \"{equipQuestItem.Iteminfo.Name}\" " +
                                                               $"장착해보기", 1, potion,2,500);
