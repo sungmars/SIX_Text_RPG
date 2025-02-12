@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SIX_Text_RPG.Managers;
 
 namespace SIX_Text_RPG.Scenes
 {
@@ -107,6 +108,11 @@ namespace SIX_Text_RPG.Scenes
             player.StatusAnim(Stat.Gold, (int)gold);
             player.SetStat(Stat.Gold, (int)gold, true);
         }
+
+        public override void LateStart()
+        {
+            base.LateStart();
+            RenderManager.Instance.Play("Roulette", 50, 6);
+        }
     }
 }
-

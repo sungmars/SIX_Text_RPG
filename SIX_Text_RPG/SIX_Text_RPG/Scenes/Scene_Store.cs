@@ -50,6 +50,8 @@
             //씬 타이틀 인포
             sceneTitle = "수상한 매니저님 방";
             sceneInfo = "수상한..? 아! 자세히보니 수상한이 아니라 송승환 매니저님이라 적혀있습니다...";
+
+            AudioManager.Instance.Play(AudioClip.Music_Shop);
         }
 
         public override int Update()

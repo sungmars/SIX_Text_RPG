@@ -7,6 +7,8 @@ namespace SIX_Text_RPG
     {
         Music_Title,
         Music_Battle,
+        Music_Gamble,
+        Music_Shop,
         Music_LevelUp,
         Music_BossLobby,
         Music_BossBattle,

@@ -17,15 +17,14 @@
         #region Players
         public static readonly Stats[] PLAYERS_STATS =
         {
-            new() { Level = 1, ATK = 12, DEF = 0, HP = 60, MP = 50, Gold = 1500 },  // 마계조단
-            new() { Level = 1, ATK = 4, DEF = 2, HP = 120, MP = 50, Gold = 1500 }   // 천계조단
+            new() { Level = 1, ATK = 8, DEF = 2, HP = 60, MP = 60, Gold = 1500 },  // 마계조단
+            new() { Level = 1, ATK = 12, DEF = 0, HP = 120, MP = 120, Gold = 1500 }   // 천계조단
         };
 
         public static readonly int[] PLAYER_EXP_TABLE = new int[999];
 
         public static readonly string[] PLAYER_ATK_SCRIPTS =
         {
-            "띵동?띵동?띵딩동?",
             "만나서 반갑습니다?",
             "머지가 머죠?",
             "안녕하세요?튜터님?",
@@ -58,6 +57,7 @@
         {
             "이제 돌아가세요.",
             "이해 하셨죠?",
+            "참 쉽죠?",
         };
         #endregion
 

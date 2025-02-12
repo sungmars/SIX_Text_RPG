@@ -386,6 +386,7 @@ namespace SIX_Text_RPG
                     {
                         case Stat.HP:
                         case Stat.MP:
+                        case Stat.EXP:
                             delay = 10;
                             break;
                         case Stat.Gold:
@@ -424,7 +425,7 @@ namespace SIX_Text_RPG
                         }
                         else
                         {
-                            value = (int)(currentValue + amount + (index-1) * direction * DRAINAGE);
+                            value = (int)(currentValue + amount + (index - 1) * direction * DRAINAGE);
                             Utils.WriteColor($"{value:N0}G", ConsoleColor.Yellow);
                             amount = 0;
                         }

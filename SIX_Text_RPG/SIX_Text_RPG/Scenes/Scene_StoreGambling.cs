@@ -31,6 +31,7 @@
             }));
             
             Utils.CursorMenu.Add(("결과창 나가기", () => Program.CurrentScene = new Scene_Store()));
+            AudioManager.Instance.Play(AudioClip.Music_Gamble);
         }
         
         protected override void Display()
@@ -54,6 +55,7 @@
             if (GameManager.Instance.Player == null) return;
             Player player = GameManager.Instance.Player;
 
+            Console.SetCursorPosition(4, 10);
             Console.Write(" 베팅금액을 입력해주세요: ");
 
             //실수값으로 입력
