@@ -13,7 +13,7 @@
             {
                 // 플레이어 승리 로직
                 Program.CurrentScene = new Scene_BattleResult();
-                QuestManager.Instance.UpdateQuestProgress(0,monsters.Count);
+                QuestManager.Instance.UpdateQuestProgress(0, monsters.Count);
                 return 0;
             }
 
@@ -94,6 +94,7 @@
                     {
                         damage = 0;
                     }
+
                     player.Damaged(damage);
                     Display_PlayerInfo();
                     if (player.Stats.HP > 0)
@@ -105,8 +106,6 @@
                         GameManager.Instance.TotalDamage += currentHP;
                     }
                 };
-
-                
             }
 
             GameManager.Instance.DisplayBattle_Damage(damageActions);

@@ -6,6 +6,15 @@ namespace SIX_Text_RPG
 {
     internal class DataManager
     {
+        public DataManager()
+        {
+            for (int i = 0; i < Define.PLAYER_EXP_TABLE.Length; i++)
+            {
+                float @base = 10.0f;
+                Define.PLAYER_EXP_TABLE[i] = (int)(@base + i);
+            }
+        }
+
         private readonly string FILE_NAME = "dat";
 
         public static readonly DataManager Instance = new();
@@ -26,7 +35,7 @@ namespace SIX_Text_RPG
 
             // 플레이어 정보 저장하기
             stringBuilder.Append($"{JsonConvert.SerializeObject(player.Type)}\n");
-            stringBuilder.Append($"{JsonConvert.SerializeObject(player.Stats)}\n");
+            stringBuilder.Append($"{JsonConvert.SerializeObject(player.Stats - player.EquipStats)}\n");
 
             // 아이템 정보 저장하기
             foreach (var item in GameManager.Instance.Inventory)
@@ -83,25 +92,37 @@ namespace SIX_Text_RPG
                     continue;
                 }
 
-                ItemType itemType = JsonConvert.DeserializeObject<ItemType>(jsonData[i + 1]);
-                ItemInfo info = JsonConvert.DeserializeObject<ItemInfo>(jsonData[i + 2]);
+                ItemType itemType = JsonConvert.DeserializeObject<ItemType>(jsonData[i]);
+                ItemInfo info = JsonConvert.DeserializeObject<ItemInfo>(jsonData[i + 1]);
 
-                //Item item;
-                //switch (itemType)
-                //{
-                //    case ItemType.Armor:
-                //        item = new Armor(info);
-                //        break;
-                //    case ItemType.Accessory:
-                //        item = new Accessory(info);
-                //        break;
-                //    case ItemType.Potion:
-                //        item = new Potion(info);
-                //        break;
-                //    case ItemType.Weapon:
-                //        item = new Weapon(info);
-                //        break;
-                //}
+                Item? item = null;
+                switch (itemType)
+                {
+                    case ItemType.Armor:
+                        item = new Armor(info);
+                        break;
+                    case ItemType.Accessory:
+                        item = new Accessory(info);
+                        break;
+                    case ItemType.Potion:
+                        item = new Potion(info);
+                        break;
+                    case ItemType.Weapon:
+                        item = new Weapon(info);
+                        break;
+                }
+
+                if (item == null)
+                {
+                    return false;
+                }
+
+                if (item.Iteminfo.IsEquip)
+                {
+                    player.Equip(item as IEquipable);
+                }
+
+                GameManager.Instance.Inventory.Add(item);
             }
 
             return true;
