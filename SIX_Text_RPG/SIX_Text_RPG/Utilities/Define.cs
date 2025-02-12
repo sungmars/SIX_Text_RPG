@@ -1,7 +1,4 @@
-﻿using System.Linq.Expressions;
-using SIX_Text_RPG.Others;
-
-namespace SIX_Text_RPG
+﻿namespace SIX_Text_RPG
 {
     internal class Define
     {
