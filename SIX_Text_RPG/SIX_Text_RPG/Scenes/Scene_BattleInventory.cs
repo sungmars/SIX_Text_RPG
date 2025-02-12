@@ -52,9 +52,10 @@
                 }
             }
 
+            // 가방 닫기시 메뉴 다 지우고 로비로 돌아가기
             Utils.CursorMenu.Add(("가방 닫기", () =>
             {
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     Utils.ClearLine(0, CURSOR_MENU_Y + i);
                 }
@@ -88,7 +89,6 @@
         }*/
 
 
-        // 포션 사용 -> 게임 매니저에 있어야 할까?
         public void UseItem(int j)
         {
             var selectItem = playerInventory[j];//캡쳐 방지

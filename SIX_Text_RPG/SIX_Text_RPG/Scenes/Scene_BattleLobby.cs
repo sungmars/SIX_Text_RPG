@@ -52,7 +52,7 @@
                 {
                     Utils.ClearLine(0, CURSOR_TOP + i);
                 }
-                if (Program.CurrentScene is Scene_BattleInventory)
+                if (Program.CurrentScene is Scene_BattleInventory)//가방 살펴보기에 들어갈때 배틀 로비 메뉴가 출력되도록
                 {
                     Console.SetCursorPosition(4, CURSOR_TOP);
                     Utils.WriteColorLine("질문시작", ConsoleColor.Gray);
