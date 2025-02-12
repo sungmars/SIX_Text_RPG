@@ -86,6 +86,7 @@ namespace SIX_Text_RPG.Scenes
                 Utils.CursorMenu.Add(("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓", () =>//구분선 만듬
                 {
                     Utils.WriteColorLine("이거 누르지 마세욧", ConsoleColor.Red);
+                    AudioManager.Instance.Play(AudioClip.SoundFX_Error);
                     Console.ReadKey(); // 대기
                 }
                 ));
@@ -126,6 +127,7 @@ namespace SIX_Text_RPG.Scenes
                 // 아직장착되지 않은 사태면 같은 타입의 아이템이 이미 장착되었는지 확인
                 if (!selectItem.Iteminfo.IsEquip)//장착 안되었다면
                 {
+                    
                     bool sameType = Inventory.Any(item =>//Any는 조건에 해당하는 값이 1개라도 존재한다면 true
                         item is IEquipable &&
                         item.Iteminfo.IsEquip &&
@@ -133,9 +135,14 @@ namespace SIX_Text_RPG.Scenes
 
                     if (sameType)
                     {
+                        AudioManager.Instance.Play(AudioClip.SoundFX_Error);
                         Utils.WriteColorLine("같은 타입의 아이템이 이미 장착되어 있습니다!", ConsoleColor.Red);
                         Console.ReadKey();
                         return;
+                    }
+                    else
+                    {
+                        AudioManager.Instance.Play(AudioClip.SoundFX_Equip);
                     }
                 }
                 equipable.Equip();
