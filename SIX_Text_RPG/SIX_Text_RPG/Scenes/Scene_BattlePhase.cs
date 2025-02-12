@@ -39,31 +39,36 @@
             {
                 return true;
             }
-            
-            int attackCount = (player.skillOn && player.Type == PlayerType.천계조단) ? 6 : 1;
+
+            // 기본 공격 횟수
+            int attackCount = 1;
+
+            // 크리티컬 발동 시 두배 공격
+            var critical = player.Skills.Find(x => x.GetType() == typeof(Skill_Critical));
+            if (critical != null && critical.Skill())
+            {
+                attackCount *= 2;
+            }
 
             GameManager.Instance.DisplayBattle_Attack(selectMonsterNum, attackCount, () =>
             {
                 // 플레이어 공격
                 float damage = CalculateDamage(player.Stats.ATK);
-                if (Utils.LuckyMethod(15))//15%확률로 크리티컬
-                {
-                    damage = (damage * 160f) / 100f;
-                }
                 damage -= monsters[selectMonsterNum].Stats.DEF;
-                if (damage <= 3)
+                if (damage <= 1)
                 {
-                    damage = 3;
+                    damage = 1;
                 }
+
+                // 몬스터 회피
+                var avoid = monsters[selectMonsterNum].Skills.Find(x => x.GetType() == typeof(Skill_Avoid));
+                if (avoid != null && avoid.Skill())
+                {
+                    damage = 0;
+                }
+
+                // 데미지 및 퀘스트 갱신
                 GameManager.Instance.Monsters[selectMonsterNum].Damaged(damage);
-                if (player.skillOn && player.Type == PlayerType.마계조단)
-                {
-                    player.ResumeMp(3);
-                    player.Damaged(-damage/2);
-                    Display_PlayerInfo();
-                }
-                    
-                
                 QuestManager.Instance.KillCountPlus(1, (int)GameManager.Instance.Monsters[selectMonsterNum].Type);
             });
 
@@ -87,10 +92,16 @@
                 return true;
             }
 
-            Action[] damageActions = new Action[monsters.Count];
-
+            Action?[] damageActions = new Action[monsters.Count];
             for (int i = 0; i < monsters.Count; i++)
             {
+                var skill = player.Skills.Find(x => x.GetType() == typeof(Skill_Avoid));
+                if (skill != null && skill.Skill())
+                {
+                    damageActions[i] = null;
+                    continue;
+                }
+
                 float currentHP = player.Stats.HP;
                 float damage = CalculateDamage(monsters[i].Stats.ATK);
                 damageActions[i] = () =>
@@ -99,10 +110,6 @@
                     if(damage <= 1)
                     {
                         damage = 1;
-                    }
-                    if (Utils.LuckyMethod(10))//10%확률로 회피
-                    {
-                        damage = 0;
                     }
 
                     player.Damaged(damage);

@@ -36,7 +36,7 @@
                 int count = playerInventory.Count(item => item is IConsumable && item.Iteminfo.Name == itemName);//중복개수 세기
                 string displayName = selectItem.Iteminfo.Name +
                     (count != 0 ? $" -({count})" : "이게 보인다면 버그입니다.");//아이템 갯수 표시
-                if(!displayName.Contains("최대"))
+                if (!displayName.Contains("최대"))
                 {
                     Utils.CursorMenu.Add((displayName, () =>
                     {
@@ -44,7 +44,7 @@
                         {
                             Utils.ClearLine(CURSOR_MENU_X - 3, CURSOR_MENU_Y + i);
                         }
-                        Utils.CursorMenu.Clear();
+                        //Utils.CursorMenu.Clear();
                         UseItem(playerInventory.FindIndex(x => x.Equals(selectItem)));
                         Program.CurrentScene = new Scene_BattleInventory();
                     }
@@ -59,6 +59,7 @@
                 {
                     Utils.ClearLine(0, CURSOR_MENU_Y + i);
                 }
+                
                 Utils.CursorMenu.Clear();
                 Program.CurrentScene = new Scene_BattleLobby();
             }
@@ -68,19 +69,6 @@
         public override void LateStart()
         {
             Utils.DisplayCursorMenu(CURSOR_MENU_X, CURSOR_MENU_Y);
-        }
-
-        public override int Update()
-        {
-            if(base.Update() == 0)
-            {
-                return 0;
-            }
-            else
-            {
-
-            }
-            return 1;
         }
 
         /*protected override void Display()
@@ -114,13 +102,14 @@
                     {
                         GameManager.Instance.TotalDamage -= (player.Stats.MaxHP - beforeHP);
                     }
-                    
-                }
-                else if(selectItem.Iteminfo.Name.Contains("마나"))//마나포션을 사용했다면
-                {
 
+                    player.Render_Heal(true, ConsoleColor.Green);
                 }
-                else if(selectItem.Iteminfo.Name.Contains("회복약"))//회복약을 사용했다면
+                else if (selectItem.Iteminfo.Name.Contains("마나"))//마나포션을 사용했다면
+                {
+                    player.Render_Heal(true, ConsoleColor.Blue);
+                }
+                else if (selectItem.Iteminfo.Name.Contains("회복약"))//회복약을 사용했다면
                 {
                     if (player.Stats.MaxHP != player.Stats.HP)
                     {
@@ -130,6 +119,8 @@
                     {
                         GameManager.Instance.TotalDamage -= (player.Stats.MaxHP - beforeHP);
                     }
+
+                    player.Render_Heal(true, ConsoleColor.DarkMagenta);
                 }
             }
             else

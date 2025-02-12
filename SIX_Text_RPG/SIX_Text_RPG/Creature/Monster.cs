@@ -20,7 +20,7 @@
 
     internal class Monster : Creature
     {
-        public Monster(MonsterType type)
+        public Monster(MonsterType type) : base()
         {
             Type = type;
             Position = new() { X = Define.MONSTER_SPAWN_X };
@@ -43,6 +43,18 @@
         private readonly string graphic;
         private readonly string graphic_Hit;
         private readonly string graphic_Dead;
+
+        public override void Damaged(float damage)
+        {
+            if (damage == 0)
+            {
+                AudioManager.Instance.Play(AudioClip.SoundFX_Avoid);
+                return;
+            }
+
+            base.Damaged(damage);
+            Render_Hit();
+        }
 
         //몬스터 정보 출력
         public void DisplayMonster()

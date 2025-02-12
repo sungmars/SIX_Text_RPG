@@ -1,4 +1,5 @@
 ﻿using SIX_Text_RPG.Scenes;
+using SIX_Text_RPG.Skills;
 
 namespace SIX_Text_RPG
 {
@@ -31,7 +32,7 @@ namespace SIX_Text_RPG
         private int goldY;
         #endregion
 
-        public Player(PlayerType type)
+        public Player(PlayerType type) : base()
         {
             Type = type;
 
@@ -41,6 +42,18 @@ namespace SIX_Text_RPG
             stats.MaxHP = stats.HP;
             stats.MaxMP = stats.MP;
             Stats = stats;
+
+            Skills.Add(new Skill_Critical());
+            switch (type)
+            {
+                case PlayerType.마계조단:
+                    Skills.Add(new Skill_StrangeAttack());
+                    break;
+                case PlayerType.천계조단:
+                    Skills.Add(new Skill_DoubleAttack());
+                    Skills.Add(new Skill_QuadAttack());
+                    break;
+            }
         }
 
         public PlayerType Type { get; private set; }
@@ -48,7 +61,6 @@ namespace SIX_Text_RPG
         public ConsoleColor Color_Weapon { get; private set; } = ConsoleColor.Yellow;
         public char Graphic_Weapon { get; private set; } = WEAPON;
         public char Grahpic_Face { get; private set; } = FACE;
-        public bool skillOn { get; set; } = false;
 
         public void DisplayInfo(int startX = 0)
         {
@@ -220,7 +232,17 @@ namespace SIX_Text_RPG
             Console.Write(" (       つ");
         }
 
-        public void Render_Heal(bool isPotion = false)
+        public void Render_Avoid()
+        {
+            Console.SetCursorPosition(Position.X - OFFSET_X, Position.Y - OFFSET_Y);
+            Console.WriteLine($" (◎{Grahpic_Face}◎´)");
+            Console.Write(" (       つ");
+            Thread.Sleep(100);
+
+            Render();
+        }
+
+        public void Render_Heal(bool isPotion = false, ConsoleColor color = ConsoleColor.Green)
         {
             if (isPotion)
             {
@@ -228,8 +250,8 @@ namespace SIX_Text_RPG
             }
 
             Console.SetCursorPosition(Position.X - OFFSET_X, Position.Y - OFFSET_Y);
-            Utils.WriteColorLine($" (◎{Grahpic_Face}◎)", ConsoleColor.Green);
-            Utils.WriteColor(" (       つ", ConsoleColor.Green);
+            Utils.WriteColorLine($" (◎{Grahpic_Face}◎´)", color);
+            Utils.WriteColor(" (       つ", color);
             Thread.Sleep(100);
 
             Render();
@@ -378,26 +400,26 @@ namespace SIX_Text_RPG
             Console.SetCursorPosition(left, top);
         }
 
-        public void SkillSet()
-        {
-            skillOn = !skillOn;
-            if (skillOn)
-            {
-                Color_Weapon = ConsoleColor.DarkMagenta;
-                if(Type == PlayerType.마계조단)
-                    Console.Write(" 흡혈");
-                else if(Type == PlayerType.천계조단)
-                    Console.Write(" 6연 찌르기");
-                Console.Write("스킬을 사용합니다");
-                Thread.Sleep(1000);
-            }
-            else
-            {
-                Console.Write(" 스킬을 해제합니다");
-                Thread.Sleep(1000);
-                Color_Weapon = ConsoleColor.Yellow;
-            }
+        //public void SkillSet()
+        //{
+        //    skillOn = !skillOn;
+        //    if (skillOn)
+        //    {
+        //        Color_Weapon = ConsoleColor.DarkMagenta;
+        //        if (Type == PlayerType.마계조단)
+        //            Console.Write(" 흡혈");
+        //        else if (Type == PlayerType.천계조단)
+        //            Console.Write(" 6연 찌르기");
+        //        Console.Write("스킬을 사용합니다");
+        //        Thread.Sleep(1000);
+        //    }
+        //    else
+        //    {
+        //        Console.Write(" 스킬을 해제합니다");
+        //        Thread.Sleep(1000);
+        //        Color_Weapon = ConsoleColor.Yellow;
+        //    }
 
-        }
+        //}
     }
 }
