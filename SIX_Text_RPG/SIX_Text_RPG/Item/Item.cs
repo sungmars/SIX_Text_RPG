@@ -1,7 +1,4 @@
-using System.Diagnostics;
-using System.Numerics;
-
-﻿namespace SIX_Text_RPG
+namespace SIX_Text_RPG
 {
     enum ItemBool
     {
@@ -14,7 +11,8 @@ using System.Numerics;
         Armor,
         Accessory,
         Potion,
-        Weapon
+        Weapon,
+        Count
     };
 
     public struct ItemInfo
@@ -36,7 +34,7 @@ using System.Numerics;
         public int Price { get; set; }
 
         public bool IsSold { get; set; }
-        public bool IsEquip {  get; set; }
+        public bool IsEquip { get; set; }
     }
 
 
@@ -55,7 +53,6 @@ using System.Numerics;
             SetBool(ItemBool.IsSold);
         }
 
-        //아이템의 bool타입 정보 수정하는 것
         protected void SetBool(ItemBool itemstat)
         {
             ItemInfo temp = Iteminfo;

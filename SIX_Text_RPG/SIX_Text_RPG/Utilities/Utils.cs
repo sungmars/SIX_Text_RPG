@@ -4,11 +4,11 @@ namespace SIX_Text_RPG
 {
     internal class Utils
     {
+        public static int CursorIndex { get; private set; }
         public static List<(string, Action)> CursorMenu { get; private set; } = new();
 
         private static readonly Random random = new();
 
-        private static int cursorIndex;
         private static int contentLeft;
         private static int contentTop;
         private static int offsetTop;
@@ -34,7 +34,7 @@ namespace SIX_Text_RPG
         // 커서 메뉴를 출력합니다.
         public static void DisplayCursorMenu(int left, int top, int exitOffsetY = 0, int delay = 0)
         {
-            cursorIndex = 0;
+            CursorIndex = 0;
             contentLeft = left;
             contentTop = top;
             offsetTop = Math.Abs(exitOffsetY);
@@ -148,28 +148,28 @@ namespace SIX_Text_RPG
             if (key == ConsoleKey.UpArrow)
             {
                 // 나가기 메뉴(마지막 인덱스) 간격 조절 여부에 따라 커서 위치 설정
-                if (cursorIndex == CursorMenu.Count - 1 && offsetTop > 0)
+                if (CursorIndex == CursorMenu.Count - 1 && offsetTop > 0)
                 {
                     Console.SetCursorPosition(cursorLeft, contentTop + offsetTop);
                 }
                 else
                 {
-                    Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
+                    Console.SetCursorPosition(cursorLeft, contentTop + CursorIndex);
                 }
                 Console.Write(' ');
 
-                cursorIndex = Math.Max(cursorIndex - 1, 0);
-                if (Program.CurrentScene is Scene_BattleSelect && monsters[cursorIndex].IsDead)
+                CursorIndex = Math.Max(CursorIndex - 1, 0);
+                if (Program.CurrentScene is Scene_BattleSelect && monsters[CursorIndex].IsDead)
                 {
                     // 만약 가장 위라면
-                    if (cursorIndex == 0)
+                    if (CursorIndex == 0)
                     {
                         // 몬스터 배열을 순회하며 가장 낮은 인덱스의 생존 몬스터를 찾습니다.
                         for (int i = 0; i < monsters.Count; i++)
                         {
                             if (monsters[i].IsDead == false)
                             {
-                                cursorIndex = i - 1;
+                                CursorIndex = i - 1;
                                 key = ConsoleKey.DownArrow;
                                 break;
                             }
@@ -181,20 +181,20 @@ namespace SIX_Text_RPG
                     return -2;
                 }
 
-                Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
+                Console.SetCursorPosition(cursorLeft, contentTop + CursorIndex);
                 WriteColor("▶", ConsoleColor.DarkCyan);
             }
 
             else if (key == ConsoleKey.DownArrow)
             {
-                Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
+                Console.SetCursorPosition(cursorLeft, contentTop + CursorIndex);
                 Console.Write(' ');
 
-                cursorIndex = Math.Min(cursorIndex + 1, CursorMenu.Count - 1);
+                CursorIndex = Math.Min(CursorIndex + 1, CursorMenu.Count - 1);
                 if (Program.CurrentScene is Scene_BattleSelect)
                 {
                     // 나가기 버튼이 아니고, 아래 버튼 몬스터가 죽었다면
-                    if (cursorIndex < monsters.Count && monsters[cursorIndex].IsDead)
+                    if (CursorIndex < monsters.Count && monsters[CursorIndex].IsDead)
                     {
                         // 한 번 더 아래로 재귀
                         ReadArrowKey(key);
@@ -203,13 +203,13 @@ namespace SIX_Text_RPG
                 }
 
                 // 나가기 메뉴(마지막 인덱스) 간격 조절 여부에 따라 커서 위치 설정
-                if (cursorIndex == CursorMenu.Count - 1 && offsetTop > 0)
+                if (CursorIndex == CursorMenu.Count - 1 && offsetTop > 0)
                 {
                     Console.SetCursorPosition(cursorLeft, contentTop + offsetTop);
                 }
                 else
                 {
-                    Console.SetCursorPosition(cursorLeft, contentTop + cursorIndex);
+                    Console.SetCursorPosition(cursorLeft, contentTop + CursorIndex);
                 }
 
                 WriteColor("▶", ConsoleColor.DarkCyan);
@@ -217,7 +217,7 @@ namespace SIX_Text_RPG
 
             else if (key == ConsoleKey.Enter)
             {
-                CursorMenu[cursorIndex].Item2?.Invoke();
+                CursorMenu[CursorIndex].Item2?.Invoke();
                 return 0;
             }
 
