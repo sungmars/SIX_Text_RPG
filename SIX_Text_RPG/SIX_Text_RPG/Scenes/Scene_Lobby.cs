@@ -167,6 +167,12 @@
 
         public override int Update()
         {
+            if (GameManager.Instance.CurrentStage == 4)
+            {
+                GameManager.Instance.CurrentStage++;
+                return 0;
+            }
+
             switch (base.Update())
             {
                 case 1: // 상태 보기
@@ -179,13 +185,12 @@
                     Program.CurrentScene = new Scene_Store();
                     break;
                 case 4: // 전투
-                    // TODO: 팀 스크럼때, 주석 해제
-                    //Utils.WriteAnim($"튜터님께 걸어가는 중...");
-                    //Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
-                    //Utils.WriteAnim("탈것이 없어 시간이 지체되는 중...");
-                    //Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
-                    //Utils.WriteAnim("뚜벅. 뚜벅. 뚜벅. 뚜벅.");
-                    if(GameManager.Instance.Player != null)
+                    Utils.WriteAnim($"튜터님께 걸어가는 중...");
+                    Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
+                    Utils.WriteAnim("탈것이 없어 시간이 지체되는 중...");
+                    Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
+                    Utils.WriteAnim("뚜벅. 뚜벅. 뚜벅. 뚜벅.");
+                    if (GameManager.Instance.Player != null)
                     {
                         GameManager.Instance.BattleBeforeHP = GameManager.Instance.Player.Stats.HP;
                         GameManager.Instance.BattleBeforeMP = GameManager.Instance.Player.Stats.MP;
@@ -224,14 +229,16 @@
             Console.SetCursorPosition(1, 1);
             Utils.WriteColorLine(Define.GAME_TITLE, ConsoleColor.DarkYellow);
 
-            currentTime = Define.TIMES[Math.Max(GameManager.Instance.CurrentStage, 0)];
+            GameManager.Instance.CurrentStage = Math.Max(GameManager.Instance.CurrentStage, 0);
+            int index = Math.Min(GameManager.Instance.CurrentStage, 4);
+            currentTime = Define.TIMES[index];
             int targetStage = GameManager.Instance.TargetStage;
 
             Console.SetCursorPosition(1, 3);
             Utils.WriteColorLine("현재 시간: ", targetStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkGreen);
             Display_Clock(targetStage == 4 ? ConsoleColor.Red : ConsoleColor.Green);
 
-            if (targetStage == GameManager.Instance.CurrentStage)
+            if (targetStage <= GameManager.Instance.CurrentStage)
             {
                 Utils.WriteColorLine(NOTICE[targetStage], targetStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkCyan);
                 return;
@@ -294,6 +301,16 @@
                 Console.SetCursorPosition(LEFT + index * 19, Console.CursorTop);
                 Utils.WriteColorLine(NUMBERS[numberIndex + i], color);
             }
+        }
+
+        public override void LateStart()
+        {
+            if (GameManager.Instance.CurrentStage == 4)
+            {
+                return;
+            }
+
+            base.LateStart();
         }
     }
 }

@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Numerics;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SIX_Text_RPG.Managers;
 
 namespace SIX_Text_RPG.Scenes
 {
 
     internal class Scene_Inventory : Scene_Base
     {
+        private bool isEmpty;
         private string displayType;
         private List<Item> Inventory => GameManager.Instance.Inventory;
         public List<Item> Potion
@@ -27,11 +20,13 @@ namespace SIX_Text_RPG.Scenes
         }
         protected override void Display()
         {
-            
+
             Console.SetCursorPosition(0, 10);
             if (Inventory.Count == 0)//아이템이 없다면 아무것도 없다는 문장과 엔터키를 누르면 나가는 기능
             {
                 GagCode();
+                isEmpty = true;
+
                 Utils.CursorMenu.Add((
                         "매니저님께 가보자",
                         () =>
@@ -106,7 +101,7 @@ namespace SIX_Text_RPG.Scenes
                     ));
                 }
                 Utils.CursorMenu.Add(("나가기", () => { Program.CurrentScene = new Scene_Lobby(); }));
-                Utils.DisplayCursorMenu(5, 7, Inventory.Count - Potion.Count +7, delay: 100);
+                Utils.DisplayCursorMenu(5, 7, Inventory.Count - Potion.Count + 7, delay: 100);
             }
         }
         public void UseItem(int j)
@@ -126,7 +121,7 @@ namespace SIX_Text_RPG.Scenes
                 // 아직장착되지 않은 사태면 같은 타입의 아이템이 이미 장착되었는지 확인
                 if (!selectItem.Iteminfo.IsEquip)//장착 안되었다면
                 {
-                    
+
                     bool sameType = Inventory.Any(item =>//Any는 조건에 해당하는 값이 1개라도 존재한다면 true
                         item is IEquipable &&
                         item.Iteminfo.IsEquip &&
@@ -173,19 +168,28 @@ namespace SIX_Text_RPG.Scenes
 
         public void DisplayType(Item x)//타입 표시필드 내용 정하는 메서드
         {
-            if(x.Type == ItemType.Armor)
+            if (x.Type == ItemType.Armor)
             {
                 displayType = "<방어구>";
             }
-            else if(x.Type == ItemType.Accessory)
+            else if (x.Type == ItemType.Accessory)
             {
                 displayType = "<장신구>";
             }
-            else if(x.Type == ItemType.Weapon)
+            else if (x.Type == ItemType.Weapon)
             {
                 displayType = "< 무기 >";
             }
         }
 
+        public override void LateStart()
+        {
+            base.LateStart();
+
+            if (isEmpty)
+            {
+                RenderManager.Instance.Play("CodingBird", 75, 7, 50);
+            }
+        }
     }
 }
