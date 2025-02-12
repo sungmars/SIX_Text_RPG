@@ -82,13 +82,5 @@
                 Render();
             }
         }
-
-        public void Render_Position()
-        {
-            while (PoisonStack.Pop() > 0)
-            {
-
-            }
-        }
     }
 }

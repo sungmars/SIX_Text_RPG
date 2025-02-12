@@ -176,8 +176,15 @@
                     if (startX[i] == endX)
                     {
                         // Hit 애니메이션과 onDamage 콜백을 호출합니다.
-                        onDamage[i]?.Invoke();
-                        Player.Render_Hit();
+                        if (onDamage == null)
+                        {
+                            AudioManager.Instance.Play(AudioClip.SoundFX_Avoid);
+                        }
+                        else
+                        {
+                            onDamage[i].Invoke();
+                            Player.Render_Hit();
+                        }
                     }
 
                     // 투사체를 렌더링합니다.
