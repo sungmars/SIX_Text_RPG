@@ -126,7 +126,6 @@
             {
                 Console.WriteLine();
                 Utils.WriteColorLine(" 패배", ConsoleColor.DarkRed);
-                Console.WriteLine();
                 Utils.WriteColorLine(" 저는 이만 정신을 잃고 말았습니다.", ConsoleColor.DarkRed);
                 Console.WriteLine();
                 Utils.DisplayLine();

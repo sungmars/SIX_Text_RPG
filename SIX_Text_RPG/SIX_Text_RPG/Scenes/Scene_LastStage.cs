@@ -12,6 +12,7 @@ namespace SIX_Text_RPG.Scenes
 
         public override void LateStart()
         {
+            Utils.ClearLine(0, 3);
             AudioManager.Instance.Play(AudioClip.Music_Manager);
             RenderManager.Instance.Play("LastScene", 20, 2, size: 80);
         }

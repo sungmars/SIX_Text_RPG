@@ -87,7 +87,7 @@ namespace SIX_Text_RPG
 
             var source = clip.ToSampleProvider();
             sampleProvider = new FadeInOutSampleProvider(source);
-            sampleProvider.BeginFadeIn(4000);
+            sampleProvider.BeginFadeIn(2000);
 
             audioSource.Stop();
             audioSource.Init(sampleProvider);
@@ -112,7 +112,7 @@ namespace SIX_Text_RPG
                 return;
             }
 
-            sampleProvider.BeginFadeOut(2000);
+            sampleProvider.BeginFadeOut(1000);
             audioSource.PlaybackStopped -= PlaybackStoppedHandler;
         }
 

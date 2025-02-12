@@ -167,6 +167,12 @@
 
         public override int Update()
         {
+            if (GameManager.Instance.CurrentStage == 4)
+            {
+                GameManager.Instance.CurrentStage++;
+                return 0;
+            }
+
             switch (base.Update())
             {
                 case 1: // 상태 보기
@@ -223,14 +229,16 @@
             Console.SetCursorPosition(1, 1);
             Utils.WriteColorLine(Define.GAME_TITLE, ConsoleColor.DarkYellow);
 
-            currentTime = Define.TIMES[Math.Max(GameManager.Instance.CurrentStage, 0)];
+            int index = Math.Max(GameManager.Instance.CurrentStage, 0);
+            index = Math.Min(GameManager.Instance.CurrentStage, 4);
+            currentTime = Define.TIMES[index];
             int targetStage = GameManager.Instance.TargetStage;
 
             Console.SetCursorPosition(1, 3);
             Utils.WriteColorLine("현재 시간: ", targetStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkGreen);
             Display_Clock(targetStage == 4 ? ConsoleColor.Red : ConsoleColor.Green);
 
-            if (targetStage == GameManager.Instance.CurrentStage)
+            if (targetStage <= GameManager.Instance.CurrentStage)
             {
                 Utils.WriteColorLine(NOTICE[targetStage], targetStage == 4 ? ConsoleColor.DarkRed : ConsoleColor.DarkCyan);
                 return;
@@ -293,6 +301,16 @@
                 Console.SetCursorPosition(LEFT + index * 19, Console.CursorTop);
                 Utils.WriteColorLine(NUMBERS[numberIndex + i], color);
             }
+        }
+
+        public override void LateStart()
+        {
+            if (GameManager.Instance.CurrentStage == 4)
+            {
+                return;
+            }
+
+            base.LateStart();
         }
     }
 }
