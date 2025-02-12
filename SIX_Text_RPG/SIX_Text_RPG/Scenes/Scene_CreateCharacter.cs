@@ -27,13 +27,11 @@
             {
                 case 1:
                     GameManager.Instance.Player = new(PlayerType.마계조단);
-                    QuestManager.Instance = new QuestManager();
                     QuestManager.Instance.QuestInitialize();
                     Program.CurrentScene = new Scene_Lobby();
                     break;
                 case 2:
                     GameManager.Instance.Player = new(PlayerType.천계조단);
-                    QuestManager.Instance = new QuestManager();
                     QuestManager.Instance.QuestInitialize();
                     Program.CurrentScene = new Scene_Lobby();
                     break;
