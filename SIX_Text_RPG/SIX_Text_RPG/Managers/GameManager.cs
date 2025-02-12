@@ -50,7 +50,10 @@
 
             int[] startX = new int[attackCount];
             int endX = Define.MONSTER_SPAWN_X - 3;
-            int targetY = Monsters[targetIndex].Position.Y;
+
+            int monsterIndex = Math.Max(targetIndex, 0);
+            int targetY = Monsters[monsterIndex].Position.Y;
+
             string value = Player.Graphic_Weapon.ToString();
 
             // 투사체 발사지점을 설정합니다.
@@ -64,6 +67,7 @@
             int index = 0;  // charArray를 순회하기 위한 변수입니다.
             int randomIndex = random.Next(0, Define.PLAYER_ATK_SCRIPTS.Length);
             char[] charArray = Define.PLAYER_ATK_SCRIPTS[randomIndex].ToCharArray();
+
             while (startX[^1] < endX)
             {
                 // 공격 횟수만큼 반복합니다.
@@ -73,6 +77,11 @@
                     if (startX[i]++ < Player.Position.X || startX[i] > endX)
                     {
                         continue;
+                    }
+
+                    if (targetIndex == -1)
+                    {
+                        targetY = Monsters[i / 2].Position.Y;
                     }
 
                     // 투사체 좌표를 설정하고, 렌더링합니다.
@@ -89,6 +98,11 @@
                     if (startX[i]++ < Player.Position.X || startX[i] > endX)
                     {
                         continue;
+                    }
+
+                    if (targetIndex == -1)
+                    {
+                        targetY = Monsters[i / 2].Position.Y;
                     }
 
                     // 투사체가 목표지점에 도달할 경우
