@@ -53,7 +53,7 @@ namespace SIX_Text_RPG
             SetBool(ItemBool.IsSold);
         }
 
-        protected void SetBool(ItemBool itemstat)
+        public void SetBool(ItemBool itemstat)
         {
             ItemInfo temp = Iteminfo;
             if (ItemBool.IsSold == itemstat)
