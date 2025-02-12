@@ -36,20 +36,11 @@
 
         public readonly List<Item>[] StoreItems = new List<Item>[(int)ItemType.Count];
 
-        public void SetBool_StoreItem(Item item)
+        public void SetBool_StoreItem(ItemType type, Item item)
         {
-            for (int i = 0; i < (int)ItemType.Count; i++)
-            {
-                if (i == (int)ItemType.Potion)
-                {
-                    continue;
-                }
-
-                foreach (var storeItem in StoreItems[i])
-                {
-                    bool isSold = item.Iteminfo.IsSold;
-                }
-            }
+            var storeItems = StoreItems[(int)type];
+            var storItem = storeItems.Find(x => x.Iteminfo.Name.Equals(item.Iteminfo.Name));
+            storItem?.SetBool(ItemBool.IsSold);
         }
     }
 }
