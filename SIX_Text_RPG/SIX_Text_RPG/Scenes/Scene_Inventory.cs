@@ -27,7 +27,7 @@ namespace SIX_Text_RPG.Scenes
         }
         protected override void Display()
         {
-
+            
             Console.SetCursorPosition(0, 10);
             if (Inventory.Count == 0)//아이템이 없다면 아무것도 없다는 문장과 엔터키를 누르면 나가는 기능
             {
@@ -50,26 +50,6 @@ namespace SIX_Text_RPG.Scenes
             }
             else
             {
-                // 장비아이템, 소모아이템 필터링
-                var equipItems = Inventory.Where(item => item is IEquipable).ToList();
-
-                for (int i = 0; i < equipItems.Count; i++)
-                {
-                    var selectItem = equipItems[i];
-                    string itemGraphic = selectItem.Iteminfo.Graphic.ToString();
-                    string displayName = $"{itemGraphic} {selectItem.Iteminfo.Name}" +
-                        (selectItem.Iteminfo.IsEquip ? "[E]" : "");//장착상태 표시해주기
-                    Utils.CursorMenu.Add((displayName, () =>
-                    {
-                        UseItem(Inventory.FindIndex(x => x.Equals(selectItem)));
-                    }
-                    ));
-                }
-                Utils.CursorMenu.Add(("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓", () =>//구분선 만듬
-                {
-                    Console.WriteLine("이거 누르지 마세욧");
-                }
-                ));
                 //소비 아이템 출력할곳
                 for (int i = 0; i < Potion.Count; i++)
                 {
@@ -98,10 +78,30 @@ namespace SIX_Text_RPG.Scenes
                         UseItem(Inventory.FindIndex(x => x.Equals(selectItem)));
                     }
                     ));
-                    totalcount = count;
+                }
+                Utils.CursorMenu.Add(("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓", () =>//구분선 만듬
+                {
+                    Utils.WriteColorLine("이거 누르지 마세욧", ConsoleColor.Red);
+                    Console.ReadKey(); // 대기
+                }
+                ));
+                // 장비아이템, 소모아이템 필터링
+                var equipItems = Inventory.Where(item => item is IEquipable).ToList();
+                Console.SetCursorPosition(5, 7);
+                for (int i = 0; i < equipItems.Count; i++)
+                {
+                    var selectItem = equipItems[i];
+                    string itemGraphic = selectItem.Iteminfo.Graphic.ToString();
+                    string displayName = $"{itemGraphic} {selectItem.Iteminfo.Name}" +
+                        (selectItem.Iteminfo.IsEquip ? "[E]" : "");//장착상태 표시해주기
+                    Utils.CursorMenu.Add((displayName, () =>
+                    {
+                        UseItem(Inventory.FindIndex(x => x.Equals(selectItem)));
+                    }
+                    ));
                 }
                 Utils.CursorMenu.Add(("나가기", () => { Program.CurrentScene = new Scene_Lobby(); }));
-                Utils.DisplayCursorMenu(5, 7, Inventory.Count - Potion.Count + totalcount + 6, delay: 150);
+                Utils.DisplayCursorMenu(5, 7, Inventory.Count - Potion.Count +7, delay: 100);
             }
             Console.SetCursorPosition(0, 7);
             GameManager.Instance.Player.DisplayInfo(75);
@@ -116,9 +116,25 @@ namespace SIX_Text_RPG.Scenes
             {
                 Inventory.Remove(selectItem);//인벤토리 리스트에서 삭제
             }
-            else if (equipable != null)//장비하는 아이템이라면
+            // 장비 아이템 처리
+            else if (equipable != null)
             {
-                equipable.Equip();//장비 메서드호출
+                // 아직장착되지 않은 사태면 같은 타입의 아이템이 이미 장착되었는지 확인
+                if (!selectItem.Iteminfo.IsEquip)//장착 안되었다면
+                {
+                    bool sameType = Inventory.Any(item =>//Any는 조건에 해당하는 값이 1개라도 존재한다면 true
+                        item is IEquipable &&
+                        item.Iteminfo.IsEquip &&
+                        item.Type == selectItem.Type);
+
+                    if (sameType)
+                    {
+                        Utils.WriteColorLine("같은 타입의 아이템이 이미 장착되어 있습니다!", ConsoleColor.Red);
+                        Console.ReadKey();
+                        return;
+                    }
+                }
+                equipable.Equip();
             }
             else
             {
