@@ -15,6 +15,7 @@ namespace SIX_Text_RPG
     {
         private static readonly char WEAPON = 'つ';
         private static readonly char FACE = 'ω';
+        private static readonly int DRAINAGE = 20;
 
         #region StatusPosition
         private readonly int OFFSET_X = 11;
@@ -413,17 +414,28 @@ namespace SIX_Text_RPG
 
                     Utils.WriteColor("-> ", ConsoleColor.DarkYellow);
 
-                    value = (int)(currentValue + index * direction);
                     if (type == Stat.Gold)
                     {
-                        Utils.WriteColor($"{value:N0}G", ConsoleColor.Yellow);
+                        if (amount > DRAINAGE)
+                        {
+                            value = (int)(currentValue + index * direction * DRAINAGE);
+                            Utils.WriteColor($"{value:N0}G", ConsoleColor.Yellow);
+                            amount -= direction * DRAINAGE;
+                        }
+                        else
+                        {
+                            value = (int)(currentValue + amount + (index-1) * direction * DRAINAGE);
+                            Utils.WriteColor($"{value:N0}G", ConsoleColor.Yellow);
+                            amount = 0;
+                        }
                     }
                     else
                     {
+                        value = (int)(currentValue + index * direction);
                         Utils.WriteColor(value, color);
+                        amount -= direction;
                     }
 
-                    amount -= direction;
                     index++;
                 }
 

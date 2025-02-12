@@ -111,6 +111,8 @@
 
                 Console.SetCursorPosition(0, 5);
                 player.DisplayInfo();
+                Utils.ClearLine(0, Console.CursorTop - 1);
+                player.DisplayInfo_Gold();
 
                 Console.WriteLine();
                 Utils.WriteColorLine(" 스테이지 클리어!", ConsoleColor.Green);
@@ -171,7 +173,7 @@
                         GameManager.Instance.Inventory.Add(rewardItem);
                     }
                     DisplayItemName(rewardItem);
-                    Console.WriteLine("을 2개를 획득하였습니다.");
+                    Console.WriteLine(" 2개를 획득하였습니다.");
                     break;
                 case 1:
                     for (int i = 0; i < 4; i++)
@@ -179,15 +181,15 @@
                         GameManager.Instance.Inventory.Add(rewardItem);
                     }
                     DisplayItemName(rewardItem);
-                    Console.WriteLine("을 4개를 획득하였습니다.");
+                    Console.WriteLine(" 4개를 획득하였습니다.");
                     break;
                 case 2:
-                    for (int i = 0; i < 8; i++)
+                    for (int i = 0; i < 7; i++)
                     {
                         GameManager.Instance.Inventory.Add(rewardItem);
                     }
                     DisplayItemName(rewardItem);
-                    Console.WriteLine("을 8개를 획득하였습니다.");
+                    Console.WriteLine(" 7개를 획득하였습니다.");
                     break;
                 case 3:
                     for (int i = 0; i < 13; i++)
@@ -195,10 +197,20 @@
                         GameManager.Instance.Inventory.Add(rewardItem);
                     }
                     DisplayItemName(rewardItem);
-                    Console.WriteLine("을 13개를 획득하였습니다.");
+                    Console.WriteLine(" 10개를 획득하였습니다.");
+                    break;
+                case 4:
+                    for (int i = 0; i < 13; i++)
+                    {
+                        GameManager.Instance.Inventory.Add(rewardItem);
+                    }
+                    DisplayItemName(rewardItem);
+                    Console.WriteLine(" 15개를 획득하였습니다.");
                     break;
                 default:
                     break;
+
+
             }
         }
 
