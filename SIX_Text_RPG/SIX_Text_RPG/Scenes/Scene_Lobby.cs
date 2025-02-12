@@ -196,6 +196,7 @@
                     Program.CurrentScene = new Scene_QuestTable();
                     break;
                 case 6: // 휴식
+                    Program.CurrentScene = new Scene_Rest();
                     break;
                 case 7: // 저장
                     AudioManager.Instance.Play(AudioClip.SoundFX_Confirm);
