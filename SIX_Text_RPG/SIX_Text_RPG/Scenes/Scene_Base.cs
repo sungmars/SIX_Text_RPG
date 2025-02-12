@@ -17,8 +17,8 @@ namespace SIX_Text_RPG
         {
             Menu.Clear();
 
-            Console.Clear();
             RenderManager.Instance.Stop();
+            Console.Clear();
             Utils.CursorMenu.Clear();
         }
 
