@@ -17,8 +17,10 @@
 
         public int CurrentStage { get; set; } = -1;
         public int TargetStage { get; set; } = 0;
+        public float BattleBeforeHP { get; set; } = 0;
+        public float BattleBeforeMP { get; set; } = 0;
+
         public float TotalDamage { get; set; } = 0;
-        public float TotalUsedMP { get; set; } = 0;
 
         private readonly Random random = new();
 
