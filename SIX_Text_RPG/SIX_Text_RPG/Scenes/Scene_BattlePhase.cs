@@ -40,14 +40,11 @@
                 return true;
             }
 
-            // 기본 공격 횟수
-            int attackCount = 1;
-
-            // 크리티컬 발동 시 두배 공격
-            var critical = player.Skills.Find(x => x.GetType() == typeof(Skill_Critical));
-            if (critical != null && critical.Skill())
+            if (reservedSkill != null)
             {
-                attackCount *= 2;
+                // 플레이어 정보 갱신
+                player.SetStat(Stat.MP, -reservedSkill.Mana, true);
+                base.Display();
             }
 
             GameManager.Instance.DisplayBattle_Attack(selectMonsterNum, attackCount, () =>
@@ -60,11 +57,15 @@
                     damage = 1;
                 }
 
-                // 몬스터 회피
-                var avoid = monsters[selectMonsterNum].Skills.Find(x => x.GetType() == typeof(Skill_Avoid));
-                if (avoid != null && avoid.Skill())
+                // 예약된 스킬이 없다면 (스킬은 회피 불가)
+                if (reservedSkill == null)
                 {
-                    damage = 0;
+                    // 몬스터 회피
+                    var avoid = monsters[selectMonsterNum].Skills.Find(x => x.GetType() == typeof(Skill_Avoid));
+                    if (avoid != null && avoid.Skill())
+                    {
+                        damage = 0;
+                    }
                 }
 
                 // 데미지 및 퀘스트 갱신

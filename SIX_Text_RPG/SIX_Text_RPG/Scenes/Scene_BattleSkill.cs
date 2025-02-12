@@ -15,26 +15,32 @@
                 return;
             }
 
+            // 메뉴 청소
+            for (int i = 0; i < Utils.CursorMenu.Count; i++)
+            {
+                Utils.ClearLine(CURSOR_MENU_X - 3, CURSOR_MENU_Y + i);
+            }
+            Utils.CursorMenu.Clear();
+
             // 스킬 메뉴 생성
             var skills = player.Skills.Where(skill => skill.Mana > 0).ToList();
             for (int i = 0; i < skills.Count; i++)
             {
                 var selectedSkill = skills[i];
-                Utils.CursorMenu.Add((selectedSkill.Name, () =>
+                int index = i;
+                Utils.CursorMenu.Add(($"{selectedSkill.Name}\tMP {selectedSkill.Mana}", () =>
                 {
-                    int index = i;
-                    UseSkill(index);
-                    Program.CurrentScene = new Scene_BattleInventory();
+                    UseSkill(selectedSkill, index);
                 }
                 ));
             }
 
-            // 가방 닫기시 메뉴 다 지우고 로비로 돌아가기
-            Utils.CursorMenu.Add(("가방 닫기", () =>
+            // 스킬 닫기시 메뉴 다 지우고 로비로 돌아가기
+            Utils.CursorMenu.Add(("스킬 닫기", () =>
             {
                 for (int i = 0; i < Utils.CursorMenu.Count; i++)
                 {
-                    Utils.ClearLine(CURSOR_MENU_X -3, CURSOR_MENU_Y + i);
+                    Utils.ClearLine(CURSOR_MENU_X - 3, CURSOR_MENU_Y + i);
                 }
                 Utils.CursorMenu.Clear();
                 Program.CurrentScene = new Scene_BattleLobby();
@@ -42,14 +48,51 @@
             ));
         }
 
-        public override void LateStart()
+        protected override void Display()
         {
+            base.Display();
             Utils.DisplayCursorMenu(CURSOR_MENU_X, CURSOR_MENU_Y);
         }
 
-        public void UseSkill(int index)
+        public void UseSkill(ISkill skill, int index)
         {
+            Player? player = GameManager.Instance.Player;
+            if (player == null)
+            {
+                return;
+            }
 
+            if (skill.Skill() == false)
+            {
+                AudioManager.Instance.Play(AudioClip.SoundFX_Error);
+                Console.SetCursorPosition(CURSOR_MENU_X, CURSOR_MENU_Y + index);
+                Utils.WriteColor("MP가 부족합니다!", ConsoleColor.Red);
+                Console.ReadKey();
+                return;
+            }
+
+            switch (skill)
+            {
+                case ISkill t when t is Skill_DoubleAttack:
+                    attackCount = 2;
+                    break;
+                case ISkill t when t is Skill_QuadAttack:
+                    attackCount = 4;
+                    break;
+                default:
+                    return;
+            }
+
+            // 스킬 메뉴 청소
+            for (int i = 0; i < Utils.CursorMenu.Count; i++)
+            {
+                Utils.ClearLine(CURSOR_MENU_X - 3, CURSOR_MENU_Y + i);
+            }
+            Utils.CursorMenu.Clear();
+
+            // 몬스터 선택창으로 이동
+            reservedSkill = skill; // 스킬 예약
+            Program.CurrentScene = new Scene_BattleSelect();
         }
     }
 }

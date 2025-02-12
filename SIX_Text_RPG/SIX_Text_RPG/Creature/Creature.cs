@@ -78,6 +78,7 @@ namespace SIX_Text_RPG
     {
         public Creature()
         {
+            // 크리쳐 공통 스킬
             Skills.Add(new Skill_Avoid());
         }
 

@@ -24,12 +24,14 @@
 
         protected override void Display()
         {
-            if (GameManager.Instance.Player == null)
+            Player? player = GameManager.Instance.Player;
+            if (player == null)
             {
                 return;
             }
 
-            GameManager.Instance.Player.DisplayInfo();
+            player.DisplayInfo();
+            player.DisplayInfo_Skill();
         }
     }
 }

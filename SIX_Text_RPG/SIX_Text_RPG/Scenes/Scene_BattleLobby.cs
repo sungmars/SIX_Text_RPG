@@ -27,6 +27,10 @@
             {
                 SpawnMonster();
             }
+
+            // 기본 공격 횟수
+            reservedSkill = null;
+            attackCount = 1;
         }
         public override int Update()
         {

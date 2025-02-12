@@ -25,7 +25,9 @@
         protected readonly List<Monster> monsters = GameManager.Instance.Monsters;
         protected readonly int stage = GameManager.Instance.CurrentStage;
 
+        protected static int attackCount;
         protected static int monsterIndex;
+        protected static ISkill? reservedSkill;
 
         public override void Awake()
         {

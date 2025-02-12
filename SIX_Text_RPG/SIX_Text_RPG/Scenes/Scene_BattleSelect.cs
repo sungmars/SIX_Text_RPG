@@ -42,6 +42,19 @@
                 }
                 else
                 {
+                    Player? player = GameManager.Instance.Player;
+                    if (player == null)
+                    {
+                        return -1;
+                    }
+
+                    // 크리티컬 발동 시 두배 공격
+                    var critical = player.Skills.Find(x => x.GetType() == typeof(Skill_Critical));
+                    if (critical != null && critical.Skill())
+                    {
+                        attackCount *= 2;
+                    }
+
                     Program.CurrentScene = new Scene_BattlePhase();
                 }
 

@@ -8,6 +8,17 @@
 
         public bool Skill()
         {
+            Player? player = GameManager.Instance.Player;
+            if (player == null)
+            {
+                return false;
+            }
+
+            if (player.Stats.MP < Mana)
+            {
+                return false;
+            }
+
             return true;
         }
     }
