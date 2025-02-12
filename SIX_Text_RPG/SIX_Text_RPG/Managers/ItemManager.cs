@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SIX_Text_RPG.Managers
+﻿namespace SIX_Text_RPG
 {
     internal class ItemManager
     {
@@ -14,27 +8,39 @@ namespace SIX_Text_RPG.Managers
 
         public ItemManager()
         {
-            StoreItem.Add(new List<Item>());
-        }
-        public bool Istalk_1 { get; private set; } = false;
-        public bool Istalk_2 { get; private set; } = false;
-        public bool Istalk_3 { get; private set; } = false;
-
-
-        public void SetBool(int num, bool value)
-        {
-            if (num == 1)
+            ItemInfo[,] iteminfo = Define.ITEM_INFOS;
+            for (int i = 0; i < (int)ItemType.Count; i++)
             {
-                Istalk_1 = value;
-            }
-            else if (num == 2)
-            {
-                Istalk_2 = value;
-            }
+                StoreItems[i] = new();
+                for (int j = 0; j < iteminfo.GetLength(1); j++)
+                {
+                    switch (i)
+                    {
+                        case (int)ItemType.Armor:
+                            StoreItems[i].Add(new Armor(iteminfo[i, j]));
+                            break;
+
+                        case (int)ItemType.Accessory:
+                            StoreItems[i].Add(new Accessory(iteminfo[i, j]));
+                            break;
+
+                        case (int)ItemType.Potion:
+                            StoreItems[i].Add(new Potion(iteminfo[i, j]));
+                            break;
+
+                        case (int)ItemType.Weapon:
+                            StoreItems[i].Add(new Weapon(iteminfo[i, j]));
+                            break;
+                    }
+                }
             else if (num == 3)
             {
                 Istalk_3 = value;
             }
         }
+
+        public static ItemManager Instance { get; private set; } = new();
+
+        public readonly List<Item>[] StoreItems = new List<Item>[(int)ItemType.Count];
     }
 }

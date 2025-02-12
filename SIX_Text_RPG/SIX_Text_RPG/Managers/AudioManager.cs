@@ -19,6 +19,7 @@ namespace SIX_Text_RPG
         SoundFX_Damage4,
         SoundFX_DrawLine,
         SoundFX_DrawMenu,
+        SoundFX_Error,
         SoundFX_Hit1,
         SoundFX_Hit2,
         SoundFX_Hit3,
@@ -86,6 +87,7 @@ namespace SIX_Text_RPG
             audioSource.Init(sampleProvider);
             audioSource.Play();
             audioSource.PlaybackStopped += PlaybackStoppedHandler;
+            audioSource.Volume = 0.2f; // TODO: TEST CODE
 
             this.audioClip = audioClip;
         }
