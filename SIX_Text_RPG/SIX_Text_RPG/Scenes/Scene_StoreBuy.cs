@@ -80,7 +80,7 @@
                 ConsoleColor color = item.Iteminfo.IsSold ? ConsoleColor.DarkGray : ConsoleColor.Gray;
 
                 Console.SetCursorPosition(4, 9 + i);
-                Utils.WriteColor(item.Iteminfo.Graphic, color);
+                Utils.WriteColor(item.Iteminfo.Graphic, item.Iteminfo.Color);
 
                 Console.SetCursorPosition(7, 9 + i);
                 Utils.WriteColor(item.Iteminfo.Name, color);
@@ -222,12 +222,9 @@
         private void ErrorMessage(string message)
         {
             AudioManager.Instance.Play(AudioClip.SoundFX_Error);
-            Console.SetCursorPosition(0, cursorY);
+            Utils.ClearLine(0, cursorY);
             Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
             Utils.WriteColorLine(message, ConsoleColor.Red);
-
-            Console.ReadKey();
-            Utils.ClearLine(0, cursorY);
         }
     }
 }

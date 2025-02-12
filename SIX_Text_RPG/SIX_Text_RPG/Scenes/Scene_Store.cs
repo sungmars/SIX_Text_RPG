@@ -46,6 +46,7 @@
             Menu.Add("아이템 \'사기\'");
             Menu.Add("아이템 팔기");
             Menu.Add("도?박");
+            Menu.Add("돈복사");
 
             //씬 타이틀 인포
             sceneTitle = "수상한 매니저님 방";
@@ -60,8 +61,25 @@
                 case 1:
                     Program.CurrentScene = new Scene_StoreBuy();
                     break;
-                default:
+
+                //아이템 판매
+                case 2:
+                    Program.CurrentScene = new Scene_Store_Sell();
+                    break;
+
+                //골드 도박
+                case 3:
+                    Program.CurrentScene = new Scene_StoreGambling();
+                    break;
+
+                //나가기
+                case 0:
                     Program.CurrentScene = new Scene_Lobby();
+                    break;
+
+                //테스트용 코드
+                case 4:
+                    GameManager.Instance.Player.SetStat(Stat.Gold, 1000000);
                     break;
             }
 
@@ -69,33 +87,7 @@
 
 
 
-            ////아이템 판매
-            //case 2:
-            //    if (!isTalk_2)
-            //    {
-            //        Talking(talkSell);
-            //        isTalk_2 = true;
-            //    }
-            //    Program.CurrentScene = new Scene_Store_Sell();
-            //    break;
 
-            ////골드 도박
-            //case 3:
-            //    if (!isTalk_3)
-            //    {
-            //        Talking(talkGambling);
-            //        isTalk_3 = true;
-            //    }
-            //    //Program.CurrentScene = new Scene_Store_Gambling();
-            //    break;
-            //case 0:
-            //    Program.CurrentScene = new Scene_Lobby();
-            //    break;
-
-            ////테스트용 코드
-            //case 9:
-            //    GameManager.Instance.Player.SetStat(Stat.Gold, 10000);
-            //    break;
         }
 
         protected override void Display()

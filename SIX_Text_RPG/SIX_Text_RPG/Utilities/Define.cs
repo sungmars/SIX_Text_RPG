@@ -66,7 +66,7 @@
         {
             //Armor
             {
-                new() { Name = "손가락골무", Description = "찌르는 손가락이 아프지 않도록 지켜주세요.",ATK = 0, DEF = 5, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 700, Graphic = '☞', Color = ConsoleColor.Magenta },
+                new() { Name = "손가락골무", Description = "찌르는 손가락이 아프지 않도록 지켜주세요.",ATK = 5, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 700, Graphic = '☞', Color = ConsoleColor.Magenta },
                 new() { Name = "말랑한 정신", Description = "생각이 말랑해야 정신이 건강합니다...",ATK = 0, DEF = 10, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 1500, Graphic = '♣', Color = ConsoleColor.DarkGreen },
                 new() { Name = "초랭이", Description = "수생거북 초랭이입니다. 곁에만 있어도 든든합니다.",ATK = 0, DEF = 17, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 2500, Graphic = '¤', Color = ConsoleColor.Green },
                 new() { Name = "상어옷", Description = "놀랍도록 파랗습니다.. 피부까지도...",ATK = 0, DEF = 30, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 4000,Graphic = 'δ', Color = ConsoleColor.Blue },
@@ -90,10 +90,10 @@
             },
             //Weapon
             {
-                new() { Name = "강력한 손가락", Description = "보기만 해도 따끔합니다!",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 1000, Graphic = '☞', Color = ConsoleColor.Magenta},
-                new() { Name = "펀치", Description = "튜터님들에게 강력한 \"한 방\"을 선사하세요!",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 2000, Graphic = '⊃', Color = ConsoleColor.Red},
-                new() { Name = "물풍선", Description = "추운 겨울날 튜터님을 Cool하게 만들어드려요...",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 3000, Graphic = '∞', Color = ConsoleColor.Cyan },
-                new() { Name = "싸커킥", Description = "아야! 절대절대 \"엉덩이\"를 조심하세요..",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 4000, Graphic = 'ζ', Color = ConsoleColor.DarkRed},
+                new() { Name = "강력한 손가락", Description = "보기만 해도 따끔합니다!",ATK = 7, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 1000, Graphic = '☞', Color = ConsoleColor.Magenta},
+                new() { Name = "펀치", Description = "튜터님들에게 강력한 \"한 방\"을 선사하세요!",ATK = 15, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 2000, Graphic = '⊃', Color = ConsoleColor.Red},
+                new() { Name = "물풍선", Description = "추운 겨울날 튜터님을 Cool하게 만들어드려요...",ATK = 20, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 3000, Graphic = '∞', Color = ConsoleColor.Cyan },
+                new() { Name = "싸커킥", Description = "아야! 절대절대 \"엉덩이\"를 조심하세요..",ATK = 30, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 4000, Graphic = 'ζ', Color = ConsoleColor.DarkRed},
                 new() { Name = "뿅망치", Description = "이거 진짜 아파보이는데... 진짜 뿅망치 맞죠...?",ATK = 45, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 5000, Graphic = 'ф', Color = ConsoleColor.Gray},
             }
         };
