@@ -84,9 +84,17 @@ namespace SIX_Text_RPG.Scenes
             if (GameManager.Instance.Player == null) return;
             Player player = GameManager.Instance.Player;
 
+            if (item.Type != ItemType.Potion)
+            {
+                item.SetBool(ItemBool.IsSold);
+                if (item.Iteminfo.IsEquip == true)
+                {
+                    IEquipable? equipable = item as IEquipable;
+                    if (equipable != null) equipable.Equip();
+                }
+            }
             float value = (float)item.Iteminfo.Price * 0.8f;
-            item.SetBool(ItemBool.IsSold);
-
+            
             inven.Remove(inven[index]);
             Utils.CursorMenu.Remove(Utils.CursorMenu[index]);
             player.SetStat(Stat.Gold, value, true);
