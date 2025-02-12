@@ -219,11 +219,26 @@ namespace SIX_Text_RPG
             Console.Write(" (       つ");
         }
 
+        public void Render_Heal(bool isPotion = false)
+        {
+            if (isPotion)
+            {
+                AudioManager.Instance.Play(AudioClip.SoundFX_Potion);
+            }
+
+            Console.SetCursorPosition(Position.X - OFFSET_X, Position.Y - OFFSET_Y);
+            Utils.WriteColorLine($" (◎{Grahpic_Face}◎)", ConsoleColor.Green);
+            Utils.WriteColor(" (       つ", ConsoleColor.Green);
+            Thread.Sleep(100);
+
+            Render();
+        }
+
         public void Render_Hit()
         {
             AudioManager.Instance.Play(AudioClip.SoundFX_Damage1 + random.Next(0, 4));
             Console.SetCursorPosition(Position.X - OFFSET_X, Position.Y - OFFSET_Y);
-            Utils.WriteColorLine($" (´◎{Grahpic_Face}◎)＜)", ConsoleColor.Red);
+            Utils.WriteColorLine($" (´＞{Grahpic_Face}＜)", ConsoleColor.Red);
             Utils.WriteColor(" (       つ", ConsoleColor.Red);
             Thread.Sleep(200);
 
