@@ -82,7 +82,7 @@ namespace SIX_Text_RPG.Scenes
                 // 피흡이 가능한 스킬이라면
                 if (reservedSkill is Skill_StrangeAttack || reservedSkill is Skill_WideAttack)
                 {
-                    player.SetStat(Stat.HP, damage * 0.1f, true);
+                    player.SetStat(Stat.HP, damage * 0.2f, true);
                     player.Render_Heal();
                     base.Display();
                 }
@@ -127,7 +127,7 @@ namespace SIX_Text_RPG.Scenes
                 damageActions[i] = () =>
                 {
                     damage -= player.Stats.DEF;
-                    if(damage <= 1)
+                    if (damage <= 1)
                     {
                         damage = 1;
                     }
