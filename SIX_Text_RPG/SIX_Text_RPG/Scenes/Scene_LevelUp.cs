@@ -40,12 +40,14 @@ namespace SIX_Text_RPG
                     stats.EXP -= stats.MaxEXP;
                     stats.MaxEXP = Define.PLAYER_EXP_TABLE[stats.Level];
                 }
-
-                player.Stats = stats;
-
-                Console.SetCursorPosition(0, 5);
-                player.DisplayInfo();
             }
+
+            // 상태바 갱신을 위한 스탯 적용
+            player.Stats = stats;
+
+            // 상태바 갱신
+            Console.SetCursorPosition(0, 5);
+            player.DisplayInfo();
 
             // 레벨 애니메이션 재생
             player.StatusAnim(Stat.Level, levelAmount);

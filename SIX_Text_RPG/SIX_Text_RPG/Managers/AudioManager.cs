@@ -8,6 +8,8 @@ namespace SIX_Text_RPG
         Music_Title,
         Music_Battle,
         Music_LevelUp,
+        Music_BossLobby,
+        Music_BossBattle,
 
         SoundFX_Appear,
         SoundFX_Click,

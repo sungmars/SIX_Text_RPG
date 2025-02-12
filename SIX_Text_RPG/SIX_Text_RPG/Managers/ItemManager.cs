@@ -35,5 +35,22 @@
         public static ItemManager Instance { get; private set; } = new();
 
         public readonly List<Item>[] StoreItems = new List<Item>[(int)ItemType.Count];
+
+        public void SetBool_StoreItem(Item item)
+        {
+            for (int i = 0; i < (int)ItemType.Count; i++)
+            {
+                if (i == (int)ItemType.Potion)
+                {
+                    continue;
+                }
+
+                foreach (var storeItem in StoreItems[i])
+                {
+                    bool isSold = item.Iteminfo.IsSold;
+
+                }
+            }
+        }
     }
 }
