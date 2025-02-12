@@ -74,11 +74,11 @@
             },
             //Accessory
             {
-                new() { Name = "입1", Description = "이가 보이게 활짝웃어봐요",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 300, Graphic = '∀' },
-                new() { Name = "입2", Description = "입을 Woo~아하게 만들어줍니다",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 300, Graphic = 'ω'  },
-                new() { Name = "입3", Description = "입을 빵끗 웃을 수 있습니다",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 300 , Graphic = 'ⅴ'},
-                new() { Name = "입4", Description = "모기와 친구먹으세요",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 300 , Graphic = '3'},
-                new() { Name = "입5", Description = "조용히 입을 다물어요..",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 300 , Graphic = 'ⅹ'}
+                new() { Name = "입1", Description = "이가 보이게 활짝웃어봐요",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 300, Graphic = '∀', Color = ConsoleColor.Gray},
+                new() { Name = "입2", Description = "입을 Woo~아하게 만들어줍니다",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 300, Graphic = 'ω' , Color = ConsoleColor.Gray },
+                new() { Name = "입3", Description = "입을 빵끗 웃을 수 있습니다",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 300 , Graphic = 'ⅴ', Color = ConsoleColor.Gray},
+                new() { Name = "입4", Description = "모기와 친구먹으세요",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 300 , Graphic = '3', Color = ConsoleColor.Gray},
+                new() { Name = "입5", Description = "조용히 입을 다물어요..",ATK = 0, DEF = 0, HP = 0, MaxHP = 0, MP = 0, MaxMP = 0, Price = 300 , Graphic = 'ⅹ', Color = ConsoleColor.Gray}
             },
             //Potion
             {
