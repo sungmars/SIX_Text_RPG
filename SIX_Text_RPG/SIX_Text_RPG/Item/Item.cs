@@ -48,12 +48,7 @@ namespace SIX_Text_RPG
             Iteminfo = iteminfo;
         }
 
-        public void Sale()
-        {
-            SetBool(ItemBool.IsSold);
-        }
-
-        protected void SetBool(ItemBool itemstat)
+        public void SetBool(ItemBool itemstat)
         {
             ItemInfo temp = Iteminfo;
             if (ItemBool.IsSold == itemstat)

@@ -12,13 +12,10 @@ namespace SIX_Text_RPG
             // 콘솔 설정
             Console.CursorVisible = false;
 
-            // 경험치 테이블 설정
-            for (int i = 0; i < Define.PLAYER_EXP_TABLE.Length; i++)
-            {
-                Define.PLAYER_EXP_TABLE[i] = 10 + i;
-            }
-
             // 게임 설정
+            Initialize();
+
+            // 게임 로직
             CurrentScene = new Scene_Title();
             while (CurrentScene != null)
             {
@@ -28,6 +25,15 @@ namespace SIX_Text_RPG
 
                 do if (CurrentScene.Update() == 0) break;
                 while (true);
+            }
+        }
+
+        private static void Initialize()
+        {
+            // 경험치 테이블 설정
+            for (int i = 0; i < Define.PLAYER_EXP_TABLE.Length; i++)
+            {
+                Define.PLAYER_EXP_TABLE[i] = 10 + i;
             }
         }
     }

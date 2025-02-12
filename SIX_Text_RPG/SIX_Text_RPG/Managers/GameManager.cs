@@ -74,7 +74,7 @@
 
                     // 투사체 좌표를 설정하고, 렌더링합니다.
                     Console.SetCursorPosition(startX[i]--, targetY);
-                    Utils.WriteColor(value, ConsoleColor.Yellow);
+                    Utils.WriteColor(value, Player.Color_Weapon);
                 }
 
                 Thread.Sleep(5);
@@ -230,6 +230,7 @@
             Console.WriteLine(" (´◎ω◎)");
             Console.Write(" (       つ");
             Player.SetPosition(Console.CursorLeft, Console.CursorTop);
+            Player.Render();
 
             Console.WriteLine();
             Utils.ClearLine(0, Console.CursorTop);
