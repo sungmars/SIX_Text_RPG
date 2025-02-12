@@ -90,6 +90,7 @@ namespace SIX_Text_RPG.Scenes
             inven.Remove(inven[index]);
             Utils.CursorMenu.Remove(Utils.CursorMenu[index]);
             player.SetStat(Stat.Gold, value, true);
+            AudioManager.Instance.Play(AudioClip.SoundFX_Cashier);
         }
 
         private void NotSell()
