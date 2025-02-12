@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,6 +10,8 @@ namespace SIX_Text_RPG.Scenes
 {
     internal class Scene_Store_Gambling : Scene_Base
     {
+        private int index = 0;
+        private float bet;
         private string[] roulette =
         {
             "베팅금 전체 몰수 !",
@@ -30,7 +33,7 @@ namespace SIX_Text_RPG.Scenes
             sceneTitle = "수상한..매니저님 방 - 룰렛";
             sceneInfo = "카지노 아닙니다.";
 
-            Menu.Add("전재산 베팅");
+            Menu.Add("베팅하기");
         }
 
         protected override void Display()
@@ -39,13 +42,18 @@ namespace SIX_Text_RPG.Scenes
             Player player = GameManager.Instance.Player;
 
             Console.WriteLine(Console.GetCursorPosition());
-            Console.WriteLine($"현재 골드: {player.Stats.Gold}");
+            player.DisplayInfo_Gold();
 
-            UpdateContent();
+            Console.SetCursorPosition(0, 15);
         }
 
         public override int Update()
         {
+            for (int i = 7; i<11; i++)
+            {
+                Utils.ClearLine(0, i);
+            }
+
             switch(base.Update())
             {
                 //나가기
@@ -55,7 +63,7 @@ namespace SIX_Text_RPG.Scenes
 
                 //업데이트
                 case 1:
-                    UpdateContent();
+                    DisplayUpdateContent();
                     return -1;
             }
             return -1;
@@ -63,8 +71,23 @@ namespace SIX_Text_RPG.Scenes
         
         private void UpdateContent()
         {
-            int index = Roulette();
+            Console.Write("베팅금액을 입력해주세요: ");
+            bool isValid = float.TryParse(Console.ReadLine(), out bet);
+            if (!isValid)
+            {
+                Console.WriteLine("잘못된 입력입니다.");
+                return;
+            }
+
+            index = Roulette();
             Console.WriteLine(roulette[index]);
+            SetResult(index);
+        }
+
+        private void DisplayUpdateContent()
+        {
+            Console.SetCursorPosition(1, 7);
+            UpdateContent();
             SetResult(index);
         }
 
@@ -77,7 +100,7 @@ namespace SIX_Text_RPG.Scenes
                     return i;
                 }
             }
-            return 3;
+            return 6;
         }
 
         //룰렛결과 적용
@@ -115,10 +138,12 @@ namespace SIX_Text_RPG.Scenes
                     break;
             }
             if (GameManager.Instance.Player == null) return;
+            Player player = GameManager.Instance.Player;
+            float gold = value * bet;
 
-            float gold = value * GameManager.Instance.Player.Stats.Gold;
-            GameManager.Instance.Player.SetStat(Stat.Gold, (int)gold);
             //시간되면 애니메이션 넣기
+            player.StatusAnim(Stat.Gold, (int)gold);
+            player.SetStat(Stat.Gold, -(int)gold);
         }
     }
 }
