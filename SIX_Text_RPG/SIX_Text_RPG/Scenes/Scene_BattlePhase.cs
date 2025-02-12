@@ -134,14 +134,6 @@ namespace SIX_Text_RPG.Scenes
 
                     player.Damaged(damage);
                     Display_PlayerInfo();
-                    if (player.Stats.HP > 0)
-                    {
-                        GameManager.Instance.TotalDamage += damage;
-                    }
-                    else
-                    {
-                        GameManager.Instance.TotalDamage += currentHP;
-                    }
                 };
             }
 

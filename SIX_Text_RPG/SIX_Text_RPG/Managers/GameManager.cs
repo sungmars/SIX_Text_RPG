@@ -20,7 +20,6 @@
         public float BattleBeforeHP { get; set; } = 0;
         public float BattleBeforeMP { get; set; } = 0;
 
-        public float TotalDamage { get; set; } = 0;
 
         private readonly Random random = new();
 
