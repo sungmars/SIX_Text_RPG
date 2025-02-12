@@ -230,6 +230,7 @@
             Console.WriteLine(" (´◎ω◎)");
             Console.Write(" (       つ");
             Player.SetPosition(Console.CursorLeft, Console.CursorTop);
+            Player.Render();
 
             Console.WriteLine();
             Utils.ClearLine(0, Console.CursorTop);

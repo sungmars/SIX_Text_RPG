@@ -11,6 +11,9 @@ namespace SIX_Text_RPG
 
     internal class Player : Creature
     {
+        private static readonly char WEAPON = 'つ';
+        private static readonly char FACE = 'ω';
+
         #region StatusPosition
         private readonly int OFFSET_X = 11;
         private readonly int OFFSET_Y = 1;
@@ -42,8 +45,9 @@ namespace SIX_Text_RPG
 
         public PlayerType Type { get; private set; }
         public Stats EquipStats { get; private set; }
-        public char Graphic_Weapon { get; private set; } = 'つ';
         public ConsoleColor Color_Weapon { get; private set; } = ConsoleColor.Yellow;
+        public char Graphic_Weapon { get; private set; } = WEAPON;
+        public char Grahpic_Face { get; private set; } = FACE;
 
         public void DisplayInfo(int startX = 0)
         {
@@ -150,6 +154,11 @@ namespace SIX_Text_RPG
                 Color_Weapon = weapon.Iteminfo.Color;
             }
 
+            if (equipment is Accessory accessory)
+            {
+                Grahpic_Face = accessory.Iteminfo.Graphic;
+            }
+
             // 아이템 스탯 적용 해제
             Stats -= EquipStats;
 
@@ -177,6 +186,17 @@ namespace SIX_Text_RPG
                 return;
             }
 
+            if (equipment is Weapon)
+            {
+                Graphic_Weapon = WEAPON;
+                Color_Weapon = ConsoleColor.Yellow;
+            }
+
+            if (equipment is Accessory)
+            {
+                Grahpic_Face = FACE;
+            }
+
             // 아이템 스탯 적용 해제
             Stats -= EquipStats;
 
@@ -195,7 +215,7 @@ namespace SIX_Text_RPG
         public void Render()
         {
             Console.SetCursorPosition(Position.X - OFFSET_X, Position.Y - OFFSET_Y);
-            Console.WriteLine(" (´◎ω◎)");
+            Console.WriteLine($" (´◎{Grahpic_Face}◎)");
             Console.Write(" (       つ");
         }
 
@@ -203,7 +223,7 @@ namespace SIX_Text_RPG
         {
             AudioManager.Instance.Play(AudioClip.SoundFX_Damage1 + random.Next(0, 4));
             Console.SetCursorPosition(Position.X - OFFSET_X, Position.Y - OFFSET_Y);
-            Utils.WriteColorLine(" (´＞ω＜)", ConsoleColor.Red);
+            Utils.WriteColorLine($" (´◎{Grahpic_Face}◎)＜)", ConsoleColor.Red);
             Utils.WriteColor(" (       つ", ConsoleColor.Red);
             Thread.Sleep(200);
 
