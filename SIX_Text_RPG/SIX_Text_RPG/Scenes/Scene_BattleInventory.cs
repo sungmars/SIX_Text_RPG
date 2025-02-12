@@ -44,7 +44,7 @@
                         {
                             Utils.ClearLine(CURSOR_MENU_X - 3, CURSOR_MENU_Y + i);
                         }
-                        //Utils.CursorMenu.Clear();
+                        Utils.CursorMenu.Clear();
                         UseItem(playerInventory.FindIndex(x => x.Equals(selectItem)));
                         Program.CurrentScene = new Scene_BattleInventory();
                     }
