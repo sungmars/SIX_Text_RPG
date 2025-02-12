@@ -222,6 +222,7 @@
         private void ErrorMessage(string message)
         {
             AudioManager.Instance.Play(AudioClip.SoundFX_Error);
+            Console.SetCursorPosition(0, cursorY);
             Utils.WriteColor(" >> ", ConsoleColor.DarkYellow);
             Utils.WriteColorLine(message, ConsoleColor.Red);
 
