@@ -48,7 +48,6 @@
                 foreach (var storeItem in StoreItems[i])
                 {
                     bool isSold = item.Iteminfo.IsSold;
-
                 }
             }
         }

@@ -170,8 +170,7 @@
             switch (base.Update())
             {
                 case 1: // 상태 보기
-                    GameManager.Instance.Player.SetStat(Stat.EXP, 100);
-                    Program.CurrentScene = new Scene_LevelUp();
+                    Program.CurrentScene = new Scene_PlayerInfo();
                     break;
                 case 2: // 가방 보기
                     Program.CurrentScene = new Scene_Inventory();
