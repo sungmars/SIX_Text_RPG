@@ -43,7 +43,9 @@ namespace SIX_Text_RPG
             stats.MaxMP = stats.MP;
             Stats = stats;
 
+            // 플레이어 공통 스킬
             Skills.Add(new Skill_Critical());
+
             switch (type)
             {
                 case PlayerType.마계조단:
@@ -122,6 +124,30 @@ namespace SIX_Text_RPG
             Console.Write($" 마  력: ");
             Display_MPBar();
             Console.WriteLine($" {Stats.MP:F0}/{Stats.MaxMP:F0}\n");
+        }
+
+        public void DisplayInfo_Skill()
+        {
+            Console.SetCursorPosition(50, 8);
+            Utils.WriteColorLine("보유 스킬\n", ConsoleColor.Blue);
+
+            foreach (var item in Skills)
+            {
+                Console.SetCursorPosition(50, Console.CursorTop);
+                Utils.WriteColor(item.Name, ConsoleColor.DarkYellow);
+                if (item.Mana > 0)
+                {
+                    Utils.WriteColorLine($"  MP {item.Mana}", ConsoleColor.Cyan);
+                }
+                else
+                {
+                    Console.WriteLine();
+                }
+
+
+                Console.SetCursorPosition(50, Console.CursorTop);
+                Console.WriteLine($"{item.Description}\n");
+            }
         }
 
         public override void Display_EXPBar()
