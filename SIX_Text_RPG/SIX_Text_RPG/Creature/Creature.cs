@@ -16,6 +16,46 @@
 
     public struct Stats
     {
+        public static Stats operator +(Stats s1, Stats s2)
+        {
+            Stats stats = new()
+            {
+                Name = s1.Name,
+                Level = s1.Level + s2.Level,
+                ATK = s1.ATK + s2.ATK,
+                DEF = s1.DEF + s2.DEF,
+                EXP = s1.EXP + s2.EXP,
+                MaxEXP = s1.MaxEXP + s2.MaxEXP,
+                HP = s1.HP + s2.HP,
+                MaxHP = s1.MaxHP + s2.MaxHP,
+                MP = s1.MP + s2.MP,
+                MaxMP = s1.MaxMP + s2.MaxMP,
+                Gold = s1.Gold + s2.Gold
+            };
+
+            return stats;
+        }
+
+        public static Stats operator -(Stats s1, Stats s2)
+        {
+            Stats stats = new()
+            {
+                Name = s1.Name,
+                Level = s1.Level - s2.Level,
+                ATK = s1.ATK - s2.ATK,
+                DEF = s1.DEF - s2.DEF,
+                EXP = s1.EXP - s2.EXP,
+                MaxEXP = s1.MaxEXP - s2.MaxEXP,
+                HP = s1.HP - s2.HP,
+                MaxHP = s1.MaxHP - s2.MaxHP,
+                MP = s1.MP - s2.MP,
+                MaxMP = s1.MaxMP - s2.MaxMP,
+                Gold = s1.Gold - s2.Gold
+            };
+
+            return stats;
+        }
+
         public string Name { get; set; }
         public int Level { get; set; }
 

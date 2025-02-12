@@ -41,20 +41,34 @@ namespace SIX_Text_RPG
         }
 
         public PlayerType Type { get; private set; }
-
+        public Stats EquipStats { get; private set; }
         public char Graphic_Weapon { get; private set; } = 'つ';
-
-        private readonly List<IEquipable> equipments = new();
 
         public void DisplayInfo()
         {
             DisplayInfo_Status();
 
             atkY = Console.CursorTop;
-            Console.WriteLine($" 공격력: {Stats.ATK}");
+            Console.Write($" 공격력: {Stats.ATK} ");
+            if (EquipStats.ATK > 0)
+            {
+                Utils.WriteColorLine($"+{EquipStats.ATK}", ConsoleColor.Green);
+            }
+            else
+            {
+                Console.WriteLine();
+            }
 
             defY = Console.CursorTop;
-            Console.WriteLine($" 방어력: {Stats.DEF}\n");
+            Console.Write($" 방어력: {Stats.DEF} ");
+            if (EquipStats.DEF > 0)
+            {
+                Utils.WriteColorLine($"+{EquipStats.DEF}\n", ConsoleColor.Green);
+            }
+            else
+            {
+                Console.WriteLine("\n");
+            }
 
             DisplayInfo_Gold();
         }
@@ -119,16 +133,19 @@ namespace SIX_Text_RPG
                 return;
             }
 
-            Stats stats = Stats;
+            // 아이템 스탯 적용 해제
+            Stats -= EquipStats;
+
+            Stats equipStats = EquipStats;
             ItemInfo info = item.Iteminfo;
+            equipStats.ATK += info.ATK;
+            equipStats.DEF += info.DEF;
+            equipStats.MaxHP += info.MaxHP;
+            equipStats.MaxMP += info.MaxMP;
 
-            stats.ATK += info.ATK;
-            stats.DEF += info.DEF;
-            stats.MaxHP += info.MaxHP;
-            stats.MaxMP += info.MaxMP;
-
-            Stats = stats;
-            equipments.Add(equipment);
+            // 아이템 스탯 적용
+            EquipStats = equipStats;
+            Stats += EquipStats;
         }
 
         public void Unequip(IEquipable? equipment)
@@ -143,20 +160,19 @@ namespace SIX_Text_RPG
                 return;
             }
 
-            if (equipments.Remove(equipment))
-            {
-                return;
-            }
+            // 아이템 스탯 적용 해제
+            Stats -= EquipStats;
 
-            Stats stats = Stats;
+            Stats equipStats = EquipStats;
             ItemInfo info = item.Iteminfo;
+            equipStats.ATK -= info.ATK;
+            equipStats.DEF -= info.DEF;
+            equipStats.MaxHP -= info.MaxHP;
+            equipStats.MaxMP -= info.MaxMP;
 
-            stats.ATK -= info.ATK;
-            stats.DEF -= info.DEF;
-            stats.MaxHP -= info.MaxHP;
-            stats.MaxMP -= info.MaxMP;
-
-            Stats = stats;
+            // 아이템 스탯 적용
+            EquipStats = equipStats;
+            Stats += EquipStats;
         }
 
         public void Render()
