@@ -91,12 +91,29 @@
 
         public void UseItem(int j)
         {
+            if (player == null)
+            {
+                return;
+            }
+
             var selectItem = playerInventory[j];//캡쳐 방지
             IConsumable? consumable = selectItem as IConsumable;
+            float beforeHP = player.Stats.HP;
 
             if (consumable != null && consumable.Consume())//소비하는 아이템이라면
             {
                 playerInventory.Remove(selectItem);//인벤토리 리스트에서 삭제
+                if (beforeHP != player.Stats.MaxHP && beforeHP != player.Stats.HP)
+                {
+                    if (player.Stats.MaxHP - player.Stats.HP > 20)
+                    {
+                        GameManager.Instance.TotalDamage -= 20;
+                    }
+                    else
+                    {
+                        GameManager.Instance.TotalDamage -= (player.Stats.MaxHP - beforeHP);
+                    }
+                }
             }
             else
             {
