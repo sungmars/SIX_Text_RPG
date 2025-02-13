@@ -19,8 +19,8 @@ namespace SIX_Text_RPG
             MaxMP = 0, Price = -1, Graphic = '|', Color = ConsoleColor.Gray
         };
 
-        private readonly Item legendItem = new Weapon(info);
-        private readonly Item potion = new Potion(Define.ITEM_INFOS[2, 1]);
+        private static readonly Item legendItem = new Weapon(info);
+        private static readonly Item potion = new Potion(Define.ITEM_INFOS[2, 1]);
         public static Item equipQuestItem = new Weapon(Define.ITEM_INFOS[3,3]);  // 장착 아이템 퀘스트 define에서 하나 골라서 넣을것
         
         private static readonly string[] questDetail_1 =
@@ -117,9 +117,9 @@ namespace SIX_Text_RPG
                 4,0, new List<bool>(new bool[(int)MonsterType.Count]));
             Quest quest3 = new Quest(2, "찌르기 장착해보기",questDetail_3,$"장비 \"{equipQuestItem.Iteminfo.Name}\" " +
                                                                   $"장착해보기", 1, potion,2,500,null);
-            QuestManager.AddQuest(quest1);
-            QuestManager.AddQuest(quest2);
-            QuestManager.AddQuest(quest3);
+            AddQuest(quest1);
+            AddQuest(quest2);
+            AddQuest(quest3);
         }
         
     }
