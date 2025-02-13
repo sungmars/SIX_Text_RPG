@@ -59,7 +59,7 @@
                 {
                     Utils.ClearLine(CURSOR_MENU_X - 3, CURSOR_MENU_Y + i);
                 }
-                
+
                 Utils.CursorMenu.Clear();
                 Program.CurrentScene = new Scene_BattleLobby();
             }
@@ -96,15 +96,15 @@
                 playerInventory.Remove(selectItem);//인벤토리 리스트에서 삭제
                 if (selectItem.Iteminfo.Name.Contains("체력"))//체력포션을 사용했다면
                 {
-                    AudioManager.Instance.Play(AudioClip.SoundFX_Potion);
+                    player.Render_Heal(true);
                 }
                 else if (selectItem.Iteminfo.Name.Contains("마나"))//마나포션을 사용했다면
                 {
-                    AudioManager.Instance.Play(AudioClip.SoundFX_Potion);
+                    player.Render_Heal(true, ConsoleColor.Blue);
                 }
                 else if (selectItem.Iteminfo.Name.Contains("회복약"))//회복약을 사용했다면
                 {
-                    AudioManager.Instance.Play(AudioClip.SoundFX_Potion);
+                    player.Render_Heal(true, ConsoleColor.DarkMagenta);
                 }
             }
             else

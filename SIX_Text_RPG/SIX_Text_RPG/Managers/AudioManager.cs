@@ -95,7 +95,7 @@ namespace SIX_Text_RPG
             audioSource.Init(sampleProvider);
             audioSource.Play();
             audioSource.PlaybackStopped += PlaybackStoppedHandler;
-            audioSource.Volume = 0.2f; // TODO: TEST CODE
+            audioSource.Volume = 1.0f; // TODO: TEST CODE
 
             this.audioClip = audioClip;
         }
